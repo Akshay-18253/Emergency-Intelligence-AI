@@ -27,7 +27,8 @@ and compute shortest paths before introducing any AI.
 | Algorithmic comparison (Dijkstra vs A\*) | ✅ Done |
 | Benchmarking suite (nodes explored, time, cost, pruning) | ✅ Done |
 | Comprehensive test suite (100 passed, 97% coverage) | ✅ Done |
-| Real road-network data (OSM integration) | 🔜 Next |
+| Real road-network data (OSM Overpass ingestion) | ✅ Done |
+| Full Phase 1 Foundation Test Suite (117 passed, 96% coverage) | ✅ Done |
 
 **Engineering focus:**
 - Correctness first

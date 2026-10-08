@@ -1,0 +1,165 @@
+{
+  "version": 0.6,
+  "generator": "Emergency Intelligence AI OpenStreetMap Ingestion Pipeline",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T00:00:00Z"
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 1001,
+      "lat": 37.774929,
+      "lon": -122.419416,
+      "tags": { "name": "Central Emergency Dispatch", "amenity": "emergency_dispatch" }
+    },
+    {
+      "type": "node",
+      "id": 1002,
+      "lat": 37.775820,
+      "lon": -122.419416,
+      "tags": { "name": "Market & 10th Intersection" }
+    },
+    {
+      "type": "node",
+      "id": 1003,
+      "lat": 37.776710,
+      "lon": -122.419416,
+      "tags": { "name": "Market & 9th Intersection" }
+    },
+    {
+      "type": "node",
+      "id": 1004,
+      "lat": 37.777600,
+      "lon": -122.419416,
+      "tags": { "name": "Market & 8th Intersection" }
+    },
+    {
+      "type": "node",
+      "id": 1005,
+      "lat": 37.774929,
+      "lon": -122.417500,
+      "tags": { "name": "Mission & 10th Intersection" }
+    },
+    {
+      "type": "node",
+      "id": 1006,
+      "lat": 37.775820,
+      "lon": -122.417500,
+      "tags": { "name": "Mission & 9th Intersection" }
+    },
+    {
+      "type": "node",
+      "id": 1007,
+      "lat": 37.776710,
+      "lon": -122.417500,
+      "tags": { "name": "Mission & 8th Intersection" }
+    },
+    {
+      "type": "node",
+      "id": 1008,
+      "lat": 37.777600,
+      "lon": -122.417500,
+      "tags": { "name": "Regional Trauma Center", "amenity": "hospital", "emergency": "yes" }
+    },
+    {
+      "type": "node",
+      "id": 1009,
+      "lat": 37.774929,
+      "lon": -122.415500,
+      "tags": { "name": "Howard & 10th Intersection" }
+    },
+    {
+      "type": "node",
+      "id": 1010,
+      "lat": 37.775820,
+      "lon": -122.415500,
+      "tags": { "name": "Howard & 9th Intersection" }
+    },
+    {
+      "type": "node",
+      "id": 1011,
+      "lat": 37.777600,
+      "lon": -122.415500,
+      "tags": { "name": "Howard & 8th Intersection" }
+    },
+    {
+      "type": "node",
+      "id": 9999,
+      "lat": 37.778000,
+      "lon": -122.414000,
+      "tags": { "name": "Orphaned Landmark (Not on Road)", "amenity": "monument" }
+    },
+    {
+      "type": "way",
+      "id": 2001,
+      "nodes": [1001, 1002, 1003, 1004],
+      "tags": {
+        "name": "Market Street Arterial",
+        "highway": "primary",
+        "oneway": "no",
+        "maxspeed": "45"
+      }
+    },
+    {
+      "type": "way",
+      "id": 2002,
+      "nodes": [1005, 1006, 1007, 1008],
+      "tags": {
+        "name": "Mission Street Emergency Transit Way",
+        "highway": "secondary",
+        "oneway": "yes",
+        "maxspeed": "35"
+      }
+    },
+    {
+      "type": "way",
+      "id": 2003,
+      "nodes": [1009, 1010, 1011],
+      "tags": {
+        "name": "Howard Street Connector",
+        "highway": "tertiary",
+        "oneway": "no",
+        "maxspeed": "30"
+      }
+    },
+    {
+      "type": "way",
+      "id": 2004,
+      "nodes": [1001, 1005, 1009],
+      "tags": {
+        "name": "10th Street Crossway",
+        "highway": "residential",
+        "oneway": "no"
+      }
+    },
+    {
+      "type": "way",
+      "id": 2005,
+      "nodes": [1002, 1006, 1010],
+      "tags": {
+        "name": "9th Street Boulevard",
+        "highway": "secondary",
+        "oneway": "no"
+      }
+    },
+    {
+      "type": "way",
+      "id": 2006,
+      "nodes": [1004, 1008, 1011],
+      "tags": {
+        "name": "8th Street Hospital Access Corridor",
+        "highway": "primary",
+        "oneway": "no"
+      }
+    },
+    {
+      "type": "way",
+      "id": 8888,
+      "nodes": [1001, 1002],
+      "tags": {
+        "building": "commercial",
+        "name": "Non-Highway Building Polygon"
+      }
+    }
+  ]
+}

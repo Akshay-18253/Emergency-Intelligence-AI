@@ -1,9 +1,9 @@
 # Emergency Intelligence AI
 
-> **Milestone 2 status — Informed Search (A*), Spatial Models & Benchmarking**
-> The routing engine implements both Dijkstra's algorithm and the A*
-> search algorithm with admissible spatial heuristics (Euclidean, Manhattan).
-> 100 unit tests passing with 97% code coverage. Zero external runtime dependencies.
+> **Milestone 3 status — Real Road Network Ingestion (OpenStreetMap)**
+> Complete Phase 1 foundation: OpenStreetMap (OSM) data ingestion,
+> Haversine geographic heuristics, Dijkstra & A* routing on real street networks.
+> 117 unit tests passing with 96% code coverage. Zero external runtime dependencies.
 
 ---
 
@@ -111,19 +111,20 @@ Things deliberately avoided:
 
 ---
 
-## Current Capabilities (Milestone 2)
+## Current Capabilities (Milestone 3 — Phase 1 Complete)
 
 | Capability | Status |
 |---|---|
 | Road graph model (`Node`, `Edge`, `Graph`) | ✅ Implemented |
 | Spatial 2D coordinates on `Node` | ✅ Implemented |
 | Dijkstra's shortest-path algorithm (manual `heapq`) | ✅ Implemented |
-| Admissible heuristics (Euclidean, Manhattan, Zero) | ✅ Implemented |
+| Admissible heuristics (Euclidean, Manhattan, Zero, Haversine) | ✅ Implemented |
 | A\* heuristic search algorithm (manual `heapq`) | ✅ Implemented |
 | Algorithmic benchmarking & comparative analysis | ✅ Implemented |
-| Unit tests (100 passed, 97% code coverage) | ✅ Passing |
-| Local demonstrations (Dijkstra + A\* benchmark) | ✅ Working |
-| Real road data (OSM integration) | 🔜 Future |
+| Real road data ingestion (OpenStreetMap Overpass parser) | ✅ Implemented |
+| Spherical Haversine distance calculations | ✅ Implemented |
+| Unit tests (117 passed, 96% code coverage) | ✅ Passing |
+| Local demonstrations (Dijkstra, A\* benchmark, OSM real-world demo) | ✅ Working |
 | Dynamic conditions & event processing | 🔜 Future |
 | AI reasoning layer (emergency context) | 🔜 Future |
 | REST API | 🔜 Future |
@@ -138,23 +139,31 @@ emergency-intelligence-ai/
 ├── src/
 │   └── emergency_intelligence/
 │       ├── __init__.py
+│       ├── data/
+│       │   ├── __init__.py
+│       │   ├── geo.py                     # Haversine distance & heuristic
+│       │   ├── osm.py                     # OpenStreetMap Overpass parser
+│       │   └── sample_hospital_district.json  # Bundled real OSM dataset
 │       └── graph/
 │           ├── __init__.py
-│           ├── models.py       # Node (coords), Edge, Graph
-│           ├── dijkstra.py     # Dijkstra shortest path
-│           ├── astar.py        # A* informed search
-│           ├── heuristics.py   # Euclidean, Manhattan, Zero heuristics
-│           └── benchmark.py    # Algorithmic comparative benchmark
+│           ├── models.py                  # Node (coords), Edge, Graph
+│           ├── dijkstra.py                # Dijkstra shortest path
+│           ├── astar.py                   # A* informed search
+│           ├── heuristics.py              # Euclidean, Manhattan, Zero heuristics
+│           └── benchmark.py               # Algorithmic comparative benchmark
 ├── tests/
 │   ├── __init__.py
-│   ├── test_models.py          # Data model & coordinate tests
-│   ├── test_dijkstra.py        # Dijkstra tests (11 cases)
-│   ├── test_heuristics.py      # Distance heuristics tests
-│   ├── test_astar.py           # A* correctness & efficiency tests
-│   └── test_benchmark.py       # Benchmark suite tests
+│   ├── test_models.py                     # Data model & coordinate tests
+│   ├── test_dijkstra.py                   # Dijkstra tests (11 cases)
+│   ├── test_heuristics.py                 # Distance heuristics tests
+│   ├── test_astar.py                      # A* correctness & efficiency tests
+│   ├── test_benchmark.py                  # Benchmark suite tests
+│   ├── test_geo.py                        # Haversine distance & heuristic tests
+│   └── test_osm.py                        # OpenStreetMap parsing & routing tests
 ├── examples/
-│   ├── demo.py                 # Dijkstra foundation demonstration
-│   └── benchmark_demo.py       # A* vs Dijkstra comparative benchmark
+│   ├── demo.py                            # Dijkstra foundation demonstration
+│   ├── benchmark_demo.py                  # A* vs Dijkstra comparative benchmark
+│   └── osm_demo.py                        # Real OpenStreetMap routing demonstration
 ├── docs/
 │   ├── architecture.md
 │   ├── roadmap.md
@@ -217,13 +226,21 @@ Runs side-by-side comparisons of Dijkstra and A* (Euclidean and Manhattan heuris
 across emergency corridors and scaled 10x10 and 20x20 grid networks, measuring
 optimal cost agreement, search space pruning (up to 90%+), and execution time.
 
+### 3. Real OpenStreetMap (OSM) Emergency Routing
+```bash
+python examples/osm_demo.py
+```
+Parses a real-world metropolitan hospital district dataset from OpenStreetMap,
+enforces one-way transit street rules, calculates physical distances in meters
+using Haversine calculations, and routes an ambulance to a regional trauma center.
+
 ---
 
 ## Roadmap Summary
 
 | Phase | Description | Status |
 |---|---|---|
-| Phase 1 | Local routing engine foundation | 🔨 **In progress** |
+| Phase 1 | Local routing engine foundation | ✅ **Complete** |
 | Phase 2 | Open-source ecosystem participation | 🔜 Future |
 | Phase 3 | Real road network data (OSM) | 🔜 Future |
 | Phase 4 | Dynamic conditions | 🔜 Future |

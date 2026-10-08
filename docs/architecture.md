@@ -65,10 +65,14 @@ User / Emergency Input
 Store, load, and expose road network data in a form the routing engine
 can consume.
 
-**Current state (Day 1)**
+**Current state (Milestone 3)**
 
-An in-memory directed weighted graph built from Python objects.
-Graph topology is defined in code, not loaded from an external dataset.
+- Isolated OpenStreetMap loader module (`load_osm_graph_from_data`, `load_osm_graph_from_file`).
+- Converts OSM nodes and vehicular highway ways into the core `Graph` model.
+- Calculates physical road segment lengths in meters using the Haversine spherical distance formula.
+- Preserves directional constraints (`oneway=yes`, `oneway=-1`, roundabouts).
+- Provides `haversine_heuristic` for informed A* search on geographic coordinates.
+- Bundled with a verified metropolitan emergency care district dataset (`sample_hospital_district.json`).
 
 **Future inputs**
 
