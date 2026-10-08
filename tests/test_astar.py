@@ -252,6 +252,20 @@ class TestAStarInvalidHeuristic:
         with pytest.raises(ValueError, match="negative value"):
             astar(g, "A", "B", heuristic=negative_h)
 
+    def test_negative_heuristic_on_neighbour_node_raises(self):
+        g = build_graph(
+            [("A", 0, 0), ("B", 1, 0), ("C", 2, 0)],
+            [("A", "B", 1.0), ("B", "C", 1.0)],
+        )
+
+        def tricky_h(curr, goal):
+            if curr.node_id == "B":
+                return -10.0
+            return 0.0
+
+        with pytest.raises(ValueError, match="negative value -10.0 for node 'B'"):
+            astar(g, "A", "C", heuristic=tricky_h)
+
 
 # ---------------------------------------------------------------------------
 # Test 10 — Edge weights (floats, zero-cost)

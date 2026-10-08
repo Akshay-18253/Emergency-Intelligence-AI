@@ -34,6 +34,17 @@ class TestGridNetworkGeneration:
         with pytest.raises(ValueError, match="at least 1x1"):
             create_grid_network(rows=0, cols=5)
 
+    def test_grid_type_errors(self):
+        with pytest.raises(TypeError, match="must be integers"):
+            create_grid_network(rows="3", cols=3)  # type: ignore
+
+        with pytest.raises(TypeError, match="must be integers"):
+            create_grid_network(rows=3, cols=3.5)  # type: ignore
+
+    def test_grid_negative_cost_raises(self):
+        with pytest.raises(ValueError, match="non-negative number"):
+            create_grid_network(rows=2, cols=2, unit_cost=-1.0)
+
     def test_grid_unidirectional(self):
         grid = create_grid_network(rows=2, cols=2, bidirectional=False)
         assert grid.node_count() == 4
@@ -70,6 +81,32 @@ class TestCompareAlgorithms:
         assert not cmp.dijkstra_result.reachable
         assert not cmp.astar_result.reachable
 
+    def test_compare_cost_mismatch_detection(self, monkeypatch):
+        grid = create_grid_network(rows=2, cols=2)
+        # Create a mock astar result where reachable is False while Dijkstra is True
+        from emergency_intelligence.graph import benchmark
+        real_astar = benchmark.astar
+
+        def mock_astar(graph, s, d, heuristic=None):
+            from emergency_intelligence.graph.dijkstra import RouteResult
+            return RouteResult(source=s, destination=d, path=[], total_cost=float("inf"), reachable=False, nodes_explored=1)
+
+        monkeypatch.setattr(benchmark, "astar", mock_astar)
+        cmp = benchmark.compare_algorithms(grid, "N_0_0", "N_1_1")
+        assert cmp.cost_match is False
+
+    def test_compare_zero_nodes_explored_branch(self, monkeypatch):
+        grid = create_grid_network(rows=2, cols=2)
+        from emergency_intelligence.graph import benchmark
+
+        def mock_dijkstra(graph, s, d):
+            from emergency_intelligence.graph.dijkstra import RouteResult
+            return RouteResult(source=s, destination=d, path=[s], total_cost=0.0, reachable=True, nodes_explored=0)
+
+        monkeypatch.setattr(benchmark, "dijkstra", mock_dijkstra)
+        cmp = benchmark.compare_algorithms(grid, "N_0_0", "N_0_0")
+        assert cmp.explored_reduction_pct == 0.0
+
     def test_benchmark_repr(self):
         grid = create_grid_network(rows=3, cols=3)
         cmp = compare_algorithms(grid, "N_0_0", "N_2_2")
@@ -77,3 +114,4 @@ class TestCompareAlgorithms:
         assert "BenchmarkComparison" in r
         assert "cost_match=True" in r
         assert "nodes_explored" in r
+

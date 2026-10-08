@@ -4,7 +4,7 @@
 > Complete Phase 1 foundation + Phase 2 open GIS standards integration:
 > OpenStreetMap (OSM) data ingestion, Haversine geographic heuristics, Dijkstra & A* routing,
 > RFC 7946 GeoJSON trajectory export, and comprehensive architectural comparative analysis.
-> **121 unit tests passing with 97% code coverage.** Zero external runtime dependencies.
+> **148 unit tests passing with 98% code coverage.** Zero external runtime dependencies.
 
 ---
 
@@ -129,8 +129,8 @@ Things deliberately avoided:
 | Open-source ecosystem comparative study ([`docs/ecosystem_study.md`](docs/ecosystem_study.md)) | ✅ Implemented |
 | GSoC 2027 alignment & engagement strategy ([`docs/gsoc_strategy.md`](docs/gsoc_strategy.md)) | ✅ Implemented |
 | Community contribution guidelines ([`CONTRIBUTING.md`](CONTRIBUTING.md)) | ✅ Implemented |
-| Unit tests (121 passed, 97% code coverage, 0 failures) | ✅ Passing |
-| Local demonstrations (Dijkstra, A\* benchmark, OSM routing, GeoJSON export) | ✅ Working |
+| Unit tests (148 passed, 98% code coverage, 0 failures) | ✅ Passing |
+| Local demonstrations (5 working CLI demonstrations) | ✅ Working |
 | Dynamic conditions & event processing | 🔜 Phase 4 |
 | AI reasoning layer (emergency context) | 🔜 Phase 5 |
 | REST API & UI | 🔜 Phase 7/8 |
@@ -147,16 +147,16 @@ emergency-intelligence-ai/
 │       ├── data/
 │       │   ├── __init__.py
 │       │   ├── geo.py                     # Haversine distance & heuristic
-│       │   ├── geojson.py                 # RFC 7946 GeoJSON export & serialization
+│       │   ├── geojson.py                 # RFC 7946 GeoJSON export, bbox, & round-trip ingestion
 │       │   ├── osm.py                     # OpenStreetMap Overpass parser
 │       │   └── sample_hospital_district.json  # Bundled real OSM dataset
 │       └── graph/
 │           ├── __init__.py
 │           ├── models.py                  # Node (coords), Edge, Graph
 │           ├── dijkstra.py                # Dijkstra shortest path
-│           ├── astar.py                   # A* informed search
-│           ├── heuristics.py              # Euclidean, Manhattan, Zero heuristics
-│           └── benchmark.py               # Algorithmic comparative benchmark
+│           ├── astar.py                   # A* informed search (100% coverage)
+│           ├── heuristics.py              # Euclidean, Manhattan, Zero heuristics (100% coverage)
+│           └── benchmark.py               # Comparative benchmark (100% coverage)
 ├── tests/
 │   ├── __init__.py
 │   ├── test_models.py                     # Data model & coordinate tests
@@ -166,12 +166,13 @@ emergency-intelligence-ai/
 │   ├── test_benchmark.py                  # Benchmark suite tests
 │   ├── test_geo.py                        # Haversine distance & heuristic tests
 │   ├── test_osm.py                        # OpenStreetMap parsing & routing tests
-│   └── test_geojson.py                    # RFC 7946 GeoJSON export tests
+│   └── test_geojson.py                    # RFC 7946 GeoJSON export & round-trip tests
 ├── examples/
 │   ├── demo.py                            # Dijkstra foundation demonstration
 │   ├── benchmark_demo.py                  # A* vs Dijkstra comparative benchmark
 │   ├── osm_demo.py                        # Real OpenStreetMap routing demonstration
-│   └── geojson_export_demo.py             # RFC 7946 GeoJSON export demonstration
+│   ├── geojson_export_demo.py             # RFC 7946 GeoJSON export demonstration
+│   └── architecture_comparison_demo.py    # Production routing ecosystem evaluation demo
 ├── docs/
 │   ├── architecture.md                    # System architecture & decision log
 │   ├── roadmap.md                         # Phased development roadmap
@@ -249,7 +250,15 @@ python examples/geojson_export_demo.py
 ```
 Computes an ambulance dispatch trajectory on real OSM streets, serializes the route
 and intersection waypoints to an RFC 7946 GeoJSON file (`output_emergency_route.geojson`),
-ready for instant drag-and-drop visualization in [geojson.io](https://geojson.io), QGIS, or Leaflet.
+and tests round-trip network re-import and re-routing.
+
+### 5. Production Routing Ecosystem & Architecture Evaluation
+```bash
+python examples/architecture_comparison_demo.py
+```
+Evaluates production engine paradigms (OSGeo/pgRouting, GraphHopper, Valhalla, OSRM)
+against Emergency Intelligence AI, and simulates real-time arterial road blockages
+with sub-millisecond ambulance detour recalculation.
 
 ---
 

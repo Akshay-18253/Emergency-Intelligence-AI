@@ -155,8 +155,12 @@ def create_grid_network(
     Graph
         A populated :class:`Graph` containing ``rows * cols`` nodes.
     """
+    if not isinstance(rows, int) or not isinstance(cols, int):
+        raise TypeError("Grid dimensions rows and cols must be integers.")
     if rows < 1 or cols < 1:
         raise ValueError("Grid dimensions must be at least 1x1.")
+    if not isinstance(unit_cost, (int, float)) or unit_cost < 0:
+        raise ValueError(f"unit_cost must be a non-negative number, got {unit_cost!r}.")
 
     g = Graph()
 
