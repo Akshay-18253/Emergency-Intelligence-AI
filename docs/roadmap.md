@@ -34,16 +34,15 @@ and compute shortest paths before introducing any AI.
 ecosystems. Establish open GIS standards interoperability, architectural comparative
 studies, and community contribution frameworks.
 
-| Milestone / Deliverable | Status |
-|---|---|
-| RFC 7946 GeoJSON export (`route_to_geojson`, `save_route_geojson`) | ✅ Done |
-| GeoJSON test suite and verification (`tests/test_geojson.py`) | ✅ Done |
-| Open-source routing ecosystem comparative study ([`docs/ecosystem_study.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/ecosystem_study.md)) | ✅ Done |
-| GSoC 2027 alignment & community engagement strategy ([`docs/gsoc_strategy.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/gsoc_strategy.md)) | ✅ Done |
-| Community contribution guidelines ([`CONTRIBUTING.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/CONTRIBUTING.md)) | ✅ Done |
-| Interactive GeoJSON export demonstration ([`examples/geojson_export_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/geojson_export_demo.py)) | ✅ Done |
+### Milestone Breakdown
 
-> ⚠️ No specific mentoring organisation for GSoC 2027 is assumed.
+| Milestone | Deliverables | Status |
+|---|---|---|
+| **Milestone 1: Geospatial Open Standards & Interoperability** | • RFC 7946 GeoJSON route & waypoint exporter (`route_to_geojson`, `save_route_geojson`)<br>• Unit tests verifying RFC 7946 compliance (`tests/test_geojson.py`)<br>• Interactive GIS demo script (`examples/geojson_export_demo.py`) | ✅ Complete |
+| **Milestone 2: Ecosystem Architecture Comparative Study** | • Production engine deep dive: OSGeo/pgRouting, GraphHopper, Valhalla, OSRM<br>• Graph representation trade-offs: Node vs Edge-expanded vs Contraction Hierarchies vs Tiling<br>• Emergency Vehicle Routing (EVR) domain constraints analysis<br>• Comprehensive report ([`docs/ecosystem_study.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/ecosystem_study.md)) | ✅ Complete |
+| **Milestone 3: Community Governance & GSoC 2027 Alignment** | • Open-source contributor guidelines & zero-dependency policy ([`CONTRIBUTING.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/CONTRIBUTING.md))<br>• GSoC 2027 mentoring organization analysis (OSGeo, HOT/OSMF, NumFOCUS, PSF)<br>• 12–18 month upstream participation roadmap ([`docs/gsoc_strategy.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/gsoc_strategy.md))<br>• Strict independent research disclaimer compliance | ✅ Complete |
+
+> ⚠️ **GSoC Disclaimer:** No specific mentoring organisation for GSoC 2027 is assumed.
 > The appropriate organisation will be determined from official GSoC 2027
 > announcements when available. Prospective fits (OSGeo, HOT/OSMF) are evaluated in
 > [`docs/gsoc_strategy.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/gsoc_strategy.md).
