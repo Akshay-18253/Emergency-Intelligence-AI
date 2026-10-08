@@ -21,7 +21,7 @@ Design notes
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 
 # ---------------------------------------------------------------------------
@@ -40,14 +40,39 @@ class Node:
     label:
         An optional human-readable description (e.g. ``"Main St / 1st Ave"``).
         Not used by the routing algorithm; provided for display and debugging.
+    coordinates:
+        Optional 2D spatial coordinates ``(x, y)`` (e.g. Cartesian plane or
+        longitude/latitude). Used by heuristic-guided algorithms such as A*.
     """
 
     node_id: str
     label: Optional[str] = None
+    coordinates: Optional[Tuple[float, float]] = None
 
     def __post_init__(self) -> None:
         if not self.node_id or not isinstance(self.node_id, str):
             raise ValueError("Node.node_id must be a non-empty string.")
+        if self.coordinates is not None:
+            if not isinstance(self.coordinates, (tuple, list)) or len(self.coordinates) != 2:
+                raise ValueError(
+                    f"Node.coordinates must be a pair of numbers (x, y), got {self.coordinates!r}."
+                )
+            x, y = self.coordinates
+            if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
+                raise ValueError(
+                    f"Node.coordinates values must be numeric, got ({type(x).__name__}, {type(y).__name__})."
+                )
+            self.coordinates = (float(x), float(y))
+
+    @property
+    def x(self) -> Optional[float]:
+        """Return the X-coordinate, or None if coordinates are not set."""
+        return self.coordinates[0] if self.coordinates is not None else None
+
+    @property
+    def y(self) -> Optional[float]:
+        """Return the Y-coordinate, or None if coordinates are not set."""
+        return self.coordinates[1] if self.coordinates is not None else None
 
     def __hash__(self) -> int:
         return hash(self.node_id)

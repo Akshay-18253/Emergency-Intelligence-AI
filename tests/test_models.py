@@ -45,6 +45,36 @@ class TestNode:
         with pytest.raises((ValueError, TypeError)):
             Node(123)  # type: ignore[arg-type]
 
+    def test_node_with_coordinates(self):
+        node = Node("A", coordinates=(1.5, 2.5))
+        assert node.coordinates == (1.5, 2.5)
+        assert node.x == 1.5
+        assert node.y == 2.5
+
+    def test_node_coordinates_float_conversion(self):
+        node = Node("A", coordinates=[1, 2])
+        assert node.coordinates == (1.0, 2.0)
+        assert node.x == 1.0
+        assert node.y == 2.0
+
+    def test_node_without_coordinates_properties_are_none(self):
+        node = Node("A")
+        assert node.coordinates is None
+        assert node.x is None
+        assert node.y is None
+
+    def test_node_coordinates_invalid_len_raises(self):
+        with pytest.raises(ValueError, match="pair of numbers"):
+            Node("A", coordinates=(1.0, 2.0, 3.0))  # type: ignore[arg-type]
+
+    def test_node_coordinates_non_numeric_raises(self):
+        with pytest.raises(ValueError, match="values must be numeric"):
+            Node("A", coordinates=("one", 2.0))  # type: ignore[arg-type]
+
+    def test_node_coordinates_not_tuple_or_list_raises(self):
+        with pytest.raises(ValueError, match="pair of numbers"):
+            Node("A", coordinates="1.0, 2.0")  # type: ignore[arg-type]
+
 
 # ---------------------------------------------------------------------------
 # Edge tests

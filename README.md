@@ -1,9 +1,9 @@
 # Emergency Intelligence AI
 
-> **Day 1 status — Local Routing Engine Foundation**
-> The project is at its earliest stage. Only a local graph model and
-> Dijkstra's algorithm have been implemented. No AI, no real road data,
-> no API, no UI.
+> **Milestone 2 status — Informed Search (A*), Spatial Models & Benchmarking**
+> The routing engine implements both Dijkstra's algorithm and the A*
+> search algorithm with admissible spatial heuristics (Euclidean, Manhattan).
+> 100 unit tests passing with 97% code coverage. Zero external runtime dependencies.
 
 ---
 
@@ -111,18 +111,21 @@ Things deliberately avoided:
 
 ---
 
-## Current Capabilities (Day 1)
+## Current Capabilities (Milestone 2)
 
 | Capability | Status |
 |---|---|
-| Road graph model (Node, Edge, Graph) | ✅ Implemented |
-| Dijkstra's shortest-path algorithm | ✅ Implemented |
-| Unit tests | ✅ Passing |
-| Local demonstration | ✅ Working |
-| A\* algorithm | 🔜 Future |
-| Real road data (OSM) | 🔜 Future |
-| Dynamic conditions | 🔜 Future |
-| AI reasoning layer | 🔜 Future |
+| Road graph model (`Node`, `Edge`, `Graph`) | ✅ Implemented |
+| Spatial 2D coordinates on `Node` | ✅ Implemented |
+| Dijkstra's shortest-path algorithm (manual `heapq`) | ✅ Implemented |
+| Admissible heuristics (Euclidean, Manhattan, Zero) | ✅ Implemented |
+| A\* heuristic search algorithm (manual `heapq`) | ✅ Implemented |
+| Algorithmic benchmarking & comparative analysis | ✅ Implemented |
+| Unit tests (100 passed, 97% code coverage) | ✅ Passing |
+| Local demonstrations (Dijkstra + A\* benchmark) | ✅ Working |
+| Real road data (OSM integration) | 🔜 Future |
+| Dynamic conditions & event processing | 🔜 Future |
+| AI reasoning layer (emergency context) | 🔜 Future |
 | REST API | 🔜 Future |
 | User interface | 🔜 Future |
 
@@ -137,14 +140,21 @@ emergency-intelligence-ai/
 │       ├── __init__.py
 │       └── graph/
 │           ├── __init__.py
-│           ├── models.py       # Node, Edge, Graph
-│           └── dijkstra.py     # Dijkstra's algorithm
+│           ├── models.py       # Node (coords), Edge, Graph
+│           ├── dijkstra.py     # Dijkstra shortest path
+│           ├── astar.py        # A* informed search
+│           ├── heuristics.py   # Euclidean, Manhattan, Zero heuristics
+│           └── benchmark.py    # Algorithmic comparative benchmark
 ├── tests/
 │   ├── __init__.py
-│   ├── test_models.py
-│   └── test_dijkstra.py
+│   ├── test_models.py          # Data model & coordinate tests
+│   ├── test_dijkstra.py        # Dijkstra tests (11 cases)
+│   ├── test_heuristics.py      # Distance heuristics tests
+│   ├── test_astar.py           # A* correctness & efficiency tests
+│   └── test_benchmark.py       # Benchmark suite tests
 ├── examples/
-│   └── demo.py                 # Minimal demonstration
+│   ├── demo.py                 # Dijkstra foundation demonstration
+│   └── benchmark_demo.py       # A* vs Dijkstra comparative benchmark
 ├── docs/
 │   ├── architecture.md
 │   ├── roadmap.md
@@ -190,14 +200,22 @@ python -m pytest tests/ -v --cov=emergency_intelligence --cov-report=term-missin
 
 ---
 
-## Running the Demonstration
+## Running the Demonstrations
 
+### 1. Foundation Dijkstra Demonstration
 ```bash
 python examples/demo.py
 ```
+Constructs a small artificial graph, runs Dijkstra's algorithm across 4 scenarios,
+and prints the results to the terminal.
 
-The demonstration constructs a small artificial graph, runs Dijkstra's
-algorithm across several scenarios, and prints the results to the terminal.
+### 2. A* Informed Search & Comparative Benchmark
+```bash
+python examples/benchmark_demo.py
+```
+Runs side-by-side comparisons of Dijkstra and A* (Euclidean and Manhattan heuristics)
+across emergency corridors and scaled 10x10 and 20x20 grid networks, measuring
+optimal cost agreement, search space pruning (up to 90%+), and execution time.
 
 ---
 

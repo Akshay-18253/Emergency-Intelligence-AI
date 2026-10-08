@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import heapq
 import math
+import time
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
@@ -44,7 +45,7 @@ from .models import Graph
 
 @dataclass
 class RouteResult:
-    """The result of a single Dijkstra query.
+    """The result of a routing query (Dijkstra or A*).
 
     Attributes
     ----------
@@ -62,6 +63,11 @@ class RouteResult:
         ``math.inf`` when the destination is unreachable.
     reachable:
         ``True`` when a path from source to destination exists.
+    nodes_explored:
+        The number of nodes expanded/visited during the search.
+        Used for algorithmic efficiency analysis and benchmarking.
+    execution_time_ms:
+        Execution time in milliseconds spent computing the route.
     """
 
     source: str
@@ -69,17 +75,22 @@ class RouteResult:
     path: List[str]
     total_cost: float
     reachable: bool
+    nodes_explored: int = 0
+    execution_time_ms: float = 0.0
 
     def __repr__(self) -> str:
         if not self.reachable:
             return (
                 f"RouteResult(source={self.source!r}, "
                 f"destination={self.destination!r}, "
-                f"reachable=False)"
+                f"reachable=False, "
+                f"nodes_explored={self.nodes_explored})"
             )
         route_str = " → ".join(self.path)
         return (
-            f"RouteResult(route={route_str!r}, total_cost={self.total_cost})"
+            f"RouteResult(route={route_str!r}, "
+            f"total_cost={self.total_cost}, "
+            f"nodes_explored={self.nodes_explored})"
         )
 
 
@@ -124,6 +135,8 @@ def dijkstra(graph: Graph, source: str, destination: str) -> RouteResult:
       returns whichever it discovers first (deterministic for a fixed
       graph structure and insertion order).
     """
+    start_time = time.perf_counter()
+
     # --- Validate inputs ---------------------------------------------------
     if not graph.has_node(source):
         raise KeyError(
@@ -142,6 +155,8 @@ def dijkstra(graph: Graph, source: str, destination: str) -> RouteResult:
             path=[source],
             total_cost=0.0,
             reachable=True,
+            nodes_explored=1,
+            execution_time_ms=(time.perf_counter() - start_time) * 1000.0,
         )
 
     # --- Initialise data structures ----------------------------------------
@@ -162,6 +177,8 @@ def dijkstra(graph: Graph, source: str, destination: str) -> RouteResult:
     heap: List = []
     heapq.heappush(heap, (0.0, counter, source))
 
+    nodes_explored = 0
+
     # --- Main loop ---------------------------------------------------------
     while heap:
         current_cost, _, current_node = heapq.heappop(heap)
@@ -171,6 +188,7 @@ def dijkstra(graph: Graph, source: str, destination: str) -> RouteResult:
             continue
 
         visited.add(current_node)
+        nodes_explored += 1
 
         # Early exit: reached destination with optimal cost
         if current_node == destination:
@@ -191,6 +209,8 @@ def dijkstra(graph: Graph, source: str, destination: str) -> RouteResult:
                 counter += 1
                 heapq.heappush(heap, (relaxed_cost, counter, neighbour))
 
+    elapsed_ms = (time.perf_counter() - start_time) * 1000.0
+
     # --- Check reachability ------------------------------------------------
     if math.isinf(dist[destination]):
         return RouteResult(
@@ -199,6 +219,8 @@ def dijkstra(graph: Graph, source: str, destination: str) -> RouteResult:
             path=[],
             total_cost=math.inf,
             reachable=False,
+            nodes_explored=nodes_explored,
+            execution_time_ms=elapsed_ms,
         )
 
     # --- Reconstruct path --------------------------------------------------
@@ -210,6 +232,8 @@ def dijkstra(graph: Graph, source: str, destination: str) -> RouteResult:
         path=path,
         total_cost=dist[destination],
         reachable=True,
+        nodes_explored=nodes_explored,
+        execution_time_ms=elapsed_ms,
     )
 
 

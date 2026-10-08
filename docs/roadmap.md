@@ -19,11 +19,14 @@ and compute shortest paths before introducing any AI.
 | Python project structure | ✅ Done |
 | `Node`, `Edge`, `Graph` data model | ✅ Done |
 | Manual Dijkstra implementation | ✅ Done |
-| Unit tests (11 cases) | ✅ Done |
+| Unit tests (foundation suite) | ✅ Done |
 | Local demonstration | ✅ Done |
-| A\* algorithm | 🔜 Next |
-| Algorithmic comparison (Dijkstra vs A\*) | 🔜 Next |
-| Benchmarking (nodes explored, time, cost) | 🔜 Next |
+| Node 2D coordinates & spatial model | ✅ Done |
+| Admissible heuristics (Euclidean, Manhattan, Zero) | ✅ Done |
+| Manual A\* search implementation | ✅ Done |
+| Algorithmic comparison (Dijkstra vs A\*) | ✅ Done |
+| Benchmarking suite (nodes explored, time, cost, pruning) | ✅ Done |
+| Comprehensive test suite (100 passed, 97% coverage) | ✅ Done |
 | Real road-network data (OSM integration) | 🔜 Next |
 
 **Engineering focus:**

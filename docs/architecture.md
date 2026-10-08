@@ -97,9 +97,9 @@ Graph topology is defined in code, not loaded from an external dataset.
 Represent the road network as a directed weighted graph.
 Provide efficient adjacency queries to the routing engine.
 
-**Current state (Day 1)**
+**Current state (Milestone 2)**
 
-- `Node`: an intersection or named location, identified by a string ID.
+- `Node`: an intersection or named location with optional 2D spatial coordinates `(x, y)` and convenience properties.
 - `Edge`: a directed connection between two nodes with a non-negative traversal cost.
 - `Graph`: adjacency-list representation of the directed weighted graph.
 
@@ -130,10 +130,12 @@ Provide efficient adjacency queries to the routing engine.
 Compute the least-cost path between a source and a destination,
 subject to constraints provided by the intelligence layer.
 
-**Current state (Day 1)**
+**Current state (Milestone 2)**
 
-Manual implementation of Dijkstra's algorithm using Python's `heapq`.
-Returns a `RouteResult` containing path, total cost, and reachability.
+- Manual implementation of Dijkstra's algorithm using Python's `heapq`.
+- Manual implementation of the A\* heuristic search algorithm with admissible heuristics (Euclidean, Manhattan, Zero).
+- `RouteResult` captures path, total cost, reachability, nodes explored, and execution time in ms.
+- Comparative benchmarking module (`compare_algorithms`) and synthetic grid generator (`create_grid_network`).
 
 **Future inputs**
 
