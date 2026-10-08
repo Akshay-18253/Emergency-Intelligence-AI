@@ -9,7 +9,16 @@ and export to standard RFC 7946 GeoJSON format.
 from pathlib import Path
 
 from .geo import haversine_distance, haversine_heuristic
-from .geojson import route_to_geojson, save_route_geojson
+from .geojson import (
+    compute_bounding_box,
+    graph_to_geojson,
+    load_graph_from_geojson,
+    route_to_geojson,
+    save_geojson,
+    save_graph_geojson,
+    save_route_geojson,
+    validate_wgs84_coordinates,
+)
 from .osm import (
     DEFAULT_HIGHWAY_TYPES,
     load_osm_graph_from_data,
@@ -28,6 +37,12 @@ __all__ = [
     "load_osm_graph_from_data",
     "load_osm_graph_from_file",
     "SAMPLE_HOSPITAL_DISTRICT_PATH",
+    "compute_bounding_box",
+    "graph_to_geojson",
+    "load_graph_from_geojson",
     "route_to_geojson",
+    "save_geojson",
+    "save_graph_geojson",
     "save_route_geojson",
+    "validate_wgs84_coordinates",
 ]
