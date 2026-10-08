@@ -1,9 +1,10 @@
 # Emergency Intelligence AI
 
-> **Milestone 3 status — Real Road Network Ingestion (OpenStreetMap)**
-> Complete Phase 1 foundation: OpenStreetMap (OSM) data ingestion,
-> Haversine geographic heuristics, Dijkstra & A* routing on real street networks.
-> 117 unit tests passing with 96% code coverage. Zero external runtime dependencies.
+> **Phase 2 Status — Open-Source Ecosystem Participation & Standards Interoperability**
+> Complete Phase 1 foundation + Phase 2 open GIS standards integration:
+> OpenStreetMap (OSM) data ingestion, Haversine geographic heuristics, Dijkstra & A* routing,
+> RFC 7946 GeoJSON trajectory export, and comprehensive architectural comparative analysis.
+> **121 unit tests passing with 97% code coverage.** Zero external runtime dependencies.
 
 ---
 
@@ -46,10 +47,11 @@ The eventual system will combine:
 
 1. **Road-network data** — real graph data from open datasets (e.g. OpenStreetMap)
 2. **Graph-based routing** — correct, tested algorithms (Dijkstra, A\*)
-3. **Dynamic conditions** — event-driven rerouting (closures, congestion, accidents)
-4. **Emergency intelligence** — AI reasoning to interpret context and formulate routing objectives
-5. **Simulation** — reproducible emergency scenario evaluation
-6. **Quantitative evaluation** — measurable benchmarks for routing quality and system performance
+3. **Open GIS interoperability** — RFC 7946 GeoJSON for QGIS, Leaflet, and PostGIS
+4. **Dynamic conditions** — event-driven rerouting (closures, congestion, accidents)
+5. **Emergency intelligence** — AI reasoning to interpret context and formulate routing objectives
+6. **Simulation** — reproducible emergency scenario evaluation
+7. **Quantitative evaluation** — measurable benchmarks for routing quality and system performance
 
 The architecture separates these concerns deliberately:
 
@@ -69,7 +71,7 @@ Routing Engine  (Dijkstra / A*)
 Road Graph  (OSM / open datasets)
         │
         ▼
-Candidate Route
+Candidate Route  (RFC 7946 GeoJSON Export)
         │
         ▼
 Simulation & Evaluation
@@ -111,7 +113,7 @@ Things deliberately avoided:
 
 ---
 
-## Current Capabilities (Milestone 3 — Phase 1 Complete)
+## Current Capabilities (Phase 2 Complete)
 
 | Capability | Status |
 |---|---|
@@ -119,16 +121,19 @@ Things deliberately avoided:
 | Spatial 2D coordinates on `Node` | ✅ Implemented |
 | Dijkstra's shortest-path algorithm (manual `heapq`) | ✅ Implemented |
 | Admissible heuristics (Euclidean, Manhattan, Zero, Haversine) | ✅ Implemented |
-| A\* heuristic search algorithm (manual `heapq`) | ✅ Implemented |
+| A\* heuristic search algorithm (manual `heapq` with tie-breaking) | ✅ Implemented |
 | Algorithmic benchmarking & comparative analysis | ✅ Implemented |
 | Real road data ingestion (OpenStreetMap Overpass parser) | ✅ Implemented |
 | Spherical Haversine distance calculations | ✅ Implemented |
-| Unit tests (117 passed, 96% code coverage) | ✅ Passing |
-| Local demonstrations (Dijkstra, A\* benchmark, OSM real-world demo) | ✅ Working |
-| Dynamic conditions & event processing | 🔜 Future |
-| AI reasoning layer (emergency context) | 🔜 Future |
-| REST API | 🔜 Future |
-| User interface | 🔜 Future |
+| RFC 7946 GeoJSON route & waypoint export (`route_to_geojson`) | ✅ Implemented |
+| Open-source ecosystem comparative study ([`docs/ecosystem_study.md`](docs/ecosystem_study.md)) | ✅ Implemented |
+| GSoC 2027 alignment & engagement strategy ([`docs/gsoc_strategy.md`](docs/gsoc_strategy.md)) | ✅ Implemented |
+| Community contribution guidelines ([`CONTRIBUTING.md`](CONTRIBUTING.md)) | ✅ Implemented |
+| Unit tests (121 passed, 97% code coverage, 0 failures) | ✅ Passing |
+| Local demonstrations (Dijkstra, A\* benchmark, OSM routing, GeoJSON export) | ✅ Working |
+| Dynamic conditions & event processing | 🔜 Phase 4 |
+| AI reasoning layer (emergency context) | 🔜 Phase 5 |
+| REST API & UI | 🔜 Phase 7/8 |
 
 ---
 
@@ -142,6 +147,7 @@ emergency-intelligence-ai/
 │       ├── data/
 │       │   ├── __init__.py
 │       │   ├── geo.py                     # Haversine distance & heuristic
+│       │   ├── geojson.py                 # RFC 7946 GeoJSON export & serialization
 │       │   ├── osm.py                     # OpenStreetMap Overpass parser
 │       │   └── sample_hospital_district.json  # Bundled real OSM dataset
 │       └── graph/
@@ -159,15 +165,20 @@ emergency-intelligence-ai/
 │   ├── test_astar.py                      # A* correctness & efficiency tests
 │   ├── test_benchmark.py                  # Benchmark suite tests
 │   ├── test_geo.py                        # Haversine distance & heuristic tests
-│   └── test_osm.py                        # OpenStreetMap parsing & routing tests
+│   ├── test_osm.py                        # OpenStreetMap parsing & routing tests
+│   └── test_geojson.py                    # RFC 7946 GeoJSON export tests
 ├── examples/
 │   ├── demo.py                            # Dijkstra foundation demonstration
 │   ├── benchmark_demo.py                  # A* vs Dijkstra comparative benchmark
-│   └── osm_demo.py                        # Real OpenStreetMap routing demonstration
+│   ├── osm_demo.py                        # Real OpenStreetMap routing demonstration
+│   └── geojson_export_demo.py             # RFC 7946 GeoJSON export demonstration
 ├── docs/
-│   ├── architecture.md
-│   ├── roadmap.md
-│   └── development.md
+│   ├── architecture.md                    # System architecture & decision log
+│   ├── roadmap.md                         # Phased development roadmap
+│   ├── ecosystem_study.md                 # Open-source routing ecosystem comparison
+│   ├── gsoc_strategy.md                   # GSoC 2027 alignment & participation strategy
+│   └── development.md                     # Engineering practices & setup
+├── CONTRIBUTING.md                        # Open-source contributor guide
 ├── pyproject.toml
 ├── .gitignore
 └── README.md
@@ -186,11 +197,11 @@ python -m venv .venv
 # On Linux / macOS
 source .venv/bin/activate
 
-# On Windows
-.venv\Scripts\activate
+# On Windows (PowerShell)
+.venv\Scripts\Activate.ps1
 
-# Install the package in editable mode with development dependencies
-pip install -e ".[dev]"
+# Install development testing dependencies
+pip install pytest pytest-cov
 ```
 
 ---
@@ -198,13 +209,11 @@ pip install -e ".[dev]"
 ## Running Tests
 
 ```bash
-python -m pytest tests/ -v
-```
+# Run all unit tests
+pytest -v
 
-With coverage:
-
-```bash
-python -m pytest tests/ -v --cov=emergency_intelligence --cov-report=term-missing
+# Run with test coverage report
+pytest --cov=src --cov-report=term-missing -v
 ```
 
 ---
@@ -234,6 +243,14 @@ Parses a real-world metropolitan hospital district dataset from OpenStreetMap,
 enforces one-way transit street rules, calculates physical distances in meters
 using Haversine calculations, and routes an ambulance to a regional trauma center.
 
+### 4. RFC 7946 GeoJSON Export & GIS Interoperability
+```bash
+python examples/geojson_export_demo.py
+```
+Computes an ambulance dispatch trajectory on real OSM streets, serializes the route
+and intersection waypoints to an RFC 7946 GeoJSON file (`output_emergency_route.geojson`),
+ready for instant drag-and-drop visualization in [geojson.io](https://geojson.io), QGIS, or Leaflet.
+
 ---
 
 ## Roadmap Summary
@@ -241,9 +258,9 @@ using Haversine calculations, and routes an ambulance to a regional trauma cente
 | Phase | Description | Status |
 |---|---|---|
 | Phase 1 | Local routing engine foundation | ✅ **Complete** |
-| Phase 2 | Open-source ecosystem participation | 🔜 Future |
-| Phase 3 | Real road network data (OSM) | 🔜 Future |
-| Phase 4 | Dynamic conditions | 🔜 Future |
+| Phase 2 | Open-source ecosystem participation & standards | ✅ **Complete** |
+| Phase 3 | Real road network data pipelines (scaled OSM) | 🔜 Next |
+| Phase 4 | Dynamic conditions & event processing | 🔜 Future |
 | Phase 5 | Emergency intelligence (AI layer) | 🔜 Future |
 | Phase 6 | Simulation and evaluation | 🔜 Future |
 | Phase 7 | External data / map integration | 🔜 Future |

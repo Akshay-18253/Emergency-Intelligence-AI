@@ -1,14 +1,15 @@
 """
 Data layer package.
 
-Handles spatial calculations, geospatial distance heuristics, and ingestion
-of external open geographic datasets (such as OpenStreetMap Overpass exports)
-into the Emergency Intelligence AI road graph model.
+Handles spatial calculations, geospatial distance heuristics, ingestion
+of external open geographic datasets (such as OpenStreetMap Overpass exports),
+and export to standard RFC 7946 GeoJSON format.
 """
 
 from pathlib import Path
 
 from .geo import haversine_distance, haversine_heuristic
+from .geojson import route_to_geojson, save_route_geojson
 from .osm import (
     DEFAULT_HIGHWAY_TYPES,
     load_osm_graph_from_data,
@@ -27,4 +28,6 @@ __all__ = [
     "load_osm_graph_from_data",
     "load_osm_graph_from_file",
     "SAMPLE_HOSPITAL_DISTRICT_PATH",
+    "route_to_geojson",
+    "save_route_geojson",
 ]

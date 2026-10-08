@@ -31,3 +31,6 @@ coverage.xml
 # OS
 .DS_Store
 Thumbs.db
+
+# Generated demo artifacts
+examples/output_*.geojson

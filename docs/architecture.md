@@ -62,35 +62,38 @@ User / Emergency Input
 
 **Responsibility**
 
-Store, load, and expose road network data in a form the routing engine
-can consume.
+Store, load, ingest, and export road network datasets and routing trajectories
+using standard open geospatial formats.
 
-**Current state (Milestone 3)**
+**Current state (Phase 2)**
 
 - Isolated OpenStreetMap loader module (`load_osm_graph_from_data`, `load_osm_graph_from_file`).
 - Converts OSM nodes and vehicular highway ways into the core `Graph` model.
-- Calculates physical road segment lengths in meters using the Haversine spherical distance formula.
+- Calculates physical road segment lengths in meters using the spherical Haversine distance formula.
 - Preserves directional constraints (`oneway=yes`, `oneway=-1`, roundabouts).
 - Provides `haversine_heuristic` for informed A* search on geographic coordinates.
 - Bundled with a verified metropolitan emergency care district dataset (`sample_hospital_district.json`).
+- Standard **RFC 7946 GeoJSON export** (`route_to_geojson`, `save_route_geojson`):
+  - LineString trajectory features annotated with travel distance, step count, nodes explored, and execution latency.
+  - Point features identifying `origin`, intermediate `waypoint`, and `destination` nodes.
+  - Native interoperability with QGIS, Leaflet, geojson.io, and PostGIS (`ST_GeomFromGeoJSON`).
 
 **Future inputs**
 
-- OpenStreetMap PBF / GeoJSON exports
-- Parsed road segments with geometry and attributes
-- Facility datasets (hospitals, fire stations, police)
+- OpenStreetMap PBF extracts and live Overpass API queries
+- Facility datasets (trauma centers, fire stations, police substations)
+- Real-time road hazard feeds (flooding, closures)
 
 **Future outputs**
 
-- `Graph` object populated from real road data
-- Node metadata (coordinates, labels, facility type)
-- Edge metadata (road type, speed limit, access restrictions)
+- `Graph` objects populated from live or static open datasets
+- Node metadata (coordinates, labels, facility type, clinical triage capabilities)
+- Edge metadata (road classification, speed profiles, dynamic hazard penalties)
 
 **Design considerations**
 
-- The data layer should be replaceable without changing the routing engine.
-- OSM integration should be isolated behind a loader interface.
-- Node coordinates are not required for Dijkstra but will be needed for A\*.
+- The data layer is completely isolated behind loader and exporter interfaces without polluting the routing engine.
+- WGS 84 coordinate order strictly follows RFC 7946: `[longitude, latitude]`.
 
 ---
 
@@ -101,16 +104,12 @@ can consume.
 Represent the road network as a directed weighted graph.
 Provide efficient adjacency queries to the routing engine.
 
-**Current state (Milestone 2)**
+**Current state (Milestone 3 / Phase 2)**
 
-- `Node`: an intersection or named location with optional 2D spatial coordinates `(x, y)` and convenience properties.
-- `Edge`: a directed connection between two nodes with a non-negative traversal cost.
-- `Graph`: adjacency-list representation of the directed weighted graph.
-
-**Future inputs**
-
-- Parsed road-network data from the data layer.
-- Dynamic event updates (edge cost modifications, edge removal).
+- `Node`: an intersection or named facility with 2D spatial coordinates `(x, y)` / `(lon, lat)` and convenience properties.
+- `Edge`: a directed connection between two nodes with a non-negative traversal cost (meters, seconds, or generalized penalty).
+- `Graph`: adjacency-list representation of the directed weighted graph with $O(1)$ node lookup and adjacency queries.
+- Architectural comparative study ([`docs/ecosystem_study.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/ecosystem_study.md)) detailing trade-offs between node-based graphs, edge-expanded dual graphs, contraction hierarchies (CH), and dynamic spatial tiling.
 
 **Future outputs**
 
@@ -287,3 +286,7 @@ Provide a human-facing interface for demonstrating system capabilities.
 | Zero runtime dependencies (Day 1) | Reduces surface area. Ensures the foundation is self-contained. |
 | Directed graph | Road networks have one-way streets. Undirected graphs would be incorrect for this domain. |
 | Non-negative edge cost invariant | Required by Dijkstra's correctness proof. Enforced in `Edge.__post_init__`. |
+| Admissible A* with (f, h, counter, id) heap tuples | Guarantees optimal path cost identical to Dijkstra while pruning unpromising search branches via tie-breaking on smaller h-score. |
+| Spherical Haversine distance heuristic | Provides mathematically sound, admissible great-circle lower-bound distances for WGS 84 geographic coordinates. |
+| Isolated OSM Overpass parser | Ingests real road topology with physical meter edge weights and one-way rules without modifying the core routing engine. |
+| RFC 7946 GeoJSON export | Adheres strictly to international geospatial standards (`[lon, lat]` order) for seamless interoperability with QGIS, Leaflet, and OSGeo. |

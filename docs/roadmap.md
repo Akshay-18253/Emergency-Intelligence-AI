@@ -5,7 +5,7 @@
 > fixed calendar dates. Progress is incremental and each phase
 > establishes the foundation for the next.
 >
-> **Current position: Phase 1 — in progress.**
+> **Current position: Phase 2 (Completed) — Advancing toward Phase 3 / Phase 4.**
 
 ---
 
@@ -16,19 +16,10 @@ and compute shortest paths before introducing any AI.
 
 | Milestone | Status |
 |---|---|
-| Python project structure | ✅ Done |
-| `Node`, `Edge`, `Graph` data model | ✅ Done |
-| Manual Dijkstra implementation | ✅ Done |
-| Unit tests (foundation suite) | ✅ Done |
-| Local demonstration | ✅ Done |
-| Node 2D coordinates & spatial model | ✅ Done |
-| Admissible heuristics (Euclidean, Manhattan, Zero) | ✅ Done |
-| Manual A\* search implementation | ✅ Done |
-| Algorithmic comparison (Dijkstra vs A\*) | ✅ Done |
-| Benchmarking suite (nodes explored, time, cost, pruning) | ✅ Done |
-| Comprehensive test suite (100 passed, 97% coverage) | ✅ Done |
-| Real road-network data (OSM Overpass ingestion) | ✅ Done |
-| Full Phase 1 Foundation Test Suite (117 passed, 96% coverage) | ✅ Done |
+| Milestone 1: Python structure, `Node`/`Edge`/`Graph`, manual Dijkstra, initial tests | ✅ Done |
+| Milestone 2: Spatial coordinates, A* search, admissible heuristics, grid benchmarking | ✅ Done |
+| Milestone 3: Real OSM Overpass parser, spherical Haversine formula, ambulance routing | ✅ Done |
+| Phase 1 Test Suite: 117 tests passing, 96% branch coverage, zero dependencies | ✅ Done |
 
 **Engineering focus:**
 - Correctness first
@@ -40,24 +31,22 @@ and compute shortest paths before introducing any AI.
 ## Phase 2 — Open-Source Ecosystem Participation
 
 **Objective:** Understand relevant open-source routing and geospatial
-ecosystems. Begin contributing.
+ecosystems. Establish open GIS standards interoperability, architectural comparative
+studies, and community contribution frameworks.
 
-Potential areas to explore:
-
-- OpenStreetMap ecosystem and tooling
-- OSGeo and related projects
-- pgRouting, Valhalla, GraphHopper (architecture study)
-
-Activities:
-- Read documentation and architecture of relevant projects
-- Identify beginner-level contribution opportunities
-- Fix documentation issues
-- Submit tests
-- Participate in community discussions
+| Milestone / Deliverable | Status |
+|---|---|
+| RFC 7946 GeoJSON export (`route_to_geojson`, `save_route_geojson`) | ✅ Done |
+| GeoJSON test suite and verification (`tests/test_geojson.py`) | ✅ Done |
+| Open-source routing ecosystem comparative study ([`docs/ecosystem_study.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/ecosystem_study.md)) | ✅ Done |
+| GSoC 2027 alignment & community engagement strategy ([`docs/gsoc_strategy.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/gsoc_strategy.md)) | ✅ Done |
+| Community contribution guidelines ([`CONTRIBUTING.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/CONTRIBUTING.md)) | ✅ Done |
+| Interactive GeoJSON export demonstration ([`examples/geojson_export_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/geojson_export_demo.py)) | ✅ Done |
 
 > ⚠️ No specific mentoring organisation for GSoC 2027 is assumed.
 > The appropriate organisation will be determined from official GSoC 2027
-> announcements when available.
+> announcements when available. Prospective fits (OSGeo, HOT/OSMF) are evaluated in
+> [`docs/gsoc_strategy.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/gsoc_strategy.md).
 
 ---
 
