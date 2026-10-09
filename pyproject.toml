@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "emergency-intelligence-ai"
-version = "0.1.0"
-description = "Intelligent navigation during emergency situations — Day 1: Local Routing Engine Foundation"
+version = "0.2.0"
+description = "Intelligent navigation and crisis routing engine for emergency medical and disaster response"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
-keywords = ["routing", "emergency", "graph", "dijkstra", "navigation", "open-source"]
+keywords = ["routing", "emergency", "graph", "dijkstra", "astar", "gis", "geojson", "navigation", "open-source"]
 classifiers = [
-    "Development Status :: 1 - Planning",
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
@@ -19,10 +19,12 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Topic :: Scientific/Engineering",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: GIS",
     "Topic :: Software Development :: Libraries",
 ]
-# Day 1 has zero runtime dependencies.
+# Core routing engine strictly maintains ZERO external runtime dependencies.
 dependencies = []
 
 [project.optional-dependencies]
@@ -36,7 +38,8 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-v"
+addopts = "-v --cov=emergency_intelligence --cov-report=term-missing"
+python_files = ["test_*.py"]
 
 [tool.coverage.run]
 source = ["emergency_intelligence"]
@@ -44,3 +47,8 @@ branch = true
 
 [tool.coverage.report]
 show_missing = true
+fail_under = 90.0
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

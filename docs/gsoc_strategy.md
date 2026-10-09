@@ -110,3 +110,20 @@ When drafting a GSoC proposal, adhere to the following principles:
 3. **Decoupled Architecture:** Maintain strict separation between deterministic routing routines and high-level reasoning heuristics.
 4. **Reproducible Benchmarks:** Every proposed algorithmic optimization must include quantitative metrics (nodes expanded, execution time in milliseconds, memory consumption).
 5. **Open Source Values:** Commit to open licensing (MIT / Apache 2.0), transparent code reviews, and community collaboration.
+
+---
+
+## 5. Curated Contributor Task Menu (Good First Issues)
+
+To help new contributors and prospective GSoC students build an authentic portfolio of contributions, the following micro-tasks are curated as excellent starting points:
+
+| Task ID | Component | Description | Complexity | Relevant Skills |
+|---|---|---|---|---|
+| **TASK-01** | `data/osm.py` | Add vehicular speed profiles by highway classification (`motorway=100km/h`, `primary=50km/h`, `residential=30km/h`) to enable transit-time edge weighting. | Beginner | Python, OpenStreetMap tagging |
+| **TASK-02** | `data/osm.py` | Implement geographic bounding box (`bbox: min_lat, min_lon, max_lat, max_lon`) coordinate filtering during OSM data ingestion. | Beginner | Python, Geographic calculations |
+| **TASK-03** | `data/facilities.py` | Ingest Point of Interest (POI) facilities from OSM tags (`amenity=hospital`, `amenity=fire_station`) and snap coordinates to nearest road network node. | Intermediate | Spatial distance, Graph algorithms |
+| **TASK-04** | `graph/dual.py` | Prototype an edge-expanded (dual) graph model where nodes represent directed road segments to enforce turn restrictions (e.g. no left turn). | Advanced | Graph theory, Data structures |
+| **TASK-05** | `visualizer/` | Build a zero-dependency HTML map viewer using Python's standard `http.server` that renders exported GeoJSON route files in Leaflet. | Intermediate | Python, Web GIS, HTML/JS |
+
+Before starting work on any task, open an issue using the [Feature Request](.github/ISSUE_TEMPLATE/feature_request.md) or [GSoC Idea Proposal](.github/ISSUE_TEMPLATE/gsoc_idea_proposal.md) template to coordinate with maintainers.
+
