@@ -34,6 +34,10 @@ from pathlib import Path
 from typing import Any, BinaryIO, Dict, List, Optional, Set, TextIO, Tuple, Union
 
 from emergency_intelligence.graph.models import Edge, Graph, Node
+from emergency_intelligence.graph.topology import (
+    contract_degree2_nodes,
+    extract_largest_strongly_connected_component,
+)
 from .geo import haversine_distance
 
 # Standard vehicular road classifications suitable for emergency routing
@@ -263,6 +267,9 @@ def load_osm_graph_from_data(
     highway_filter: Optional[Set[str]] = None,
     weighting_profile: str = WeightingProfile.DISTANCE,
     allow_emergency_access: bool = True,
+    simplify_topology: bool = False,
+    extract_lscc: bool = False,
+    protected_node_ids: Optional[Set[str]] = None,
 ) -> Graph:
     """Parse an OpenStreetMap Overpass JSON dictionary into a :class:`Graph`.
 
@@ -278,6 +285,12 @@ def load_osm_graph_from_data(
         Cost calculation profile (:class:`WeightingProfile`).
     allow_emergency_access:
         Whether emergency bypass rules apply to restricted ways.
+    simplify_topology:
+        Whether to contract non-intersection degree-2 curvature nodes.
+    extract_lscc:
+        Whether to extract the Largest Strongly Connected Component.
+    protected_node_ids:
+        Optional set of node IDs that must not be contracted.
 
     Returns
     -------
@@ -394,6 +407,11 @@ def load_osm_graph_from_data(
                     Edge(source_id=v_str, destination_id=u_str, cost=cost, attributes=dict(attributes))
                 )
 
+    if extract_lscc:
+        graph = extract_largest_strongly_connected_component(graph)
+    if simplify_topology:
+        graph = contract_degree2_nodes(graph, protected_node_ids=protected_node_ids)
+
     return graph
 
 
@@ -402,6 +420,9 @@ def load_osm_graph_from_file(
     highway_filter: Optional[Set[str]] = None,
     weighting_profile: str = WeightingProfile.DISTANCE,
     allow_emergency_access: bool = True,
+    simplify_topology: bool = False,
+    extract_lscc: bool = False,
+    protected_node_ids: Optional[Set[str]] = None,
 ) -> Graph:
     """Load an OpenStreetMap JSON export from a file path into a :class:`Graph`.
 
@@ -415,6 +436,12 @@ def load_osm_graph_from_file(
         Cost calculation profile (:class:`WeightingProfile`).
     allow_emergency_access:
         Whether emergency bypass rules apply.
+    simplify_topology:
+        Whether to contract non-intersection degree-2 curvature nodes.
+    extract_lscc:
+        Whether to extract the Largest Strongly Connected Component.
+    protected_node_ids:
+        Optional set of node IDs that must not be contracted.
 
     Returns
     -------
@@ -433,6 +460,9 @@ def load_osm_graph_from_file(
         highway_filter=highway_filter,
         weighting_profile=weighting_profile,
         allow_emergency_access=allow_emergency_access,
+        simplify_topology=simplify_topology,
+        extract_lscc=extract_lscc,
+        protected_node_ids=protected_node_ids,
     )
 
 
@@ -441,6 +471,9 @@ def load_osm_graph_from_xml_stream(
     highway_filter: Optional[Set[str]] = None,
     weighting_profile: str = WeightingProfile.DISTANCE,
     allow_emergency_access: bool = True,
+    simplify_topology: bool = False,
+    extract_lscc: bool = False,
+    protected_node_ids: Optional[Set[str]] = None,
 ) -> Graph:
     """Stream parse an OpenStreetMap XML (.osm) dataset into a :class:`Graph`.
 
@@ -457,6 +490,12 @@ def load_osm_graph_from_xml_stream(
         Cost calculation profile (:class:`WeightingProfile`).
     allow_emergency_access:
         Whether emergency vehicles can traverse restricted ways.
+    simplify_topology:
+        Whether to contract non-intersection degree-2 curvature nodes.
+    extract_lscc:
+        Whether to extract the Largest Strongly Connected Component.
+    protected_node_ids:
+        Optional set of node IDs that must not be contracted.
 
     Returns
     -------
@@ -585,6 +624,11 @@ def load_osm_graph_from_xml_stream(
                     Edge(source_id=v_id, destination_id=u_id, cost=cost, attributes=dict(attributes))
                 )
 
+    if extract_lscc:
+        graph = extract_largest_strongly_connected_component(graph)
+    if simplify_topology:
+        graph = contract_degree2_nodes(graph, protected_node_ids=protected_node_ids)
+
     return graph
 
 
@@ -593,6 +637,9 @@ def load_osm_graph_from_xml_string(
     highway_filter: Optional[Set[str]] = None,
     weighting_profile: str = WeightingProfile.DISTANCE,
     allow_emergency_access: bool = True,
+    simplify_topology: bool = False,
+    extract_lscc: bool = False,
+    protected_node_ids: Optional[Set[str]] = None,
 ) -> Graph:
     """Parse an OpenStreetMap XML string into a :class:`Graph`."""
     stream = io.StringIO(xml_string)
@@ -601,6 +648,9 @@ def load_osm_graph_from_xml_string(
         highway_filter=highway_filter,
         weighting_profile=weighting_profile,
         allow_emergency_access=allow_emergency_access,
+        simplify_topology=simplify_topology,
+        extract_lscc=extract_lscc,
+        protected_node_ids=protected_node_ids,
     )
 
 
@@ -609,6 +659,9 @@ def load_osm_graph_from_xml_file(
     highway_filter: Optional[Set[str]] = None,
     weighting_profile: str = WeightingProfile.DISTANCE,
     allow_emergency_access: bool = True,
+    simplify_topology: bool = False,
+    extract_lscc: bool = False,
+    protected_node_ids: Optional[Set[str]] = None,
 ) -> Graph:
     """Parse an OpenStreetMap XML file (.osm) into a :class:`Graph`."""
     path = Path(file_path)
@@ -621,4 +674,7 @@ def load_osm_graph_from_xml_file(
             highway_filter=highway_filter,
             weighting_profile=weighting_profile,
             allow_emergency_access=allow_emergency_access,
+            simplify_topology=simplify_topology,
+            extract_lscc=extract_lscc,
+            protected_node_ids=protected_node_ids,
         )
