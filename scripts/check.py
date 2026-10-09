@@ -112,6 +112,7 @@ def step_run_demos(root_dir: Path) -> bool:
         "examples/architecture_comparison_demo.py",
         "examples/osm_multimodal_demo.py",
         "examples/topology_contraction_demo.py",
+        "examples/spatial_indexing_demo.py",
     ]
 
     for demo in demos:

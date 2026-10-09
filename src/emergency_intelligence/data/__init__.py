@@ -8,6 +8,12 @@ and export to standard RFC 7946 GeoJSON format.
 
 from pathlib import Path
 
+from .cache import (
+    CACHE_SCHEMA_VERSION,
+    compute_file_checksum,
+    load_graph_cache,
+    save_graph_cache,
+)
 from .geo import haversine_distance, haversine_heuristic
 from .geojson import (
     compute_bounding_box,
@@ -31,6 +37,11 @@ from .osm import (
     load_osm_graph_from_xml_stream,
     load_osm_graph_from_xml_string,
     parse_maxspeed,
+)
+from .spatial import (
+    SnappedLocation,
+    SpatialIndex,
+    project_point_to_segment,
 )
 
 # Canonical path to the bundled OpenStreetMap hospital district fixture
@@ -61,4 +72,11 @@ __all__ = [
     "save_graph_geojson",
     "save_route_geojson",
     "validate_wgs84_coordinates",
+    "SpatialIndex",
+    "SnappedLocation",
+    "project_point_to_segment",
+    "save_graph_cache",
+    "load_graph_cache",
+    "compute_file_checksum",
+    "CACHE_SCHEMA_VERSION",
 ]

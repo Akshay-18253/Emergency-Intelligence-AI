@@ -5,7 +5,7 @@
 > fixed calendar dates. Progress is incremental and each phase
 > establishes the foundation for the next.
 >
-> **Current position: Phase 2 (Completed) — Advancing toward Phase 3 / Phase 4.**
+> **Current position: Phase 3 (Completed) — Advancing toward Phase 4 (Dynamic Conditions).**
 
 ---
 
@@ -61,7 +61,7 @@ emergency vehicle access rules, topological graph contraction, and spatial snapp
 |---|---|---|
 | **Milestone 1: Production OSM Ingestion & Multi-Criteria Cost Models** | • Streaming OSM XML (`.osm`) via `xml.etree.ElementTree.iterparse` & Overpass JSON dual parser<br>• Dynamic `maxspeed` parser (km/h, mph, condition tags, default highway speed matrix)<br>• Multi-criteria cost weighting profiles (`Profile.DISTANCE`, `Profile.TRAVEL_TIME`, `Profile.EMERGENCY_TIME`)<br>• Access restriction & emergency bypass filtering (`access=no`, `emergency=yes`)<br>• Comprehensive test suite & multi-criteria demo (`examples/osm_multimodal_demo.py`) | ✅ Complete |
 | **Milestone 2: Graph Topology Hardening & Graph Contraction** | • Degree-2 intermediate node contraction with polyline geometry retention<br>• Largest Strongly Connected Component (LSCC) extraction via Tarjan's SCC algorithm<br>• Geographic forward azimuth bearing & turn maneuver classification ('straight', 'right', 'left', 'u_turn')<br>• Unit test suite ([`tests/test_topology.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_topology.py)) & interactive demo ([`examples/topology_contraction_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/topology_contraction_demo.py)) | ✅ Complete |
-| **Milestone 3: Spatial Snapping, Coordinate Indexing & Fast Network Caching** | • Zero-dependency 2D Spatial Grid / KD-Tree index for sub-millisecond coordinate lookups<br>• Orthogonal point-to-polyline road segment projection and snapping<br>• Compiled network cache format (`.json` with SHA-256 integrity hash)<br>• Urban emergency routing benchmark and validation suite | 📋 Planned |
+| **Milestone 3: Spatial Snapping, Coordinate Indexing & Fast Network Caching** | • Zero-dependency 2D Spatial Hash Grid index for sub-millisecond coordinate lookups<br>• Orthogonal point-to-polyline road segment projection and snapping (`project_point_to_segment`, `snap_to_road_network`)<br>• Compiled network cache format (`.eig.json` with SHA-256 cryptographic integrity hash)<br>• Unit test suite ([`tests/test_spatial.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_spatial.py)) & interactive demo ([`examples/spatial_indexing_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/spatial_indexing_demo.py)) | ✅ Complete |
 
 **Engineering focus:**
 - Zero external runtime dependencies (Python standard library only)
