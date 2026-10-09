@@ -21,7 +21,7 @@ Design notes
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 
 # ---------------------------------------------------------------------------
@@ -99,14 +99,18 @@ class Edge:
     destination_id:
         The ``node_id`` of the destination node.
     cost:
-        Non-negative traversal cost.  On Day 1 this is an abstract
-        numerical value.  Future phases will assign concrete semantics
-        (travel time, risk, congestion, etc.).
+        Non-negative traversal cost. On Day 1 this was an abstract
+        numerical value. In Phase 3, this reflects multi-criteria metrics
+        such as physical distance (meters) or travel time (seconds).
+    attributes:
+        Optional dictionary carrying metadata such as physical distance (m),
+        travel time (s), speed limit (km/h), road type, and intermediate geometry.
     """
 
     source_id: str
     destination_id: str
     cost: float
+    attributes: Dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         if not isinstance(self.source_id, str) or not self.source_id:
@@ -119,6 +123,10 @@ class Edge:
             raise ValueError(
                 f"Edge.cost must be non-negative (got {self.cost!r}). "
                 "Dijkstra's algorithm requires non-negative edge weights."
+            )
+        if not isinstance(self.attributes, dict):
+            raise TypeError(
+                f"Edge.attributes must be a dict, got {type(self.attributes).__name__}."
             )
 
 
@@ -218,6 +226,12 @@ class Graph:
     def has_node(self, node_id: str) -> bool:
         """Return ``True`` if a node with *node_id* exists in the graph."""
         return node_id in self._nodes
+
+    def has_edge(self, source_id: str, destination_id: str) -> bool:
+        """Return ``True`` if a directed edge from *source_id* to *destination_id* exists."""
+        if source_id not in self._adjacency:
+            return False
+        return any(edge.destination_id == destination_id for edge in self._adjacency[source_id])
 
     def get_node(self, node_id: str) -> Node:
         """Return the :class:`Node` for *node_id*.

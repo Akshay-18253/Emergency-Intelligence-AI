@@ -110,6 +110,7 @@ def step_run_demos(root_dir: Path) -> bool:
         "examples/osm_demo.py",
         "examples/geojson_export_demo.py",
         "examples/architecture_comparison_demo.py",
+        "examples/osm_multimodal_demo.py",
     ]
 
     for demo in demos:

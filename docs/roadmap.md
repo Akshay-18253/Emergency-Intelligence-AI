@@ -51,28 +51,22 @@ studies, and community contribution frameworks.
 
 ## Phase 3 — Real Road Network Data
 
-**Objective:** Replace the artificial graph with real road data.
+**Objective:** Replace artificial graphs with real OpenStreetMap road networks,
+introducing production-grade streaming ingestion, dynamic speed limit models,
+emergency vehicle access rules, topological graph contraction, and spatial snapping.
 
-Planned progression:
+### Milestone Breakdown
 
-```
-OpenStreetMap data
-      ↓
-Parsing / ingestion pipeline
-      ↓
-Road graph (same Graph model)
-      ↓
-Routing engine (unchanged)
-      ↓
-Route
-```
+| Milestone | Deliverables | Status |
+|---|---|---|
+| **Milestone 1: Production OSM Ingestion & Multi-Criteria Cost Models** | • Streaming OSM XML (`.osm`) via `xml.etree.ElementTree.iterparse` & Overpass JSON dual parser<br>• Dynamic `maxspeed` parser (km/h, mph, condition tags, default highway speed matrix)<br>• Multi-criteria cost weighting profiles (`Profile.DISTANCE`, `Profile.TRAVEL_TIME`, `Profile.EMERGENCY_TIME`)<br>• Access restriction & emergency bypass filtering (`access=no`, `emergency=yes`)<br>• Comprehensive test suite & multi-criteria demo (`examples/osm_multimodal_demo.py`) | ✅ Complete |
+| **Milestone 2: Graph Topology Hardening & Graph Contraction** | • Degree-2 intermediate node contraction with polyline geometry retention<br>• Largest Strongly Connected Component (LSCC) extraction via Tarjan's SCC algorithm<br>• Roundabout and turn angle directional validation | 📋 Planned |
+| **Milestone 3: Spatial Snapping, Coordinate Indexing & Fast Network Caching** | • Zero-dependency 2D Spatial Grid / KD-Tree index for sub-millisecond coordinate lookups<br>• Orthogonal point-to-polyline road segment projection and snapping<br>• Compiled network cache format (`.json` with SHA-256 integrity hash)<br>• Urban emergency routing benchmark and validation suite | 📋 Planned |
 
-Considerations:
-- Use open datasets only
-- The routing engine must not change to accommodate real data
-- Data loading must be isolated and testable
-- Start with a small geographic area
-
+**Engineering focus:**
+- Zero external runtime dependencies (Python standard library only)
+- Routing algorithms (`Dijkstra`, `AStarSearch`) remain completely decoupled from ingestion
+- Every algorithm verified with unit tests and $\ge 90\%$ branch coverage gate
 ---
 
 ## Phase 4 — Dynamic Conditions

@@ -112,6 +112,20 @@ class TestEdge:
         with pytest.raises((ValueError, TypeError)):
             Edge("A", "B", cost="fast")  # type: ignore[arg-type]
 
+    def test_edge_with_attributes_default_empty_dict(self):
+        edge = Edge("A", "B", cost=1.0)
+        assert edge.attributes == {}
+
+    def test_edge_with_custom_attributes(self):
+        attrs = {"distance_m": 120.5, "highway": "primary", "speed_kmh": 60.0}
+        edge = Edge("A", "B", cost=2.0, attributes=attrs)
+        assert edge.attributes["distance_m"] == 120.5
+        assert edge.attributes["highway"] == "primary"
+
+    def test_edge_non_dict_attributes_raises(self):
+        with pytest.raises(TypeError, match="Edge.attributes must be a dict"):
+            Edge("A", "B", cost=1.0, attributes="not_a_dict")  # type: ignore[arg-type]
+
 
 # ---------------------------------------------------------------------------
 # Graph tests
@@ -157,6 +171,13 @@ class TestGraph:
         g.add_node(Node("B"))
         g.add_edge(Edge("A", "B", cost=3.0))
         assert g.edge_count() == 1
+
+    def test_has_edge(self):
+        g = self._make_simple_graph()
+        assert g.has_edge("A", "B") is True
+        assert g.has_edge("B", "C") is True
+        assert g.has_edge("B", "A") is False
+        assert g.has_edge("Z", "A") is False
 
     def test_edge_missing_source_raises(self):
         g = Graph()

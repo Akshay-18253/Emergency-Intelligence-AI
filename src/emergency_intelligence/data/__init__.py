@@ -21,8 +21,16 @@ from .geojson import (
 )
 from .osm import (
     DEFAULT_HIGHWAY_TYPES,
+    DEFAULT_SPEEDS_KMH,
+    EMERGENCY_SPEED_FACTORS,
+    WeightingProfile,
+    is_way_accessible,
     load_osm_graph_from_data,
     load_osm_graph_from_file,
+    load_osm_graph_from_xml_file,
+    load_osm_graph_from_xml_stream,
+    load_osm_graph_from_xml_string,
+    parse_maxspeed,
 )
 
 # Canonical path to the bundled OpenStreetMap hospital district fixture
@@ -34,8 +42,16 @@ __all__ = [
     "haversine_distance",
     "haversine_heuristic",
     "DEFAULT_HIGHWAY_TYPES",
+    "DEFAULT_SPEEDS_KMH",
+    "EMERGENCY_SPEED_FACTORS",
+    "WeightingProfile",
+    "parse_maxspeed",
+    "is_way_accessible",
     "load_osm_graph_from_data",
     "load_osm_graph_from_file",
+    "load_osm_graph_from_xml_file",
+    "load_osm_graph_from_xml_stream",
+    "load_osm_graph_from_xml_string",
     "SAMPLE_HOSPITAL_DISTRICT_PATH",
     "compute_bounding_box",
     "graph_to_geojson",
