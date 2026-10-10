@@ -1,16 +1,19 @@
 """
 Events sub-package.
 
-Exposes domain models, taxonomies, spatial geometry algorithms, and non-destructive
-graph mutation overlays for dynamic emergency conditions, incident dispatches,
-and environmental disaster zones.
+Exposes domain models, taxonomies, spatial geometry algorithms, non-destructive
+graph mutation overlays, OASIS CAP alert ingestion, and in-flight reactive
+rerouting for dynamic emergency conditions.
 """
 
-from .incidents import (
-    ApparatusType,
-    EmergencyType,
-    Incident,
-    UrgencyLevel,
+from .alerts import (
+    CAPAlert,
+    CAPCertainty,
+    CAPMsgType,
+    CAPSeverity,
+    CAPUrgency,
+    parse_cap_xml,
+    parse_geojson_alerts,
 )
 from .hazards import (
     DEFAULT_SEVERITY_SPEED_MULTIPLIERS,
@@ -23,6 +26,17 @@ from .hazards import (
     point_in_polygon,
     segment_intersects_polygon,
     segments_intersect,
+)
+from .incidents import (
+    ApparatusType,
+    EmergencyType,
+    Incident,
+    UrgencyLevel,
+)
+from .inflight import (
+    DispatchedVehicleTracker,
+    check_route_obstruction,
+    replan_inflight_route,
 )
 from .mutations import (
     DynamicGraphView,
@@ -51,4 +65,16 @@ __all__ = [
     "MutationType",
     "EdgeMutation",
     "DynamicGraphView",
+    # OASIS CAP & GeoJSON Alert Ingestion
+    "CAPMsgType",
+    "CAPUrgency",
+    "CAPSeverity",
+    "CAPCertainty",
+    "CAPAlert",
+    "parse_cap_xml",
+    "parse_geojson_alerts",
+    # In-Flight Rerouting
+    "DispatchedVehicleTracker",
+    "check_route_obstruction",
+    "replan_inflight_route",
 ]
