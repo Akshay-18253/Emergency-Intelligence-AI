@@ -1,8 +1,9 @@
 """
 Events sub-package.
 
-Exposes domain models, taxonomies, and spatial geometry algorithms for
-dynamic emergency conditions, incident dispatches, and environmental disaster zones.
+Exposes domain models, taxonomies, spatial geometry algorithms, and non-destructive
+graph mutation overlays for dynamic emergency conditions, incident dispatches,
+and environmental disaster zones.
 """
 
 from .incidents import (
@@ -23,6 +24,11 @@ from .hazards import (
     segment_intersects_polygon,
     segments_intersect,
 )
+from .mutations import (
+    DynamicGraphView,
+    EdgeMutation,
+    MutationType,
+)
 
 __all__ = [
     # Incidents
@@ -41,4 +47,8 @@ __all__ = [
     "find_edges_intersecting_hazard",
     "find_hazards_affecting_edge",
     "compute_effective_edge_cost",
+    # Mutations & Dynamic View
+    "MutationType",
+    "EdgeMutation",
+    "DynamicGraphView",
 ]
