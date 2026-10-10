@@ -115,6 +115,7 @@ def step_run_demos(root_dir: Path) -> bool:
         "examples/spatial_indexing_demo.py",
         "examples/disaster_hazard_demo.py",
         "examples/dynamic_closure_demo.py",
+        "examples/fleet_allocation_demo.py",
     ]
 
     for demo in demos:

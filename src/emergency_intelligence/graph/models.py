@@ -255,7 +255,7 @@ class Graph:
             raise KeyError(f"Node {node_id!r} does not exist in the graph.")
         return self._nodes[node_id]
 
-    def get_neighbors(self, node_id: str) -> List[Edge]:
+    def get_neighbors(self, node_id: str, include_blocked: bool = False) -> List[Edge]:
         """Return all outgoing edges from the node identified by *node_id*.
 
         Parameters

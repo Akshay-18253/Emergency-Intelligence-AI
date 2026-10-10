@@ -76,6 +76,7 @@ class Incident:
     emergency_type: EmergencyType
     urgency: UrgencyLevel
     coordinates: Tuple[float, float]
+    node_id: Optional[str] = None
     required_apparatus: List[ApparatusType] = field(default_factory=list)
     description: str = ""
     reported_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -144,6 +145,7 @@ class Incident:
             "emergency_type": self.emergency_type.value,
             "urgency": self.urgency.value,
             "coordinates": [self.longitude, self.latitude],
+            "node_id": self.node_id,
             "required_apparatus": [app.value for app in self.required_apparatus],
             "description": self.description,
             "reported_at": self.reported_at.isoformat(),
@@ -167,6 +169,7 @@ class Incident:
             emergency_type=EmergencyType(data["emergency_type"]),
             urgency=UrgencyLevel(data["urgency"]),
             coordinates=(float(data["coordinates"][0]), float(data["coordinates"][1])),
+            node_id=str(data["node_id"]) if data.get("node_id") is not None else None,
             required_apparatus=[ApparatusType(app) for app in data.get("required_apparatus", [])],
             description=str(data.get("description", "")),
             reported_at=dt,
