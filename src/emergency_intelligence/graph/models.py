@@ -74,6 +74,16 @@ class Node:
         """Return the Y-coordinate, or None if coordinates are not set."""
         return self.coordinates[1] if self.coordinates is not None else None
 
+    @property
+    def lon(self) -> Optional[float]:
+        """Return the longitude / X-coordinate, or None if coordinates are not set."""
+        return self.x
+
+    @property
+    def lat(self) -> Optional[float]:
+        """Return the latitude / Y-coordinate, or None if coordinates are not set."""
+        return self.y
+
     def __hash__(self) -> int:
         return hash(self.node_id)
 

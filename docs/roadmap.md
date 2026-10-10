@@ -5,7 +5,7 @@
 > fixed calendar dates. Progress is incremental and each phase
 > establishes the foundation for the next.
 >
-> **Current position: Phase 3 (Completed) — Advancing toward Phase 4 (Dynamic Conditions).**
+> **Current position: Phase 4 (In Progress) — Milestone 1 Complete.**
 
 ---
 
@@ -69,23 +69,24 @@ emergency vehicle access rules, topological graph contraction, and spatial snapp
 - Every algorithm verified with unit tests and $\ge 90\%$ branch coverage gate
 ---
 
-## Phase 4 — Dynamic Conditions
+## Phase 4 — Dynamic Conditions & Real-Time Disaster Events
 
-**Objective:** Enable event-driven route recalculation.
+**Objective:** Enable event-driven route recalculation and emergency response
+under dynamic disaster environments (floods, wildfires, road collapses, debris).
 
-Example scenario:
+### Milestone Breakdown
 
-```
-Normal:    A → B → D
-Event:     B → D becomes unavailable (accident, closure)
-Rerouted:  A → C → D
-```
+| Milestone | Deliverables | Status |
+|---|---|---|
+| **Milestone 1: Dynamic Incident Taxonomy & Geometric Hazard Zones** | • 911 Incident domain models with urgency tiers (`UrgencyLevel`) and apparatus requirements (`ApparatusType`)<br>• 2D spatial disaster hazard polygons (`HazardPolygon`) with severity classification & speed multipliers<br>• Pure-Python vector ray-casting point-in-polygon & segment-polygon intersection engine<br>• Network edge penetration query (`find_edges_intersecting_hazard`, `find_hazards_affecting_edge`)<br>• Unit test suite ([`tests/test_incidents.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_incidents.py), [`tests/test_hazards.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_hazards.py)) & interactive demo ([`examples/disaster_hazard_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/disaster_hazard_demo.py)) | ✅ Complete |
+| **Milestone 2: Non-Destructive Graph Mutation Layer & Invalidation Engine** | • Dynamic graph overlay layer (`DynamicGraphView`) for zero-overhead reversible edge closures and speed sinks<br>• Transactional rollback and snapshotting (`apply_mutation`, `rollback_mutation`)<br>• Time-To-Live (TTL) automatic closure expiration timestamps<br>• Unit test suite & bridge collapse rerouting demo | 🔜 Next |
+| **Milestone 3: Multi-Source Emergency Fleet Allocation & Apparatus Matching** | • Multi-source Dijkstra / Voronoi service catchment area partitioning<br>• Apparatus compatibility matcher (fire engine, ladder, ALS ambulance)<br>• Dynamic multi-depot ETA matrix generation | ⏳ Planned |
+| **Milestone 4: In-Flight Reactive Rerouting & OASIS CAP Alert Ingestion** | • Real-time in-transit vehicle tracking and dynamic mid-route invalidation replanning<br>• OASIS Common Alerting Protocol (CAP v1.2 XML) and GeoJSON alert feed parser<br>• Sub-millisecond replan latency micro-benchmarks | ⏳ Planned |
 
-Planned features:
-- Event types: accident, road closure, congestion, temporary restriction
-- Graph modification in response to events
-- Triggered rerouting
-- Evaluation: rerouting latency, route quality under repeated events
+**Engineering focus:**
+- Event-driven reactive computing with zero-overhead graph overlay abstractions
+- Pure Python vector geometry algorithms without heavy GIS dependencies
+- 100% test coverage and continuous pre-flight gate verification
 
 ---
 

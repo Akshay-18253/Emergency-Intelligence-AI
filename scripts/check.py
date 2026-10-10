@@ -113,6 +113,7 @@ def step_run_demos(root_dir: Path) -> bool:
         "examples/osm_multimodal_demo.py",
         "examples/topology_contraction_demo.py",
         "examples/spatial_indexing_demo.py",
+        "examples/disaster_hazard_demo.py",
     ]
 
     for demo in demos:
