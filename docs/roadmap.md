@@ -117,6 +117,16 @@ The AI layer must:
 - Be replaceable and testable independently
 - Not perform route computation itself
 
+### Milestone Breakdown
+
+| Milestone | Deliverables | Status |
+|---|---|:---:|
+| **Milestone 5.1: AI Boundary & Structured Domain Contracts** | • Isolation of untrusted model proposals (`ProposedIncidentInterpretation`)<br>• Immutable validated domain contracts (`ValidatedIncidentContract`)<br>• Location provenance & certainty tracking (`LocationProvenance`)<br>• Deterministic validation engine & under-triage contradiction detection (`validate_incident_proposal`)<br>• Unit test suite ([`tests/test_contracts.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_contracts.py)) & audit report ([`docs/milestone_5_1_report.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/milestone_5_1_report.md)) | ✅ Complete |
+| **Milestone 5.2: Deterministic Emergency Policy Engine** | • Operational requirements translator and statutory apparatus selection rules<br>• Separation of model suggestions from authoritative policy decisions<br>• Documented routing constraints, contradiction handling, and policy unit test suite | 🔜 Next |
+| **Milestone 5.3: Natural-Language Interpretation Interface** | • Provider-independent emergency description interpretation interface<br>• Structured output schema contracts and test fixtures for ambiguous/adversarial reports | 📋 Planned |
+| **Milestone 5.4: Model Adapter & End-to-End Orchestration** | • Schema-constrained model adapter and graceful fallback error handling<br>• Pipeline connecting validated incident data to policy engine and deterministic routing | 📋 Planned |
+| **Milestone 5.5: Auditability & Verification** | • Comprehensive audit logging separating observed data, model proposals, and policy choices<br>• End-to-end evaluation harness, adversarial stress testing, and pipeline benchmarks | 📋 Planned |
+
 ---
 
 ## Phase 6 — Simulation and Evaluation
