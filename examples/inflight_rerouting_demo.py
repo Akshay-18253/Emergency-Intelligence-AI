@@ -49,7 +49,7 @@ CAP_FLOOD_ALERT_XML = """<?xml version="1.0" encoding="UTF-8"?>
     <urgency>Immediate</urgency>
     <severity>Severe</severity>
     <certainty>Observed</certainty>
-    <expires>2026-10-10T18:00:00-00:00</expires>
+    <expires>2099-10-10T18:00:00-00:00</expires>
     <description>Flash flooding with deep standing water along Market Street between 9th and 7th St.</description>
     <area>
       <areaDesc>Market Street Civic Corridor</areaDesc>

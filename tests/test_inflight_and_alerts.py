@@ -49,7 +49,7 @@ SAMPLE_CAP_XML = """<?xml version="1.0" encoding="UTF-8"?>
     <urgency>Immediate</urgency>
     <severity>Severe</severity>
     <certainty>Observed</certainty>
-    <expires>2026-10-10T18:00:00-00:00</expires>
+    <expires>2099-10-10T18:00:00-00:00</expires>
     <description>Severe flash flooding over Market St. Transit corridor.</description>
     <area>
       <areaDesc>San Francisco Downtown / Civic Center</areaDesc>

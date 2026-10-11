@@ -607,18 +607,13 @@ def validate_incident_proposal(
 
     # 5. Required Apparatus Validation
     validated_apparatus: List[ApparatusType] = []
-    seen_app: Set[ApparatusType] = set()
     for raw_app in prop.suggested_apparatus:
         if isinstance(raw_app, ApparatusType):
-            if raw_app not in seen_app:
-                seen_app.add(raw_app)
-                validated_apparatus.append(raw_app)
+            validated_apparatus.append(raw_app)
         elif isinstance(raw_app, str):
             try:
                 parsed_app = ApparatusType(raw_app.strip().lower())
-                if parsed_app not in seen_app:
-                    seen_app.add(parsed_app)
-                    validated_apparatus.append(parsed_app)
+                validated_apparatus.append(parsed_app)
             except ValueError:
                 issues.append(
                     ValidationIssue(
