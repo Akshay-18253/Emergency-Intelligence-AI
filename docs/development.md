@@ -1,8 +1,8 @@
-# Development Guide
+# Emergency Intelligence AI — Development Guide
 
-> This guide explains how to set up a development environment, run tests,
-> run the demonstration, and understand the coding conventions used in
-> Emergency Intelligence AI.
+> This guide explains how to set up a development environment, run the pre-flight
+> verification checker, execute tests, run demonstration scripts, and adhere to
+> the engineering conventions of Emergency Intelligence AI.
 
 ---
 
@@ -10,11 +10,11 @@
 
 | Requirement | Version |
 |---|---|
-| Python | 3.10 or later |
+| Python | 3.10 or later (tested on 3.10, 3.11, 3.12, 3.13, 3.14) |
 | pip | 21.0 or later |
 | Operating System | Linux, macOS, Windows |
 
-No external system libraries are required for Day 1.
+The core library requires **zero external runtime dependencies** (100% Python standard library).
 
 ---
 
@@ -23,8 +23,8 @@ No external system libraries are required for Day 1.
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
-cd emergency-intelligence-ai
+git clone https://github.com/Akshay-18253/Emergency-Intelligence-AI.git
+cd Emergency-Intelligence-AI
 ```
 
 ### 2. Create a virtual environment
@@ -50,63 +50,81 @@ On Windows (Command Prompt):
 .venv\Scripts\activate.bat
 ```
 
-### 4. Install the package in editable mode
+### 4. Install development dependencies
 
 ```bash
 pip install -e ".[dev]"
+# Or install testing tools directly:
+pip install pytest pytest-cov
 ```
 
 This installs:
-- The `emergency_intelligence` package in editable mode (source is live-linked).
+- The `emergency_intelligence` package in editable mode.
 - `pytest` and `pytest-cov` for testing.
 
-No other dependencies are installed on Day 1.
+---
 
-### 5. Verify the installation
+## Verification & Pre-Flight Sanity Checker
+
+Before submitting any commit or pull request, execute the unified developer pre-flight sanity checker:
 
 ```bash
-python -c "import emergency_intelligence; print(emergency_intelligence.__version__)"
+python scripts/check.py
 ```
 
-Expected output:
-```
-0.1.0
-```
+The checker enforces:
+1. **Python version check:** Validates runtime is $\ge 3.10$.
+2. **Static AST dependency audit:** Inspects all 30 library modules in `src/emergency_intelligence` to verify strictly zero third-party runtime imports.
+3. **Pytest suite with coverage gate:** Executes all 444 unit tests with $\ge 90\%$ branch and statement coverage enforcement.
+4. **Demonstration suite:** Executes all 15 example scripts to ensure zero crashes or regressions.
 
 ---
 
-## Running Tests
+## Running Tests Directly
 
 ```bash
-python -m pytest tests/ -v
+# Run all unit tests
+pytest -v
+
+# Run with statement and branch coverage enforcement (>= 90%)
+pytest --cov=emergency_intelligence --cov-report=term-missing -v
+
+# Run a specific test suite
+pytest tests/test_audit_and_verification.py -v
 ```
 
-With coverage report:
-
-```bash
-python -m pytest tests/ -v --cov=emergency_intelligence --cov-report=term-missing
-```
-
-All tests should pass. A failing test is a blocker — do not proceed to
-new features until all tests are green.
+All tests must pass. A failing test is a blocker — never proceed to new features until all tests are green.
 
 ---
 
-## Running the Demonstration
+## Interactive Demonstration Scripts
+
+The project includes 15 runnable demonstration scripts in `examples/`:
 
 ```bash
+# Core Graph & Routing Demos
 python examples/demo.py
+python examples/benchmark_demo.py
+python examples/architecture_comparison_demo.py
+
+# OpenStreetMap & Geospatial Demos
+python examples/osm_demo.py
+python examples/geojson_export_demo.py
+python examples/osm_multimodal_demo.py
+python examples/topology_contraction_demo.py
+python examples/spatial_indexing_demo.py
+
+# Dynamic Conditions & Fleet Demos
+python examples/disaster_hazard_demo.py
+python examples/dynamic_closure_demo.py
+python examples/fleet_allocation_demo.py
+python examples/inflight_rerouting_demo.py
+
+# Emergency Intelligence Demos
+python examples/natural_language_interpreter_demo.py
+python examples/orchestration_pipeline_demo.py
+python examples/verification_and_audit_demo.py
 ```
-
-The demonstration constructs an artificial road graph and runs Dijkstra's
-algorithm across four scenarios:
-
-1. A → D (two paths exist; algorithm selects the lower-cost one)
-2. B → D (direct single-hop path)
-3. A → A (source equals destination; cost = 0)
-4. D → A (no path exists; destination is unreachable)
-
-No graphical interface. No external API calls. Output is printed to the terminal.
 
 ---
 
@@ -115,24 +133,20 @@ No graphical interface. No external API calls. Output is printed to the terminal
 ```
 emergency-intelligence-ai/
 ├── src/
-│   └── emergency_intelligence/      # Main Python package
+│   └── emergency_intelligence/
 │       ├── __init__.py
-│       └── graph/
-│           ├── __init__.py
-│           ├── models.py            # Node, Edge, Graph
-│           └── dijkstra.py          # Dijkstra's algorithm + RouteResult
-├── tests/
-│   ├── __init__.py
-│   ├── test_models.py               # Tests for Node, Edge, Graph
-│   └── test_dijkstra.py             # Tests for Dijkstra (11 cases)
-├── examples/
-│   └── demo.py                      # Minimal demonstration script
-├── docs/
-│   ├── architecture.md
-│   ├── roadmap.md
-│   └── development.md               # This file
-├── pyproject.toml                   # Package configuration
-├── .gitignore
+│       ├── graph/           # Core graph model, Dijkstra, A*, Heuristics, Topology
+│       ├── data/            # OSM streaming parser, GeoJSON, Spatial Hash Grid, Cache
+│       ├── events/          # Incident models, Hazard polygons, DynamicGraphView, CAP alerts
+│       ├── allocation/      # Multi-source Voronoi catchment, Isochrones, FleetManager
+│       └── intelligence/    # Domain contracts, Statutory policy, Interpreter, Adapter, Orchestrator
+├── tests/                   # 444 unit test cases across 20 test modules
+├── examples/                # 15 runnable demonstration scripts
+├── scripts/
+│   └── check.py             # Pre-flight sanity checker & AST zero-dependency audit
+├── docs/                    # System architecture, roadmap, ecosystem studies, reports
+├── CONTRIBUTING.md
+├── pyproject.toml
 └── README.md
 ```
 
@@ -141,97 +155,42 @@ emergency-intelligence-ai/
 ## Coding Conventions
 
 ### Python version
-
-Target Python 3.10+. Use `from __future__ import annotations` for
-forward-reference support where needed.
+Target Python 3.10+. Use `from __future__ import annotations` at the top of every module.
 
 ### Type hints
-
-All public functions and methods must have type hints on parameters
-and return values.
-
+All public functions, methods, and classes must have complete type annotations:
 ```python
 def dijkstra(graph: Graph, source: str, destination: str) -> RouteResult:
 ```
 
 ### Docstrings
-
-All public modules, classes, and functions must have docstrings.
-
-Use NumPy-style docstrings with `Parameters`, `Returns`, `Raises`,
-and `Notes` sections where appropriate.
+All public modules, classes, and functions must have descriptive docstrings explaining parameters, return values, and failure modes.
 
 ### Data classes
-
-Use `@dataclass` for simple data-holding objects (e.g. `Node`, `Edge`,
-`RouteResult`). Use `__post_init__` for validation.
+Use `@dataclass(frozen=True)` for immutable contract objects (`ValidatedIncidentContract`, `OperationalPolicyDirective`, etc.) and mutable dataclasses where state mutation is explicitly managed.
 
 ### Error handling
+Raise specific, descriptive exceptions with clear messages. Never use bare `except:` clauses.
 
-Raise specific, descriptive exceptions with clear messages.
-
-```python
-raise KeyError(f"Source node {source!r} does not exist in the graph.")
-```
-
-Do not use bare `except:` clauses.
-
-### Naming
-
-- Modules: `snake_case`
-- Classes: `PascalCase`
-- Functions and variables: `snake_case`
-- Constants: `UPPER_SNAKE_CASE`
-
-### Imports
-
-Standard library imports first, then third-party, then local.
-Use absolute imports within the package.
-
-### No premature optimisation
-
-Readability and correctness take priority. Optimise only when a
-performance problem is demonstrated by measurement.
+### Zero-dependency rule
+Do not add external packages to `src/emergency_intelligence/`. Use the Python standard library.
 
 ---
 
-## Current Limitations
+## Known Boundaries & Limitations
 
-| Limitation | Notes |
-|---|---|
-| Artificial graph only | No real road data (OSM, etc.) — planned Phase 3 |
-| Dijkstra only | A\* not yet implemented — planned next in Phase 1 |
-| No dynamic conditions | Static graph only — planned Phase 4 |
-| No AI layer | Deterministic only — planned Phase 5 |
-| No API or UI | Library only — planned Phases 7–8 |
-| No node coordinates | Needed for A\* heuristic and map visualisation |
-| No parallelism | Single-threaded — not required at this scale |
-| In-memory only | No persistence layer |
-
-These are intentional limitations of Day 1, not engineering oversights.
-
----
-
-## Dependency Policy
-
-Day 1 runtime dependencies: **none**.
-
-Day 1 development dependencies: `pytest`, `pytest-cov`.
-
-Before adding any new dependency, ask:
-
-1. Is it essential for correctness or safety?
-2. Can it be replaced by the Python standard library?
-3. Is it actively maintained and appropriately licensed?
-4. Does its addition simplify the code in a measurable way?
-
-If the answer to (1) or (2) is no, do not add the dependency.
+| Dimension | Current State | Notes |
+|---|---|---|
+| Routing graph | Static OSM extracts or DynamicGraphView overlays | In-memory graphs; does not query commercial live traffic APIs |
+| Model provider | `StructuredModelAdapter` with `FakeModelProvider` test doubles | Real foundation model APIs require user-supplied keys and external networking |
+| Fleet dispatch | In-memory `FleetManager` | Simulated turnout times and paths; no live physical siren/radio activation |
+| Legal status | Open-source research & verification suite | Not certified for live emergency dispatch operations |
 
 ---
 
 ## Git Workflow
 
-- Commit small, logical units of work.
-- Write clear commit messages that explain *why*, not just *what*.
-- Tests must pass before committing.
-- Do not commit commented-out code or debug prints.
+- Commit small, logical, atomic units of work.
+- Write conventional commit messages (`feat: ...`, `fix: ...`, `test: ...`, `docs: ...`).
+- Run `python scripts/check.py` before committing.
+- Do not commit debug prints or temporary files.

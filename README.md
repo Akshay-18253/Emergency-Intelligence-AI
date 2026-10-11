@@ -1,17 +1,18 @@
 # Emergency Intelligence AI
 
-> **Phase 4 Status — Dynamic Conditions & Real-Time Disaster Events (Complete)**
+> **Phase 5 Status — Emergency Intelligence (Complete)**  
 > Deterministic emergency routing, real-world OpenStreetMap ingestion, 2D geometric disaster hazard zones,
-> non-destructive graph mutations, multi-source Voronoi fleet catchment, in-flight reactive rerouting, and
-> OASIS CAP v1.2 alert feed ingestion.
-> **295 unit tests passing with 95.07% code coverage.** Zero external runtime dependencies (100% Python standard library).
+> non-destructive graph mutations, multi-source Voronoi fleet catchment, in-flight reactive rerouting,
+> OASIS CAP v1.2 alert feed ingestion, schema-constrained structured model adapter, statutory SOP policy engine,
+> and tamper-evident audit verification.  
+> **444 unit tests passing with 95.40% code coverage.** Zero external runtime dependencies (100% Python standard library).
 
 ---
 
 ## Problem
 
 Traditional navigation systems optimise for ordinary civilian objectives:
-shortest distance, estimated travel time, typical congestion patterns.
+shortest distance, estimated travel time, and typical traffic congestion patterns.
 
 Emergency navigation introduces fundamentally different constraints:
 
@@ -21,6 +22,8 @@ Emergency navigation introduces fundamentally different constraints:
 - **Dynamic road conditions** — structural collapses, flash floods, wildfire perimeters, toxic gas plumes, downed wires
 - **NFPA 1710 standards** — 240-second (4-minute) first-due travel times and 480-second (8-minute) full alarm frontiers
 - **Mid-flight dynamic replanning** — sub-millisecond route recalculation when dispatched vehicles encounter emerging closures
+- **Statutory policy invariance** — statutory dispatch rules that cannot be downgraded or hallucinated away by probabilistic AI models
+- **Audit trail integrity & privacy** — reconstructable sequence of decisions with zero PII leakage and cryptographic sequence verification
 
 Existing navigation engines are not built to reason about these multi-dimensional disaster constraints transparently.
 
@@ -49,17 +52,23 @@ The complete system combines:
 5. **Multi-source catchment & fleet dispatch** — Voronoi service partitioning, NFPA 1710 isochrones, and apparatus matching
 6. **Reactive in-flight rerouting** — In-transit vehicle progression tracking, downstream obstruction detection, and sub-millisecond detour replanning
 7. **Federal alert ingestion** — OASIS Common Alerting Protocol (CAP v1.2 / ITU-T X.1303 XML) and GeoJSON alert feeds
-8. **Emergency intelligence** — AI reasoning to interpret unstructured dispatch transcripts and formulate deterministic routing policies
-9. **Simulation & quantitative benchmarking** — Reproducible scenarios measuring reroute latency, search space pruning, and travel time
+8. **Emergency intelligence** — Natural-language report interpretation, schema-constrained structured output generation, and statutory policy enforcement
+9. **Tamper-evident auditability** — Reconstructable decision sequences, SHA-256 audit trail verification, and safe failure boundaries
+10. **Simulation & quantitative benchmarking** — Reproducible scenarios measuring reroute latency, search space pruning, and travel time
 
 ### Architectural Separation of Concerns
 
 ```
-Unstructured 911 / Emergency Input (Call, SMS, CAD)
+Unstructured 911 / Emergency Input (Call, SMS, CAD Alert)
                        │
                        ▼
-Phase 5: Emergency Intelligence (AI Reasoning & Policy Layer)
-                       │ structured dispatch models & routing constraints
+Phase 5: Emergency Intelligence & Orchestration Layer
+         ├── Intake & Sanitization (PII masking, length bounds, injection detection)
+         ├── Structured Model Adapter (Schema-constrained JSON extraction & bounded retries)
+         ├── Deterministic Contract Boundary (ValidatedIncidentContract & coordinate bounds)
+         ├── Authoritative Statutory Policy Engine (NFPA 1710 full alarms & cardiac mandates)
+         └── Audit Trail & Integrity Checksum (SHA-256 digest & operator authorization context)
+                       │ structured dispatch models & statutory constraints
                        ▼
 Phase 4: Dynamic Conditions & Federal Alert Processing
          ├── OASIS CAP v1.2 XML / GeoJSON alert feed parser
@@ -79,7 +88,8 @@ Candidate Route & Telemetry (RFC 7946 GeoJSON Export)
 ```
 
 > **Core Principle:** AI interprets emergency context and formulates routing objectives.
-> Deterministic algorithms compute the route. This prevents LLM hallucinations in life-critical navigation.
+> Deterministic algorithms compute the route. Authoritative statutory policy engines strictly
+> overrule model hallucinations. This prevents LLM under-triage in life-critical navigation.
 
 ---
 
@@ -88,15 +98,16 @@ Candidate Route & Telemetry (RFC 7946 GeoJSON Export)
 This project is developed **brick by brick**.
 
 Priorities (in order):
-1. **Correctness & Zero Dependencies** — Core library relies 100% on the Python standard library. No external GIS or C++ wrappers required at runtime.
-2. **Deterministic Reproducibility** — Every algorithm has verified mathematical and geometric test cases.
-3. **High Test Coverage** — Strict $\ge 90\%$ branch and statement coverage enforcement (currently **95.07%** across 295 tests).
+1. **Correctness & Zero Dependencies** — Core library relies 100% on the Python standard library. No external GIS, scientific, or LLM runtime packages required.
+2. **Deterministic Reproducibility** — Every algorithm has verified mathematical, geometric, and invariant test cases.
+3. **High Test Coverage** — Strict $\ge 90\%$ branch and statement coverage enforcement (currently **95.40%** across 444 tests).
 4. **Sub-Millisecond Performance** — Critical path algorithms (detours, ray casting, heuristic lookups) run in microseconds.
 5. **Open Standards** — Full compatibility with OpenStreetMap, RFC 7946 GeoJSON, and OASIS CAP v1.2.
+6. **Fail-Safe Operation** — Topologically disconnected nodes, missing coordinates, and malformed inputs fail safe to staged turnout or clarification prompts.
 
 ---
 
-## Current Capabilities (Phase 4 Complete)
+## Current Capabilities (Phases 1–5 Complete)
 
 | Capability | Module | Status |
 |---|---|:---:|
@@ -126,6 +137,12 @@ Priorities (in order):
 | In-flight dispatched vehicle tracking (`DispatchedVehicleTracker`) | [`events/inflight.py`](src/emergency_intelligence/events/inflight.py) | ✅ Implemented |
 | Downstream route collision detection & sub-millisecond detour replanning | [`events/inflight.py`](src/emergency_intelligence/events/inflight.py) | ✅ Implemented |
 | OASIS CAP v1.2 XML (ITU-T X.1303) & GeoJSON alert feed parser | [`events/alerts.py`](src/emergency_intelligence/events/alerts.py) | ✅ Implemented |
+| Immutable domain contracts & coordinate validation | [`intelligence/contracts.py`](src/emergency_intelligence/intelligence/contracts.py) | ✅ Implemented |
+| Deterministic emergency policy engine (NFPA 1710 / SOP mandates) | [`intelligence/policy.py`](src/emergency_intelligence/intelligence/policy.py) | ✅ Implemented |
+| Provider-independent natural-language interpreter interface | [`intelligence/interpreter.py`](src/emergency_intelligence/intelligence/interpreter.py) | ✅ Implemented |
+| Schema-constrained structured model adapter & bounded retry policy | [`intelligence/adapter.py`](src/emergency_intelligence/intelligence/adapter.py) | ✅ Implemented |
+| End-to-end pipeline orchestrator & CAD geocode manual overrides | [`intelligence/orchestrator.py`](src/emergency_intelligence/intelligence/orchestrator.py) | ✅ Implemented |
+| Tamper-evident audit trail & SHA-256 sequence integrity verification | [`intelligence/orchestrator.py`](src/emergency_intelligence/intelligence/orchestrator.py) | ✅ Implemented |
 | Automated pre-flight sanity checker & AST zero-dependency audit | [`scripts/check.py`](scripts/check.py) | ✅ Implemented |
 
 ---
@@ -157,15 +174,22 @@ emergency-intelligence-ai/
 │       │   ├── mutations.py               # DynamicGraphView, transactional mutations, & TTL
 │       │   ├── inflight.py                # Dispatched vehicle tracker & detour replanning
 │       │   └── alerts.py                  # OASIS CAP v1.2 XML & GeoJSON alert ingestion
-│       └── graph/                         # Phase 1: Core Graph & Routing Algorithms
+│       ├── graph/                         # Phase 1: Core Graph & Routing Algorithms
+│       │   ├── __init__.py
+│       │   ├── models.py                  # Node, Edge, Graph core primitives
+│       │   ├── dijkstra.py                # Dijkstra shortest-path with manual heapq
+│       │   ├── astar.py                   # A* informed heuristic search
+│       │   ├── heuristics.py              # Euclidean, Manhattan, Zero heuristics
+│       │   ├── topology.py                # Graph contraction, LSCC filter, & turn angles
+│       │   └── benchmark.py               # Comparative benchmark harness
+│       └── intelligence/                  # Phase 5: AI Reasoning & Policy Orchestration
 │           ├── __init__.py
-│           ├── models.py                  # Node, Edge, Graph core primitives
-│           ├── dijkstra.py                # Dijkstra shortest-path with manual heapq
-│           ├── astar.py                   # A* informed heuristic search
-│           ├── heuristics.py              # Euclidean, Manhattan, Zero heuristics
-│           ├── topology.py                # Graph contraction, LSCC filter, & turn angles
-│           └── benchmark.py               # Comparative benchmark harness
-├── tests/                                 # 295 test cases, >= 95% coverage
+│           ├── contracts.py               # ValidatedIncidentContract & location provenance
+│           ├── policy.py                  # EmergencyPolicyEngine & statutory apparatus mandates
+│           ├── interpreter.py             # EmergencyInterpreter & PI/adversarial sanitization
+│           ├── adapter.py                 # StructuredModelAdapter, RetryPolicy, FakeModelProvider
+│           └── orchestrator.py            # EmergencyIntelligenceOrchestrator & audit trail
+├── tests/                                 # 444 test cases, >= 95% coverage
 │   ├── test_models.py
 │   ├── test_dijkstra.py
 │   ├── test_heuristics.py
@@ -180,8 +204,13 @@ emergency-intelligence-ai/
 │   ├── test_hazards.py
 │   ├── test_mutations.py
 │   ├── test_allocation.py
-│   └── test_inflight_and_alerts.py
-├── examples/                              # 12 runnable demonstration scripts
+│   ├── test_inflight_and_alerts.py
+│   ├── test_contracts.py                  # Phase 5 Milestone 5.1 tests
+│   ├── test_policy.py                     # Phase 5 Milestone 5.2 tests
+│   ├── test_interpreter.py                # Phase 5 Milestone 5.3 tests
+│   ├── test_adapter_and_orchestration.py  # Phase 5 Milestone 5.4 tests
+│   └── test_audit_and_verification.py     # Phase 5 Milestone 5.5 tests
+├── examples/                              # 15 runnable demonstration scripts
 │   ├── demo.py                            # 1. Dijkstra foundation demonstration
 │   ├── benchmark_demo.py                  # 2. A* vs Dijkstra comparative benchmark
 │   ├── osm_demo.py                        # 3. Real OpenStreetMap emergency routing
@@ -193,7 +222,10 @@ emergency-intelligence-ai/
 │   ├── disaster_hazard_demo.py            # 9. Geometric hazard polygon penetration
 │   ├── dynamic_closure_demo.py            # 10. Non-destructive dynamic graph closures
 │   ├── fleet_allocation_demo.py           # 11. Multi-source Voronoi catchment & fleet dispatch
-│   └── inflight_rerouting_demo.py         # 12. OASIS CAP alert ingestion & mid-flight detours
+│   ├── inflight_rerouting_demo.py         # 12. OASIS CAP alert ingestion & mid-flight detours
+│   ├── natural_language_interpreter_demo.py # 13. Natural-language report parsing & sanitization
+│   ├── orchestration_pipeline_demo.py     # 14. Full end-to-end orchestration pipeline
+│   └── verification_and_audit_demo.py     # 15. Audit trail integrity & policy invariance
 ├── scripts/
 │   └── check.py                           # Pre-flight sanity checker & AST zero-dep audit
 ├── docs/
@@ -201,7 +233,12 @@ emergency-intelligence-ai/
 │   ├── roadmap.md                         # Complete 9-phase development roadmap
 │   ├── ecosystem_study.md                 # Routing engine comparative study
 │   ├── gsoc_strategy.md                   # GSoC 2027 alignment & participation strategy
-│   └── development.md                     # Engineering practices & contribution guide
+│   ├── development.md                     # Engineering practices & contribution guide
+│   ├── milestone_5_1_report.md            # Phase 5 Milestone 5.1 verification report
+│   ├── milestone_5_2_report.md            # Phase 5 Milestone 5.2 verification report
+│   ├── milestone_5_3_report.md            # Phase 5 Milestone 5.3 verification report
+│   ├── milestone_5_4_report.md            # Phase 5 Milestone 5.4 verification report
+│   └── milestone_5_5_report.md            # Phase 5 Milestone 5.5 verification report
 ├── CONTRIBUTING.md
 ├── pyproject.toml
 └── README.md
@@ -236,7 +273,7 @@ pip install pytest pytest-cov
 ## Verification & Testing
 
 ### 1. Automated Pre-Flight Sanity Checker
-We provide a unified verification script that enforces the Python version, performs an AST inspection across all 24 library modules to prove zero external runtime dependencies, runs the pytest suite with coverage enforcement, and executes all 12 demonstration scripts:
+We provide a unified verification script that enforces the Python version, performs an AST inspection across all 30 library modules to prove zero external runtime dependencies, runs the pytest suite with coverage enforcement, and executes all 15 demonstration scripts:
 
 ```bash
 python scripts/check.py
@@ -244,7 +281,7 @@ python scripts/check.py
 
 ### 2. Running Pytest Directly
 ```bash
-# Run all 295 unit tests
+# Run all 444 unit tests
 pytest -v
 
 # Run with statement and branch coverage enforcement (>= 90%)
@@ -255,7 +292,7 @@ pytest --cov=emergency_intelligence --cov-report=term-missing -v
 
 ## Interactive Demonstrations
 
-All 12 demonstration scripts can be executed independently from the terminal:
+All 15 demonstration scripts can be executed independently from the terminal:
 
 | # | Demo Script | Description |
 |---|---|---|
@@ -271,6 +308,9 @@ All 12 demonstration scripts can be executed independently from the terminal:
 | **10** | `python examples/dynamic_closure_demo.py` | Non-destructive `DynamicGraphView` edge closures, transactional rollback, & TTL |
 | **11** | `python examples/fleet_allocation_demo.py` | Multi-source Voronoi catchment partitioning, NFPA 1710 isochrones, & apparatus dispatch |
 | **12** | `python examples/inflight_rerouting_demo.py` | Live OASIS CAP v1.2 XML alert ingestion and 65 $\mu$s in-flight detour replanning |
+| **13** | `python examples/natural_language_interpreter_demo.py` | Natural-language report interpretation, PII sanitization, and adversarial injection defense |
+| **14** | `python examples/orchestration_pipeline_demo.py` | Full 5-stage orchestration pipeline from raw 911 text to siren-privileged routing |
+| **15** | `python examples/verification_and_audit_demo.py` | Tamper-evident audit trail, SHA-256 sequence hash, and policy invariance over under-triage |
 
 ---
 
@@ -280,10 +320,10 @@ All 12 demonstration scripts can be executed independently from the terminal:
 |---|---|:---:|
 | **Phase 1** | Local routing engine foundation (Dijkstra, A*, Heuristics) | ✅ **Complete** |
 | **Phase 2** | Open-source ecosystem participation & GIS standards (GeoJSON, Haversine, Ecosystem study) | ✅ **Complete** |
-| **Phase 3** | Real road network data pipelines (Streaming OSM, Contraction, Spatial Index, Caching) | ✅ **Complete** |
+│ **Phase 3** | Real road network data pipelines (Streaming OSM, Contraction, Spatial Index, Caching) | ✅ **Complete** |
 | **Phase 4** | Dynamic conditions & disaster events (Hazards, Mutations, Voronoi Catchment, In-Flight Detours, CAP) | ✅ **Complete** |
-| **Phase 5** | Emergency intelligence (AI natural language reasoning & dispatch orchestration layer) | 🔜 **Next** |
-| **Phase 6** | Simulation and quantitative evaluation harness | 🔜 Future |
+| **Phase 5** | Emergency intelligence (AI natural language reasoning & dispatch orchestration layer) | ✅ **Complete** |
+| **Phase 6** | Simulation and quantitative evaluation harness | 🔜 **Next** |
 | **Phase 7** | External data and map integration | 🔜 Future |
 | **Phase 8** | User-facing interactive prototype application | 🔜 Future |
 | **Phase 9** | GSoC 2027 proposal preparation | 🔜 Future |
@@ -292,9 +332,11 @@ See [`docs/roadmap.md`](docs/roadmap.md) for detailed milestone breakdowns.
 
 ---
 
-## Disclaimer
+## Disclaimer & Safety Boundary
 
-This is an independent open-source research and engineering project. It is **not** officially affiliated with Google, Google Summer of Code, or any specific open-source foundation. Official GSoC 2027 mentoring organisations and requirements will be evaluated as announcements are published.
+This is an independent open-source research and engineering project. It is **not** officially affiliated with Google, Google Summer of Code, or any municipal dispatch authority.
+
+**CRITICAL SAFETY NOTICE:** Passing automated software unit tests does not establish certification under statutory emergency response codes (NFPA, ISO, or municipal dispatch standards). All emergency apparatus turnouts, siren privileges, travel times, and vehicle tracking described herein are simulated in-memory algorithmic computations and are decoupled from physical sirens, radio transmitters, or real-world emergency dispatch consoles.
 
 ---
 

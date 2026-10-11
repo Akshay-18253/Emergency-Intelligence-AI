@@ -53,23 +53,21 @@ pip install pytest pytest-cov
 
 ## 3. Running Tests and Verification
 
-Always run the full test suite and verify code coverage before submitting changes:
+Always run the pre-flight sanity checker and verify code coverage before submitting changes:
 
 ```bash
-# Run all unit tests with statement and branch coverage
-pytest --cov=src -v
+# Run the complete automated pre-flight sanity checker
+# (Python version check, static AST zero-dependency audit, pytest suite, all 15 demos)
+python scripts/check.py
+
+# Run all 444 unit tests with statement and branch coverage enforcement (>= 90%)
+pytest --cov=emergency_intelligence -v
 
 # Run a specific test module
-pytest tests/test_geojson.py -v
-
-# Run the demonstration examples
-python examples/demo.py
-python examples/benchmark_demo.py
-python examples/osm_demo.py
-python examples/geojson_export_demo.py
+pytest tests/test_audit_and_verification.py -v
 ```
 
-All tests must pass with zero failures and zero warnings.
+All tests must pass with zero failures and coverage must meet or exceed 90%.
 
 ---
 
