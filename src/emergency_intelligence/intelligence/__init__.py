@@ -7,6 +7,7 @@ routing and fleet allocation directives.
 
 Milestone 5.1: AI boundary and structured domain contracts.
 Milestone 5.2: Deterministic emergency policy engine.
+Milestone 5.3: Natural-language interpretation interface.
 """
 
 from emergency_intelligence.intelligence.contracts import (
@@ -21,6 +22,17 @@ from emergency_intelligence.intelligence.contracts import (
     ValidationStatus,
     validate_incident_proposal,
 )
+from emergency_intelligence.intelligence.interpreter import (
+    AmbiguityType,
+    EmergencyInterpreter,
+    FixtureEmergencyInterpreter,
+    InterpretationRequest,
+    InterpretationResult,
+    InterpreterErrorCode,
+    detect_adversarial_patterns,
+    mask_sensitive_telemetry,
+    sanitize_emergency_text,
+)
 from emergency_intelligence.intelligence.policy import (
     ApparatusRequirement,
     EmergencyPolicyEngine,
@@ -30,9 +42,15 @@ from emergency_intelligence.intelligence.policy import (
 )
 
 __all__ = [
+    "AmbiguityType",
     "ApparatusRequirement",
+    "EmergencyInterpreter",
     "EmergencyPolicyEngine",
+    "FixtureEmergencyInterpreter",
     "HazardMention",
+    "InterpretationRequest",
+    "InterpretationResult",
+    "InterpreterErrorCode",
     "LocationProvenance",
     "LocationProvenanceType",
     "OperationalPolicyDirective",
@@ -44,5 +62,8 @@ __all__ = [
     "ValidationIssue",
     "ValidationSeverity",
     "ValidationStatus",
+    "detect_adversarial_patterns",
+    "mask_sensitive_telemetry",
+    "sanitize_emergency_text",
     "validate_incident_proposal",
 ]

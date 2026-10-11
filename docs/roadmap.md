@@ -5,7 +5,7 @@
 > fixed calendar dates. Progress is incremental and each phase
 > establishes the foundation for the next.
 >
-> **Current position: Phase 5 (In Progress) — Milestone 5.2 Complete.**
+> **Current position: Phase 5 (In Progress) — Milestone 5.3 Complete.**
 
 ---
 
@@ -123,8 +123,8 @@ The AI layer must:
 |---|---|:---:|
 | **Milestone 5.1: AI Boundary & Structured Domain Contracts** | • Isolation of untrusted model proposals (`ProposedIncidentInterpretation`)<br>• Immutable validated domain contracts (`ValidatedIncidentContract`)<br>• Location provenance & certainty tracking (`LocationProvenance`)<br>• Deterministic validation engine & under-triage contradiction detection (`validate_incident_proposal`)<br>• Unit test suite ([`tests/test_contracts.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_contracts.py)) & audit report ([`docs/milestone_5_1_report.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/milestone_5_1_report.md)) | ✅ Complete |
 | **Milestone 5.2: Deterministic Emergency Policy Engine** | • Operational requirements translator and statutory apparatus selection rules (`EmergencyPolicyEngine`, `OperationalPolicyDirective`)<br>• Authoritative statutory SOPs (NFPA 1710/1221, cardiac dual response, hazmat tunnel bans, flood swift water)<br>• Model proposal reconciliation, under-triage overrules, and auditable policy directives<br>• Unit test suite ([`tests/test_policy.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_policy.py)) & verification report ([`docs/milestone_5_2_report.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/milestone_5_2_report.md)) | ✅ Complete |
-| **Milestone 5.3: Natural-Language Interpretation Interface** | • Provider-independent emergency description interpretation interface<br>• Structured output schema contracts and test fixtures for ambiguous/adversarial reports | 🔜 Next |
-| **Milestone 5.4: Model Adapter & End-to-End Orchestration** | • Schema-constrained model adapter and graceful fallback error handling<br>• Pipeline connecting validated incident data to policy engine and deterministic routing | 📋 Planned |
+| **Milestone 5.3: Natural-Language Interpretation Interface** | • Provider-independent emergency interpretation interface (`EmergencyInterpreter`, `InterpretationRequest`, `InterpretationResult`)<br>• Input bounds sanitization & PII telemetry redaction (`sanitize_emergency_text`, `mask_sensitive_telemetry`)<br>• Ambiguity, missing location, and contradictory claim surfacing (`AmbiguityType`)<br>• Adversarial prompt injection defense (`detect_adversarial_patterns`) & deterministic policy invariance<br>• Reference fixture implementation (`FixtureEmergencyInterpreter`), unit test suite ([`tests/test_interpreter.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_interpreter.py)), verification report ([`docs/milestone_5_3_report.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/milestone_5_3_report.md)), and interactive demo ([`examples/natural_language_interpreter_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/natural_language_interpreter_demo.py)) | ✅ Complete |
+| **Milestone 5.4: Model Adapter & End-to-End Orchestration** | • Schema-constrained model adapter and graceful fallback error handling<br>• Pipeline connecting validated incident data to policy engine and deterministic routing | 🔜 Next |
 | **Milestone 5.5: Auditability & Verification** | • Comprehensive audit logging separating observed data, model proposals, and policy choices<br>• End-to-end evaluation harness, adversarial stress testing, and pipeline benchmarks | 📋 Planned |
 
 ---

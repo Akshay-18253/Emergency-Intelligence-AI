@@ -347,7 +347,7 @@ class ValidatedIncidentContract:
 # Keywords used for heuristic sanity and under-triage contradiction detection
 _CRITICAL_LIFE_THREAT_PATTERNS = [
     r"\b(unconscious|unresponsive)\b",
-    r"\b(cardiac\s+arrest|heart\s+attack)\b",
+    r"\b(cardiac\s+arrest|heart\s+attack|no\s+pulse|pulseless)\b",
     r"\b(not\s+breathing|stopped\s+breathing|respiratory\s+arrest)\b",
     r"\b(severe\s+bleeding|bleeding\s+heavily|arterial\s+bleed|hemorrhag\w*)\b",
     r"\b(trapped\s+in\s+fire|building\s+collapse|crushed)\b",
