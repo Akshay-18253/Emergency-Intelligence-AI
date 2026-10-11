@@ -119,6 +119,7 @@ def step_run_demos(root_dir: Path) -> bool:
         "examples/inflight_rerouting_demo.py",
         "examples/natural_language_interpreter_demo.py",
         "examples/orchestration_pipeline_demo.py",
+        "examples/verification_and_audit_demo.py",
     ]
 
     for demo in demos:

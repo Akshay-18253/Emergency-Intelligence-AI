@@ -39,6 +39,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 import hashlib
+import math
 import time
 from typing import Any, Dict, List, Optional, Sequence, Set, Tuple, Union
 
@@ -140,6 +141,16 @@ class OrchestrationResult:
     audit_trail: Tuple[str, ...] = field(default_factory=tuple)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+    @property
+    def audit_checksum(self) -> str:
+        """Computes a SHA-256 digest of the chronological audit records.
+
+        Provides deterministic sequence-integrity verification for post-incident
+        reconstruction without storing unencrypted raw text or credentials.
+        """
+        concatenated = "\n".join(self.audit_trail).encode("utf-8")
+        return hashlib.sha256(concatenated).hexdigest()
+
     def to_dict(self) -> Dict[str, Any]:
         """Serializes result to a dictionary suitable for JSON responses."""
         return {
@@ -153,6 +164,7 @@ class OrchestrationResult:
             "dispatched_routes": [r.to_dict() for r in self.dispatched_routes],
             "latency_ms": round(self.latency_ms, 2),
             "audit_trail": list(self.audit_trail),
+            "audit_checksum": self.audit_checksum,
             "metadata": dict(self.metadata),
         }
 
@@ -211,6 +223,7 @@ class EmergencyIntelligenceOrchestrator:
         coordinates: Optional[Tuple[float, float]] = None,
         node_id: Optional[str] = None,
         incident_id: Optional[str] = None,
+        operator_id: Optional[str] = None,
     ) -> OrchestrationResult:
         """Executes the full emergency intelligence pipeline for an emergency call.
 
@@ -219,6 +232,7 @@ class EmergencyIntelligenceOrchestrator:
             coordinates: Optional authoritative CAD/GPS coordinates override.
             node_id: Optional road network graph junction node override.
             incident_id: Optional incident tracking ID.
+            operator_id: Optional authorization identifier for CAD operator.
 
         Returns:
             OrchestrationResult containing all pipeline stages, validation findings,
@@ -238,8 +252,11 @@ class EmergencyIntelligenceOrchestrator:
 
         # Stage 2: Interpretation via Model Adapter / Interpreter
         interp_res = self._interpreter.interpret(req)
+        provider_name = interp_res.metadata.get("provider_id", "unknown")
+        retries_cnt = interp_res.metadata.get("retries", interp_res.metadata.get("retries_attempted", 0))
         audit.append(
             f"STAGE_2_INTERPRETATION: Success={interp_res.success}, "
+            f"Provider={provider_name}, Retries={retries_cnt}, "
             f"Error={interp_res.error_code.value if interp_res.error_code else 'None'}, "
             f"AdversarialFlags={list(interp_res.adversarial_flags)}"
         )
@@ -256,18 +273,42 @@ class EmergencyIntelligenceOrchestrator:
                 clarification_questions=interp_res.clarification_questions,
                 latency_ms=latency,
                 audit_trail=tuple(audit),
-                metadata={"error_code": interp_res.error_code.value if interp_res.error_code else None},
+                metadata={
+                    "error_code": interp_res.error_code.value if interp_res.error_code else None,
+                    "provider_id": provider_name,
+                    "retries": retries_cnt,
+                },
             )
 
         proposal = interp_res.proposal
 
         # Apply external CAD / GPS telemetry overrides if provided
+        op_ctx = f"by operator '{operator_id}'" if operator_id else "via CAD"
         if coordinates is not None:
-            proposal.suggested_coordinates = coordinates
-            audit.append(f"STAGE_CAD_OVERRIDE: Applied verified coordinates {coordinates}")
+            valid_coords = False
+            if isinstance(coordinates, (tuple, list)) and len(coordinates) == 2:
+                try:
+                    lon = float(coordinates[0])
+                    lat = float(coordinates[1])
+                    if math.isfinite(lon) and math.isfinite(lat) and (-180.0 <= lon <= 180.0) and (-90.0 <= lat <= 90.0):
+                        valid_coords = True
+                        proposal.suggested_coordinates = (lon, lat)
+                        audit.append(f"STAGE_CAD_OVERRIDE: Applied verified coordinates {(lon, lat)} {op_ctx}")
+                except (ValueError, TypeError):
+                    pass
+            if not valid_coords:
+                audit.append(f"STAGE_CAD_OVERRIDE_REJECTED: Coordinates {coordinates} are non-finite or outside valid WGS 84 bounds")
+
         if node_id is not None:
-            proposal.suggested_node_id = node_id
-            audit.append(f"STAGE_CAD_OVERRIDE: Applied verified node {node_id}")
+            clean_node = str(node_id).strip()
+            if clean_node:
+                if self._graph is not None and not self._graph.has_node(clean_node):
+                    audit.append(f"STAGE_CAD_OVERRIDE_WARNING: Road network node '{clean_node}' does not exist in active topology graph")
+                else:
+                    audit.append(f"STAGE_CAD_OVERRIDE: Applied verified node '{clean_node}' {op_ctx}")
+                proposal.suggested_node_id = clean_node
+            else:
+                audit.append(f"STAGE_CAD_OVERRIDE_REJECTED: Blank node identifier provided {op_ctx}")
 
         # Stage 3: Deterministic Contract Validation
         valid_nodes = set(self._graph.node_ids()) if self._graph is not None else None
@@ -301,7 +342,10 @@ class EmergencyIntelligenceOrchestrator:
                 clarification_questions=tuple(all_questions),
                 latency_ms=latency,
                 audit_trail=tuple(audit),
-                metadata={"validation_status": contract.validation_status.value},
+                metadata={
+                    "validation_status": contract.validation_status.value,
+                    "provider_id": provider_name,
+                },
             )
 
         # Stage 4: Authoritative Policy Evaluation
@@ -310,7 +354,8 @@ class EmergencyIntelligenceOrchestrator:
             f"STAGE_4_POLICY_EVALUATION: DirectiveID={directive.incident_id}, "
             f"EffectiveUrgency={directive.effective_urgency.value}, "
             f"MandatedUnitsCount={directive.total_apparatus_count}, "
-            f"RulesApplied={list(directive.policy_rules_applied)}"
+            f"RulesApplied={list(directive.policy_rules_applied)}, "
+            f"RoutingConstraints={[c.value for c in directive.routing_constraints]}"
         )
 
         # Stage 5: Downstream Dispatch & Siren Routing
@@ -358,6 +403,15 @@ class EmergencyIntelligenceOrchestrator:
                                 total_distance_meters=eta.distance_meters,
                             )
                         )
+
+                if len(dispatched_routes) == 0:
+                    status = OrchestrationStatus.STAGED_AWAITING_LOCATION
+                    audit.append("STAGE_5_UNREACHABLE: No available units could reach destination node. Apparatus staged awaiting access.")
+                elif not dispatch_plan.all_fulfilled:
+                    audit.append(
+                        f"STAGE_5_PARTIAL_FULFILLMENT: Successfully routed {len(dispatched_routes)} of "
+                        f"{len(dispatch_plan.assignments)} required apparatus. Remaining units staged or unfulfilled."
+                    )
 
                 audit.append(
                     f"STAGE_5_FLEET_ALLOCATION: Allocated {len(dispatched_routes)} units "

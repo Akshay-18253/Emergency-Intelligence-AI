@@ -20,6 +20,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
+import math
 import re
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 import uuid
@@ -524,7 +525,7 @@ def validate_incident_proposal(
         try:
             lon = float(prop.suggested_coordinates[0])
             lat = float(prop.suggested_coordinates[1])
-            if (-180.0 <= lon <= 180.0) and (-90.0 <= lat <= 90.0):
+            if math.isfinite(lon) and math.isfinite(lat) and (-180.0 <= lon <= 180.0) and (-90.0 <= lat <= 90.0):
                 loc_coords = (lon, lat)
                 loc_prov_type = LocationProvenanceType.VERIFIED_COORDINATES
                 loc_conf = max(0.5, min(1.0, prop.confidence_score or 0.8))

@@ -367,13 +367,18 @@ def extract_json_payload(raw_output: str) -> str:
 
     Handles markdown ```json ... ``` code fences, leading/trailing conversational
     commentary, and raw JSON strings.
+
+    Rejects ambiguous outputs containing multiple candidate markdown code fences
+    to prevent arbitrarily selecting an unintended candidate.
     """
     cleaned = raw_output.strip()
 
-    # Match markdown code fence: ```json { ... } ``` or ``` { ... } ```
-    fence_match = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", cleaned, re.IGNORECASE)
-    if fence_match:
-        return fence_match.group(1).strip()
+    # Detect all markdown code fences
+    all_fences = re.findall(r"```(?:json)?\s*([\s\S]*?)\s*```", cleaned, re.IGNORECASE)
+    if len(all_fences) > 1:
+        raise ValueError(f"Ambiguous model output: found {len(all_fences)} distinct markdown code fences.")
+    if len(all_fences) == 1:
+        return all_fences[0].strip()
 
     # Search for outer balanced curly braces if surrounded by conversational text
     first_brace = cleaned.find("{")
@@ -467,6 +472,7 @@ class StructuredModelAdapter(EmergencyInterpreter):
                 adversarial_flags=tuple(adv_flags),
                 metadata={
                     "provider_id": self._provider.provider_id,
+                    "retries": invocation_meta.get("retries", 0),
                     "retries_attempted": invocation_meta.get("retries", 0),
                     "status_code": invocation_meta.get("status_code"),
                 },
@@ -540,6 +546,7 @@ class StructuredModelAdapter(EmergencyInterpreter):
             "error_code": error_code,
             "error_message": str(last_error),
             "retries": attempts - 1,
+            "provider_id": self._provider.provider_id,
             "status_code": getattr(last_error, "status_code", None),
         }
 
@@ -551,11 +558,10 @@ class StructuredModelAdapter(EmergencyInterpreter):
         invocation_meta: Dict[str, Any],
     ) -> InterpretationResult:
         """Independently extracts and validates JSON data against domain contracts."""
-        json_str = extract_json_payload(raw_output)
-
         try:
+            json_str = extract_json_payload(raw_output)
             payload = json.loads(json_str)
-        except (json.JSONDecodeError, TypeError) as exc:
+        except (json.JSONDecodeError, TypeError, ValueError) as exc:
             return InterpretationResult(
                 success=False,
                 error_code=InterpreterErrorCode.MALFORMED_INPUT,
