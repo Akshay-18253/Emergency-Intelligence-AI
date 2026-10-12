@@ -449,10 +449,12 @@ class DisasterSimEngine:
 
         # 1. Process due events
         for event in due_events:
+            if event.timestamp > self.clock.current_time:
+                self.clock.advance_to(event.timestamp)
             self._process_event(event)
             self.event_history.append(event)
 
-        # 2. Advance clock
+        # 2. Advance clock to target time
         self.clock.advance_to(target_time)
 
         # 3. Check for obstructions & replan BEFORE or DURING movement

@@ -253,7 +253,7 @@ class ScenarioRunner:
         if state.is_fully_dispatched:
             return True
 
-        curr_time = self.engine.clock.current_time
+        curr_time = max(state.report_time, self.engine.clock.current_time)
         still_unfulfilled: List[ApparatusType] = []
 
         for req_type in state.unfulfilled_requirements:
@@ -304,7 +304,7 @@ class ScenarioRunner:
 
         if state.is_fully_dispatched:
             state.all_dispatched_time = curr_time
-            state.queue_delay_seconds = curr_time - state.report_time
+            state.queue_delay_seconds = max(0.0, curr_time - state.report_time)
             if state in self.pending_queue:
                 self.pending_queue.remove(state)
             return True
@@ -429,7 +429,7 @@ class ScenarioRunner:
 
         for s in self.incident_states.values():
             if not s.is_fully_dispatched:
-                s.queue_delay_seconds = self.engine.clock.current_time - s.report_time
+                s.queue_delay_seconds = max(0.0, self.engine.clock.current_time - s.report_time)
 
         queued = [
             s for s in self.incident_states.values()
@@ -450,13 +450,13 @@ class ScenarioRunner:
                 "emergency_type": s.incident.emergency_type.value,
                 "urgency": s.incident.urgency.value,
                 "report_time": round(s.report_time, 2),
-                "first_dispatch_time": round(s.first_dispatch_time, 2) if s.first_dispatch_time else None,
-                "first_arrival_time": round(s.first_arrival_time, 2) if s.first_arrival_time else None,
-                "all_arrival_time": round(s.all_arrival_time, 2) if s.all_arrival_time else None,
-                "cleared_time": round(s.cleared_time, 2) if s.cleared_time else None,
+                "first_dispatch_time": round(s.first_dispatch_time, 2) if s.first_dispatch_time is not None else None,
+                "first_arrival_time": round(s.first_arrival_time, 2) if s.first_arrival_time is not None else None,
+                "all_arrival_time": round(s.all_arrival_time, 2) if s.all_arrival_time is not None else None,
+                "cleared_time": round(s.cleared_time, 2) if s.cleared_time is not None else None,
                 "response_time_seconds": (
                     round(s.first_arrival_time - s.report_time, 2)
-                    if s.first_arrival_time
+                    if s.first_arrival_time is not None
                     else None
                 ),
                 "queue_delay_seconds": round(s.queue_delay_seconds, 2),
