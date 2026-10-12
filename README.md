@@ -1,11 +1,11 @@
 # Emergency Intelligence AI
 
-> **Phase 5 Status — Emergency Intelligence (Complete)**  
+> **Phase 6 Status — Simulation & Quantitative Evaluation (Complete)**  
 > Deterministic emergency routing, real-world OpenStreetMap ingestion, 2D geometric disaster hazard zones,
 > non-destructive graph mutations, multi-source Voronoi fleet catchment, in-flight reactive rerouting,
 > OASIS CAP v1.2 alert feed ingestion, schema-constrained structured model adapter, statutory SOP policy engine,
-> and tamper-evident audit verification.  
-> **444 unit tests passing with 95.40% code coverage.** Zero external runtime dependencies (100% Python standard library).
+> tamper-evident audit verification, discrete-event simulation engine, continuous kinematics, and multi-format exporters.  
+> **523 unit tests passing with 95.82% code coverage across 39 modules.** Zero external runtime dependencies (100% Python standard library).
 
 ---
 
@@ -182,14 +182,25 @@ emergency-intelligence-ai/
 │       │   ├── heuristics.py              # Euclidean, Manhattan, Zero heuristics
 │       │   ├── topology.py                # Graph contraction, LSCC filter, & turn angles
 │       │   └── benchmark.py               # Comparative benchmark harness
-│       └── intelligence/                  # Phase 5: AI Reasoning & Policy Orchestration
+│       ├── intelligence/                  # Phase 5: AI Reasoning & Policy Orchestration
+│       │   ├── __init__.py
+│       │   ├── contracts.py               # ValidatedIncidentContract & location provenance
+│       │   ├── policy.py                  # EmergencyPolicyEngine & statutory apparatus mandates
+│       │   ├── interpreter.py             # EmergencyInterpreter & PI/adversarial sanitization
+│       │   ├── adapter.py                 # StructuredModelAdapter, RetryPolicy, FakeModelProvider
+│       │   └── orchestrator.py            # EmergencyIntelligenceOrchestrator & audit trail
+│       ├── simulation/                    # Phase 6: Discrete-Event Disaster Simulation
+│       │   ├── __init__.py
+│       │   ├── timeline.py                # SimulationClock, SimEvent, SimulationTimeline priority queue
+│       │   ├── engine.py                  # SimulationEngine, continuous vehicle motion & event hooks
+│       │   └── scenarios.py               # Reproducible multi-incident scenarios & contention models
+│       └── evaluation/                    # Phase 6: Quantitative Evaluation & Metrics
 │           ├── __init__.py
-│           ├── contracts.py               # ValidatedIncidentContract & location provenance
-│           ├── policy.py                  # EmergencyPolicyEngine & statutory apparatus mandates
-│           ├── interpreter.py             # EmergencyInterpreter & PI/adversarial sanitization
-│           ├── adapter.py                 # StructuredModelAdapter, RetryPolicy, FakeModelProvider
-│           └── orchestrator.py            # EmergencyIntelligenceOrchestrator & audit trail
-├── tests/                                 # 444 test cases, >= 95% coverage
+│           ├── metrics.py                 # NFPA 1710 compliance, Path Stability Index (PSI), Detour Delay (DDF)
+│           ├── profiler.py                # Algorithmic latency & A* search space pruning profiler
+│           ├── benchmark.py               # Comparative routing harness (Static vs Polling vs Reactive)
+│           └── exporter.py                # JSON time-series telemetry, RFC 4180 CSV, RFC 7946 GeoJSON
+├── tests/                                 # 523 test cases, >= 95% coverage
 │   ├── test_models.py
 │   ├── test_dijkstra.py
 │   ├── test_heuristics.py
@@ -209,8 +220,12 @@ emergency-intelligence-ai/
 │   ├── test_policy.py                     # Phase 5 Milestone 5.2 tests
 │   ├── test_interpreter.py                # Phase 5 Milestone 5.3 tests
 │   ├── test_adapter_and_orchestration.py  # Phase 5 Milestone 5.4 tests
-│   └── test_audit_and_verification.py     # Phase 5 Milestone 5.5 tests
-├── examples/                              # 15 runnable demonstration scripts
+│   ├── test_audit_and_verification.py     # Phase 5 Milestone 5.5 tests
+│   ├── test_simulation_engine.py          # Phase 6 Milestone 6.1 tests
+│   ├── test_scenarios.py                  # Phase 6 Milestone 6.2 tests
+│   ├── test_evaluation.py                 # Phase 6 Milestone 6.3 tests
+│   └── test_benchmarks.py                 # Phase 6 Milestone 6.4 tests
+├── examples/                              # 20 runnable demonstration scripts
 │   ├── demo.py                            # 1. Dijkstra foundation demonstration
 │   ├── benchmark_demo.py                  # 2. A* vs Dijkstra comparative benchmark
 │   ├── osm_demo.py                        # 3. Real OpenStreetMap emergency routing
@@ -225,7 +240,12 @@ emergency-intelligence-ai/
 │   ├── inflight_rerouting_demo.py         # 12. OASIS CAP alert ingestion & mid-flight detours
 │   ├── natural_language_interpreter_demo.py # 13. Natural-language report parsing & sanitization
 │   ├── orchestration_pipeline_demo.py     # 14. Full end-to-end orchestration pipeline
-│   └── verification_and_audit_demo.py     # 15. Audit trail integrity & policy invariance
+│   ├── verification_and_audit_demo.py     # 15. Audit trail integrity & policy invariance
+│   ├── simulation_engine_demo.py          # 16. Discrete-event disaster simulation engine
+│   ├── multi_incident_scenarios_demo.py   # 17. Multi-incident resource contention & mutual aid
+│   ├── metrics_profiler_demo.py           # 18. NFPA 1710 compliance & search space pruning
+│   ├── comparative_benchmark_demo.py      # 19. Comparative routing benchmarks & multi-format export
+│   └── simulation_suite_demo.py           # 20. Master end-to-end simulation & evaluation suite
 ├── scripts/
 │   └── check.py                           # Pre-flight sanity checker & AST zero-dep audit
 ├── docs/
@@ -239,7 +259,12 @@ emergency-intelligence-ai/
 │   ├── milestone_5_3_report.md            # Phase 5 Milestone 5.3 verification report
 │   ├── milestone_5_4_report.md            # Phase 5 Milestone 5.4 verification report
 │   ├── milestone_5_5_report.md            # Phase 5 Milestone 5.5 verification report
-│   └── audit_report_phase_5_5.md          # Phase 5 Milestone 5.5 source-level audit report
+│   ├── audit_report_phase_5_5.md          # Phase 5 Milestone 5.5 source-level audit report
+│   ├── milestone_6_1_report.md            # Phase 6 Milestone 6.1 verification report
+│   ├── milestone_6_2_report.md            # Phase 6 Milestone 6.2 verification report
+│   ├── milestone_6_3_report.md            # Phase 6 Milestone 6.3 verification report
+│   ├── milestone_6_4_report.md            # Phase 6 Milestone 6.4 verification report
+│   └── milestone_6_evaluation_report.md   # Phase 6 Milestone 6.5 empirical evaluation report
 ├── CONTRIBUTING.md
 ├── pyproject.toml
 └── README.md
@@ -274,7 +299,7 @@ pip install pytest pytest-cov
 ## Verification & Testing
 
 ### 1. Automated Pre-Flight Sanity Checker
-We provide a unified verification script that enforces the Python version, performs an AST inspection across all 30 library modules to prove zero external runtime dependencies, runs the pytest suite with coverage enforcement, and executes all 15 demonstration scripts:
+We provide a unified verification script that enforces the Python version, performs an AST inspection across all 39 library modules to prove zero external runtime dependencies, runs the pytest suite with coverage enforcement, and executes all 20 demonstration scripts:
 
 ```bash
 python scripts/check.py
@@ -282,7 +307,7 @@ python scripts/check.py
 
 ### 2. Running Pytest Directly
 ```bash
-# Run all 444 unit tests
+# Run all 523 unit tests
 pytest -v
 
 # Run with statement and branch coverage enforcement (>= 90%)
@@ -293,7 +318,7 @@ pytest --cov=emergency_intelligence --cov-report=term-missing -v
 
 ## Interactive Demonstrations
 
-All 15 demonstration scripts can be executed independently from the terminal:
+All 20 demonstration scripts can be executed independently from the terminal:
 
 | # | Demo Script | Description |
 |---|---|---|
@@ -312,6 +337,11 @@ All 15 demonstration scripts can be executed independently from the terminal:
 | **13** | `python examples/natural_language_interpreter_demo.py` | Natural-language report interpretation, PII sanitization, and adversarial injection defense |
 | **14** | `python examples/orchestration_pipeline_demo.py` | Full 5-stage orchestration pipeline from raw 911 text to siren-privileged routing |
 | **15** | `python examples/verification_and_audit_demo.py` | Tamper-evident audit trail, SHA-256 sequence hash, and policy invariance over under-triage |
+| **16** | `python examples/simulation_engine_demo.py` | Discrete-event disaster simulation engine & continuous vehicle kinematics |
+| **17** | `python examples/multi_incident_scenarios_demo.py` | Multi-incident resource contention & secondary station fallback |
+| **18** | `python examples/metrics_profiler_demo.py` | NFPA 1710 response compliance, PSI/DDF degradation, & $A^*$ pruning profiler |
+| **19** | `python examples/comparative_benchmark_demo.py` | Comparative routing strategies (Static vs Polling vs Reactive) & multi-format export |
+| **20** | `python examples/simulation_suite_demo.py` | Master end-to-end interactive simulation demonstration uniting all 6 capabilities |
 
 ---
 
@@ -321,11 +351,11 @@ All 15 demonstration scripts can be executed independently from the terminal:
 |---|---|:---:|
 | **Phase 1** | Local routing engine foundation (Dijkstra, A*, Heuristics) | ✅ **Complete** |
 | **Phase 2** | Open-source ecosystem participation & GIS standards (GeoJSON, Haversine, Ecosystem study) | ✅ **Complete** |
-│ **Phase 3** | Real road network data pipelines (Streaming OSM, Contraction, Spatial Index, Caching) | ✅ **Complete** |
+| **Phase 3** | Real road network data pipelines (Streaming OSM, Contraction, Spatial Index, Caching) | ✅ **Complete** |
 | **Phase 4** | Dynamic conditions & disaster events (Hazards, Mutations, Voronoi Catchment, In-Flight Detours, CAP) | ✅ **Complete** |
 | **Phase 5** | Emergency intelligence (AI natural language reasoning & dispatch orchestration layer) | ✅ **Complete** |
-| **Phase 6** | Simulation and quantitative evaluation harness | 🔜 **Next** |
-| **Phase 7** | External data and map integration | 🔜 Future |
+| **Phase 6** | Simulation and quantitative evaluation harness | ✅ **Complete** |
+| **Phase 7** | External data and map integration | 🔄 **Next / In Progress** |
 | **Phase 8** | User-facing interactive prototype application | 🔜 Future |
 | **Phase 9** | GSoC 2027 proposal preparation | 🔜 Future |
 

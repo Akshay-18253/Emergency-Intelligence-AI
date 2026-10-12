@@ -1,8 +1,8 @@
 # Emergency Intelligence AI — System Architecture
 
-> **Status:** All core foundational architectural layers (Phases 1 through 5) are **fully implemented and verified**.
+> **Status:** All core foundational architectural layers (Phases 1 through 6) are **fully implemented and verified**.
 > Core library has **zero external runtime dependencies** (100% Python standard library).
-> **444 unit tests passing with 95.40% statement and branch coverage.**
+> **523 unit tests passing with 95.82% statement and branch coverage across 39 modules.**
 
 ---
 
@@ -68,10 +68,13 @@ Unstructured 911 / Emergency Input (Call, SMS, Speech-to-Text, CAD Alert)
                                │
                                ▼
 ┌────────────────────────────────────────────────────────────────────────┐
-│  LAYER 6: SIMULATION & QUANTITATIVE EVALUATION [PHASE 6 — NEXT]        │
-│  ├── Reproducible Disaster Response Benchmark Scenarios                │
-│  ├── Quantitative Rerouting Quality Metrics (ETAs, pruning ratios)     │
-│  └── Real-World vs Simulation Boundary Verification                    │
+│  LAYER 6: SIMULATION & QUANTITATIVE EVALUATION [PHASE 6 — VERIFIED]    │
+│  ├── Discrete-Event Disaster Simulation Engine (SimulationTimeline)    │
+│  ├── Continuous Edge Kinematics & Fractional Position Tracking         │
+│  ├── Multi-Incident Scenarios & Resource Contention Models             │
+│  ├── NFPA 1710 Response Compliance & Heuristic Search Profiling        │
+│  ├── Comparative Routing Benchmarks (Static vs Polling vs Reactive)    │
+│  └── Multi-Format Exporters (JSON Telemetry, CSV, RFC 7946 GeoJSON)    │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -227,6 +230,35 @@ Unstructured 911 / Emergency Input (Call, SMS, Speech-to-Text, CAD Alert)
    │  - Simulation Boundary: ZERO live sirens or radio tx   │
    └────────────────────────────────────────────────────────┘
 ```
+
+---
+
+### Layer 6 — Discrete-Event Disaster Simulation & Evaluation Engine
+**Location:** [`src/emergency_intelligence/simulation/`](../src/emergency_intelligence/simulation/) & [`src/emergency_intelligence/evaluation/`](../src/emergency_intelligence/evaluation/)
+
+- **Discrete-Event Simulation Engine (`engine.py`, `timeline.py`):**
+  - **Virtual Simulation Clock (`SimulationClock`):** Monotonically advancing virtual time container supporting deterministic, nanosecond-precise scheduling.
+  - **Priority-Queue Event Scheduler (`SimulationTimeline`):** Min-heap event queue ordering event executions by `(timestamp, priority, sequence_id)`.
+  - **Continuous Edge Kinematics (`VehicleSimState`):** Fractional edge traversal tracking (`traversed_fraction`), dynamic speed penalties, and event-driven position updates.
+  - **Event Dispatcher Hooks:** Decoupled observers notifying registered handlers on incident arrivals, unit dispatch, en-route motion, hazard evolutions, and on-scene arrivals.
+- **Reproducible Multi-Incident Scenarios (`scenarios.py`):**
+  - Parameterized generator creating reproducible disaster environments with fixed RNG seeds.
+  - Standard scenario suite: Baseline Single Incident, Cascading Urban Multi-Alarm, Mid-Flight Infrastructure Severance, and Progressive Inundation.
+  - Station apparatus capacity modeling, secondary station fallback, and resource exhaustion queuing.
+- **Quantitative Metrics & Algorithmic Profiler (`metrics.py`, `profiler.py`):**
+  - **NFPA 1710 Compliance:** Linear percentile interpolation analyzing 240s first-due and 480s full-alarm response standard compliance.
+  - **Topological Degradation Metrics:** Path Stability Index ($PSI$) measuring route divergence, and Detour Delay Degradation Factor ($DDF$) quantifying transit time inflation.
+  - **Search Space Pruning Profiler:** Proves $A^*$ heuristic optimality and measures node/edge exploration savings against Dijkstra baselines.
+  - **Latency Profiling:** High-resolution latency distribution measurements ($p50, p90, p95, p99, \max$) for routing computations.
+- **Comparative Routing Strategy Harness (`benchmark.py`):**
+  - Evaluates routing paradigms across identical disaster scenario instances:
+    - `STATIC`: Fixed initial dispatch without in-flight adaptation (baseline).
+    - `PERIODIC_POLLING`: Periodic recalculation at fixed discrete time intervals ($\Delta t$).
+    - `REACTIVE_EVENT_DRIVEN`: Instantaneous recalculation triggered exclusively by network edge hazard mutations.
+- **Multi-Format Simulation Exporter (`exporter.py`):**
+  - **JSON Time-Series Telemetry:** Microsecond-precision event timeline and step-by-step vehicle kinematic trajectories.
+  - **RFC 4180 Tabular CSV:** High-throughput metrics tables for statistical analysis.
+  - **RFC 7946 Spatial GeoJSON:** Geographic LineString feature collections for visual GIS replay in QGIS, Kepler.gl, or Leaflet.
 
 ---
 
