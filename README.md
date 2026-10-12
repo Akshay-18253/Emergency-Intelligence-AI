@@ -238,7 +238,8 @@ emergency-intelligence-ai/
 │   ├── milestone_5_2_report.md            # Phase 5 Milestone 5.2 verification report
 │   ├── milestone_5_3_report.md            # Phase 5 Milestone 5.3 verification report
 │   ├── milestone_5_4_report.md            # Phase 5 Milestone 5.4 verification report
-│   └── milestone_5_5_report.md            # Phase 5 Milestone 5.5 verification report
+│   ├── milestone_5_5_report.md            # Phase 5 Milestone 5.5 verification report
+│   └── audit_report_phase_5_5.md          # Phase 5 Milestone 5.5 source-level audit report
 ├── CONTRIBUTING.md
 ├── pyproject.toml
 └── README.md
