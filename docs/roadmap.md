@@ -5,7 +5,7 @@
 > fixed calendar dates. Progress is incremental and each phase
 > establishes the foundation for the next.
 >
-> **Current position: Phase 5 (In Progress) — Milestone 5.4 Complete.**
+> **Current position: Phase 6 (In Progress) — Milestone 6.1 Complete, Milestone 6.2 In Progress.**
 
 ---
 
@@ -124,32 +124,24 @@ The AI layer must:
 | **Milestone 5.1: AI Boundary & Structured Domain Contracts** | • Isolation of untrusted model proposals (`ProposedIncidentInterpretation`)<br>• Immutable validated domain contracts (`ValidatedIncidentContract`)<br>• Location provenance & certainty tracking (`LocationProvenance`)<br>• Deterministic validation engine & under-triage contradiction detection (`validate_incident_proposal`)<br>• Unit test suite ([`tests/test_contracts.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_contracts.py)) & audit report ([`docs/milestone_5_1_report.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/milestone_5_1_report.md)) | ✅ Complete |
 | **Milestone 5.2: Deterministic Emergency Policy Engine** | • Operational requirements translator and statutory apparatus selection rules (`EmergencyPolicyEngine`, `OperationalPolicyDirective`)<br>• Authoritative statutory SOPs (NFPA 1710/1221, cardiac dual response, hazmat tunnel bans, flood swift water)<br>• Model proposal reconciliation, under-triage overrules, and auditable policy directives<br>• Unit test suite ([`tests/test_policy.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_policy.py)) & verification report ([`docs/milestone_5_2_report.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/milestone_5_2_report.md)) | ✅ Complete |
 | **Milestone 5.3: Natural-Language Interpretation Interface** | • Provider-independent emergency interpretation interface (`EmergencyInterpreter`, `InterpretationRequest`, `InterpretationResult`)<br>• Input bounds sanitization & PII telemetry redaction (`sanitize_emergency_text`, `mask_sensitive_telemetry`)<br>• Ambiguity, missing location, and contradictory claim surfacing (`AmbiguityType`)<br>• Adversarial prompt injection defense (`detect_adversarial_patterns`) & deterministic policy invariance<br>• Reference fixture implementation (`FixtureEmergencyInterpreter`), unit test suite ([`tests/test_interpreter.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_interpreter.py)), verification report ([`docs/milestone_5_3_report.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/milestone_5_3_report.md)), and interactive demo ([`examples/natural_language_interpreter_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/natural_language_interpreter_demo.py)) | ✅ Complete |
+| **Milestone 5.4: Multi-Modal Dispatch Orchestration Pipeline** | • Unified end-to-end incident pipeline (`DispatchOrchestrator`, `OrchestratedDispatchResult`)<br>• Pipeline coordination uniting NLP interpretation, policy enforcement, fleet allocation, and dynamic routing<br>• Fallback mechanisms for unparseable or malicious inputs<br>• Unit test suite ([`tests/test_contracts.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_contracts.py)) & interactive orchestration demo ([`examples/orchestration_pipeline_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/orchestration_pipeline_demo.py)) | ✅ Complete |
 | **Milestone 5.5: Auditability & Verification** | • Comprehensive audit logging separating observed data, model proposals, and policy choices with SHA-256 sequence integrity checksums (`audit_checksum`)<br>• Hardened ambiguity handling & multi-code-fence JSON rejection (`extract_json_payload`)<br>• Regression verification of deterministic policy invariants, under-triage immunity, and finite coordinate bounds<br>• Unit test suite ([`tests/test_audit_and_verification.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_audit_and_verification.py)), verification report ([`docs/milestone_5_5_report.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/milestone_5_5_report.md)), and interactive demo ([`examples/verification_and_audit_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/verification_and_audit_demo.py)) | ✅ Complete |
 
 ---
 
 ## Phase 6 — Simulation and Evaluation
 
-**Objective:** Create reproducible emergency scenarios and measure
-routing quality quantitatively.
+**Objective:** Create reproducible emergency scenarios and measure routing quality quantitatively under dynamic disaster conditions.
 
-Example scenarios:
-- Medical emergency (single incident)
-- Fire response (single incident)
-- Multiple simultaneous incidents
-- Road closure during active routing
-- Progressive congestion
+### Milestone Breakdown
 
-Evaluation metrics:
-- Route cost
-- Travel time (estimated)
-- Rerouting latency
-- Nodes explored
-- Memory usage
-- Route stability under changing conditions
-- Computational cost
-
-This phase is critical for research credibility and eventual publication.
+| Milestone | Deliverables | Status |
+|---|---|:---:|
+| **Milestone 6.1: Discrete-Event Disaster Simulation Engine** | • Deterministic virtual simulation clock (`SimulationClock`) and priority queue event scheduler (`SimulationTimeline`, `SimEvent`)<br>• Continuous vehicle motion model along network edges (`VehicleSimState`, fractional position tracking, speed penalties)<br>• Dynamic event hooks for incident arrivals, unit dispatch, en-route progress, hazard evolution, and on-scene arrivals<br>• Comprehensive unit test suite ([`tests/test_simulation_engine.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_simulation_engine.py)) with $\ge 90\%$ branch coverage<br>• Interactive demonstration ([`examples/simulation_engine_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/simulation_engine_demo.py)) & verification report ([`docs/milestone_6_1_report.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/milestone_6_1_report.md)) | ✅ Complete |
+| **Milestone 6.2: Multi-Incident Scenarios & Resource Contention** | • Reproducible multi-incident disaster scenarios (`simulation/scenarios.py`) with deterministic RNG seeds<br>• Baseline Single Incident, Cascading Urban Multi-Alarm, Mid-Flight Infrastructure Severance, Progressive Inundation<br>• Apparatus resource exhaustion, secondary station fallback, and priority queuing models<br>• Scenario validation tests ([`tests/test_scenarios.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_scenarios.py)) | 🔄 In Progress |
+| **Milestone 6.3: Quantitative Metrics Harness & Algorithmic Profiler** | • NFPA 1710 response compliance analyzer (240s / 480s statutory travel time thresholds)<br>• Search space pruning profiler ($A^*$ heuristic exploration vs Dijkstra baseline)<br>• In-flight re-routing latency profiler ($\mu\text{s}/\text{ms}$ distribution: p50, p95, p99, max)<br>• Path stability index and detour delay degradation metrics (`evaluation/metrics.py`, `evaluation/profiler.py`) | ⏳ Planned |
+| **Milestone 6.4: Comparative Benchmarks & Multi-Format Exporter** | • Comparative baseline harness: Static routing vs periodic polling vs reactive in-flight rerouting (`evaluation/benchmark.py`)<br>• Multi-format simulation data exporter (`evaluation/exporter.py`): JSON time-series telemetry, tabular CSV metrics, RFC 7946 GeoJSON spatial replay<br>• Reproducible automated benchmarking test suite ([`tests/test_benchmarks.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_benchmarks.py)) | ⏳ Planned |
+| **Milestone 6.5: Empirical Evaluation Report & Publication Synthesis** | • Formal academic-grade evaluation report ([`docs/milestone_6_evaluation_report.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/milestone_6_evaluation_report.md)) documenting experimental findings, trade-offs, and scalability bounds<br>• End-to-end interactive simulation demonstration script ([`examples/simulation_suite_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/simulation_suite_demo.py))<br>• Documentation updates across README, Architecture, and Roadmap | ⏳ Planned |
 
 ---
 
