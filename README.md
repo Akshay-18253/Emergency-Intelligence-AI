@@ -84,6 +84,14 @@ Phase 1/2: Deterministic Routing Engine (Dijkstra / A* / Multi-Criteria)
 Phase 3: Topologically Contracted Road Graph (OSM / Compiled Cache)
                        │
                        ▼
+Phase 6: Simulation, Benchmarking & Quantitative Evaluation
+         ├── Discrete-Event Engine & Continuous Kinematics (SimulationTimeline)
+         ├── Multi-Incident Scenarios & Municipal Resource Contention Models
+         ├── NFPA 1710 Travel Time Analysis & Search Space Pruning Profiler
+         ├── Comparative Routing Harness (Static vs Polling vs Reactive)
+         └── Multi-Format Exporter (JSON Telemetry, RFC 4180 CSV, RFC 7946 GeoJSON)
+                       │
+                       ▼
 Candidate Route & Telemetry (RFC 7946 GeoJSON Export)
 ```
 
@@ -100,14 +108,14 @@ This project is developed **brick by brick**.
 Priorities (in order):
 1. **Correctness & Zero Dependencies** — Core library relies 100% on the Python standard library. No external GIS, scientific, or LLM runtime packages required.
 2. **Deterministic Reproducibility** — Every algorithm has verified mathematical, geometric, and invariant test cases.
-3. **High Test Coverage** — Strict $\ge 90\%$ branch and statement coverage enforcement (currently **95.40%** across 444 tests).
+3. **High Test Coverage** — Strict $\ge 90\%$ branch and statement coverage enforcement (currently **95.82%** across 523 tests).
 4. **Sub-Millisecond Performance** — Critical path algorithms (detours, ray casting, heuristic lookups) run in microseconds.
 5. **Open Standards** — Full compatibility with OpenStreetMap, RFC 7946 GeoJSON, and OASIS CAP v1.2.
 6. **Fail-Safe Operation** — Topologically disconnected nodes, missing coordinates, and malformed inputs fail safe to staged turnout or clarification prompts.
 
 ---
 
-## Current Capabilities (Phases 1–5 Complete)
+## Current Capabilities (Phases 1–6 Complete)
 
 | Capability | Module | Status |
 |---|---|:---:|
@@ -143,6 +151,15 @@ Priorities (in order):
 | Schema-constrained structured model adapter & bounded retry policy | [`intelligence/adapter.py`](src/emergency_intelligence/intelligence/adapter.py) | ✅ Implemented |
 | End-to-end pipeline orchestrator & CAD geocode manual overrides | [`intelligence/orchestrator.py`](src/emergency_intelligence/intelligence/orchestrator.py) | ✅ Implemented |
 | Tamper-evident audit trail & SHA-256 sequence integrity verification | [`intelligence/orchestrator.py`](src/emergency_intelligence/intelligence/orchestrator.py) | ✅ Implemented |
+| Discrete-event virtual simulation clock & priority timeline | [`simulation/timeline.py`](src/emergency_intelligence/simulation/timeline.py) | ✅ Implemented |
+| Continuous vehicle kinematics along road edges (`VehicleSimState`) | [`simulation/engine.py`](src/emergency_intelligence/simulation/engine.py) | ✅ Implemented |
+| Discrete-event disaster simulation engine (`SimulationEngine`) | [`simulation/engine.py`](src/emergency_intelligence/simulation/engine.py) | ✅ Implemented |
+| Reproducible multi-incident scenarios & municipal contention models | [`simulation/scenarios.py`](src/emergency_intelligence/simulation/scenarios.py) | ✅ Implemented |
+| NFPA 1710 compliance analyzer & percentile response times | [`evaluation/metrics.py`](src/emergency_intelligence/evaluation/metrics.py) | ✅ Implemented |
+| Path Stability Index ($PSI$) & Detour Delay Factor ($DDF$) | [`evaluation/metrics.py`](src/emergency_intelligence/evaluation/metrics.py) | ✅ Implemented |
+| Microsecond algorithmic profiler & $A^*$ pruning verification | [`evaluation/profiler.py`](src/emergency_intelligence/evaluation/profiler.py) | ✅ Implemented |
+| Comparative routing strategy benchmarks (Static, Polling, Reactive) | [`evaluation/benchmark.py`](src/emergency_intelligence/evaluation/benchmark.py) | ✅ Implemented |
+| Multi-format simulation data exporter (JSON, RFC 4180 CSV, GeoJSON) | [`evaluation/exporter.py`](src/emergency_intelligence/evaluation/exporter.py) | ✅ Implemented |
 | Automated pre-flight sanity checker & AST zero-dependency audit | [`scripts/check.py`](scripts/check.py) | ✅ Implemented |
 
 ---

@@ -57,10 +57,10 @@ Always run the pre-flight sanity checker and verify code coverage before submitt
 
 ```bash
 # Run the complete automated pre-flight sanity checker
-# (Python version check, static AST zero-dependency audit, pytest suite, all 15 demos)
+# (Python version check, static AST zero-dependency audit, pytest suite, all 20 demos)
 python scripts/check.py
 
-# Run all 444 unit tests with statement and branch coverage enforcement (>= 90%)
+# Run all 523 unit tests with statement and branch coverage enforcement (>= 90%)
 pytest --cov=emergency_intelligence -v
 
 # Run a specific test module

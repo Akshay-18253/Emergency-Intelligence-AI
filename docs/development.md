@@ -74,9 +74,9 @@ python scripts/check.py
 
 The checker enforces:
 1. **Python version check:** Validates runtime is $\ge 3.10$.
-2. **Static AST dependency audit:** Inspects all 30 library modules in `src/emergency_intelligence` to verify strictly zero third-party runtime imports.
-3. **Pytest suite with coverage gate:** Executes all 444 unit tests with $\ge 90\%$ branch and statement coverage enforcement.
-4. **Demonstration suite:** Executes all 15 example scripts to ensure zero crashes or regressions.
+2. **Static AST dependency audit:** Inspects all 39 library modules in `src/emergency_intelligence` to verify strictly zero third-party runtime imports.
+3. **Pytest suite with coverage gate:** Executes all 523 unit tests with $\ge 90\%$ branch and statement coverage enforcement (currently **95.82%**).
+4. **Demonstration suite:** Executes all 20 example scripts to ensure zero crashes or regressions.
 
 ---
 
@@ -99,7 +99,7 @@ All tests must pass. A failing test is a blocker — never proceed to new featur
 
 ## Interactive Demonstration Scripts
 
-The project includes 15 runnable demonstration scripts in `examples/`:
+The project includes 20 runnable demonstration scripts in `examples/`:
 
 ```bash
 # Core Graph & Routing Demos
@@ -124,6 +124,13 @@ python examples/inflight_rerouting_demo.py
 python examples/natural_language_interpreter_demo.py
 python examples/orchestration_pipeline_demo.py
 python examples/verification_and_audit_demo.py
+
+# Simulation & Quantitative Evaluation Demos (Phase 6)
+python examples/simulation_engine_demo.py
+python examples/multi_incident_scenarios_demo.py
+python examples/metrics_profiler_demo.py
+python examples/comparative_benchmark_demo.py
+python examples/simulation_suite_demo.py
 ```
 
 ---
@@ -139,9 +146,11 @@ emergency-intelligence-ai/
 │       ├── data/            # OSM streaming parser, GeoJSON, Spatial Hash Grid, Cache
 │       ├── events/          # Incident models, Hazard polygons, DynamicGraphView, CAP alerts
 │       ├── allocation/      # Multi-source Voronoi catchment, Isochrones, FleetManager
-│       └── intelligence/    # Domain contracts, Statutory policy, Interpreter, Adapter, Orchestrator
-├── tests/                   # 444 unit test cases across 20 test modules
-├── examples/                # 15 runnable demonstration scripts
+│       ├── intelligence/    # Domain contracts, Statutory policy, Interpreter, Adapter, Orchestrator
+│       ├── simulation/      # Discrete-event engine, Vehicle kinematics, Scenarios, Contention
+│       └── evaluation/      # NFPA 1710 metrics, Latency profiler, Benchmarks, Exporters
+├── tests/                   # 523 unit test cases across 24 test modules
+├── examples/                # 20 runnable demonstration scripts
 ├── scripts/
 │   └── check.py             # Pre-flight sanity checker & AST zero-dependency audit
 ├── docs/                    # System architecture, roadmap, ecosystem studies, reports
