@@ -2,12 +2,24 @@
 Evaluation package for Emergency Intelligence AI.
 
 Provides quantitative performance metrics, statutory compliance analyzers,
-and microsecond-accurate algorithmic profilers for emergency dispatch,
-fleet allocation, and in-flight routing.
+microsecond-accurate algorithmic profilers, comparative routing baseline benchmarks,
+and multi-format simulation telemetry exporters.
 """
 
 from __future__ import annotations
 
+from .benchmark import (
+    ComparativeBenchmarkSummary,
+    ComparativeRoutingBenchmark,
+    RoutingStrategy,
+    StrategyBenchmarkResult,
+)
+from .exporter import (
+    export_incident_metrics_csv,
+    export_spatial_replay_geojson,
+    export_strategy_comparison_csv,
+    export_telemetry_json,
+)
 from .metrics import (
     IncidentResponseRecord,
     NFPA1710Metrics,
@@ -29,6 +41,7 @@ from .profiler import (
 )
 
 __all__ = [
+    # Metrics
     "IncidentResponseRecord",
     "NFPA1710Metrics",
     "RouteStabilityMetrics",
@@ -38,10 +51,21 @@ __all__ = [
     "compute_path_stability_index",
     "compute_detour_delay_degradation",
     "evaluate_route_stability",
+    # Profiler
     "LatencyDistribution",
     "compute_latency_distribution",
     "profile_callable",
     "PruningPairResult",
     "SearchPruningSummary",
     "AlgorithmicProfiler",
+    # Benchmark
+    "RoutingStrategy",
+    "StrategyBenchmarkResult",
+    "ComparativeBenchmarkSummary",
+    "ComparativeRoutingBenchmark",
+    # Exporter
+    "export_telemetry_json",
+    "export_incident_metrics_csv",
+    "export_strategy_comparison_csv",
+    "export_spatial_replay_geojson",
 ]
