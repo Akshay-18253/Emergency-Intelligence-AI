@@ -1,12 +1,12 @@
 # Emergency Intelligence AI
 
-> **Phase 7 Status — External Data & Map Integration (Milestones 7.1 & 7.2 Complete)**  
+> **Phase 7 Status — External Data & Map Integration (Milestones 7.1, 7.2 & 7.3 Complete)**  
 > Deterministic emergency routing, real-world OpenStreetMap ingestion, 2D geometric disaster hazard zones,
 > non-destructive graph mutations, multi-source Voronoi fleet catchment, in-flight reactive rerouting,
 > OASIS CAP v1.2 alert feed ingestion, schema-constrained structured model adapter, statutory SOP policy engine,
 > tamper-evident audit verification, discrete-event simulation engine, continuous kinematics, multi-format exporters,
-> live OSM Overpass POI ingestion, and NASA SRTM topographic digital elevation models with incline routing.  
-> **569 unit tests passing with 95.70% code coverage across 42 modules.** Zero external runtime dependencies (100% Python standard library).
+> live OSM Overpass POI ingestion, NASA SRTM topographic elevation models, and USGS / Open-Meteo real-time flood & weather integration.  
+> **587 unit tests passing with 95.92% code coverage across 44 modules.** Zero external runtime dependencies (100% Python standard library).
 
 ---
 
@@ -291,7 +291,8 @@ emergency-intelligence-ai/
 │   ├── comparative_benchmark_demo.py      # 19. Comparative routing benchmarks & multi-format export
 │   ├── simulation_suite_demo.py           # 20. Master end-to-end simulation & evaluation suite
 │   ├── overpass_poi_demo.py               # 21. Live OSM Overpass emergency POI & clinical routing
-│   └── elevation_routing_demo.py          # 22. NASA SRTM elevation model & apparatus incline routing
+│   ├── elevation_routing_demo.py          # 22. NASA SRTM elevation model & apparatus incline routing
+│   └── hydrology_hazard_demo.py           # 23. Real-time USGS flood telemetry & Open-Meteo weather routing
 ├── scripts/
 │   └── check.py                           # Pre-flight sanity checker & AST zero-dep audit
 ├── docs/
@@ -312,7 +313,8 @@ emergency-intelligence-ai/
 │   ├── milestone_6_4_report.md            # Phase 6 Milestone 6.4 verification report
 │   ├── milestone_6_evaluation_report.md   # Phase 6 Milestone 6.5 empirical evaluation report
 │   ├── milestone_7_1_report.md            # Phase 7 Milestone 7.1 verification report
-│   └── milestone_7_2_report.md            # Phase 7 Milestone 7.2 verification report
+│   ├── milestone_7_2_report.md            # Phase 7 Milestone 7.2 verification report
+│   └── milestone_7_3_report.md            # Phase 7 Milestone 7.3 verification report
 ├── CONTRIBUTING.md
 ├── pyproject.toml
 └── README.md
@@ -347,7 +349,7 @@ pip install pytest pytest-cov
 ## Verification & Testing
 
 ### 1. Automated Pre-Flight Sanity Checker
-We provide a unified verification script that enforces the Python version, performs an AST inspection across all 42 library modules to prove zero external runtime dependencies, runs the pytest suite with coverage enforcement, and executes all 22 demonstration scripts:
+We provide a unified verification script that enforces the Python version, performs an AST inspection across all 44 library modules to prove zero external runtime dependencies, runs the pytest suite with coverage enforcement, and executes all 23 demonstration scripts:
 
 ```bash
 python scripts/check.py
@@ -355,7 +357,7 @@ python scripts/check.py
 
 ### 2. Running Pytest Directly
 ```bash
-# Run all 569 unit tests
+# Run all 587 unit tests
 pytest -v
 
 # Run with statement and branch coverage enforcement (>= 90%)
@@ -366,7 +368,7 @@ pytest --cov=emergency_intelligence --cov-report=term-missing -v
 
 ## Interactive Demonstrations
 
-All 22 demonstration scripts can be executed independently from the terminal:
+All 23 demonstration scripts can be executed independently from the terminal:
 
 | # | Demo Script | Description |
 |---|---|---|
@@ -392,6 +394,7 @@ All 22 demonstration scripts can be executed independently from the terminal:
 | **20** | `python examples/simulation_suite_demo.py` | Master end-to-end interactive simulation demonstration uniting all 6 capabilities |
 | **21** | `python examples/overpass_poi_demo.py` | Live OSM Overpass emergency POI extraction, clinical capability binding, & specialized hospital routing |
 | **22** | `python examples/elevation_routing_demo.py` | NASA SRTM elevation model, 3D slope kinematics, & apparatus incline detour routing |
+| **23** | `python examples/hydrology_hazard_demo.py` | Real-time USGS river gauge flood telemetry, Open-Meteo weather alerts, & flood bypass routing |
 
 ---
 
@@ -405,7 +408,7 @@ All 22 demonstration scripts can be executed independently from the terminal:
 | **Phase 4** | Dynamic conditions & disaster events (Hazards, Mutations, Voronoi Catchment, In-Flight Detours, CAP) | ✅ **Complete** |
 | **Phase 5** | Emergency intelligence (AI natural language reasoning & dispatch orchestration layer) | ✅ **Complete** |
 | **Phase 6** | Simulation and quantitative evaluation harness | ✅ **Complete** |
-| **Phase 7** | External data and map integration (Milestones 7.1 & 7.2 Complete) | 🔄 **In Progress** |
+| **Phase 7** | External data and map integration (Milestones 7.1, 7.2 & 7.3 Complete) | 🔄 **In Progress** |
 | **Phase 8** | User-facing interactive prototype application | 🔜 Future |
 | **Phase 9** | GSoC 2027 proposal preparation | 🔜 Future |
 

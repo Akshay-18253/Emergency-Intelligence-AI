@@ -47,6 +47,23 @@ from emergency_intelligence.external.elevation import (
     parse_srtm_tile_name,
 )
 
+from emergency_intelligence.external.hydrology import (
+    DEFAULT_GAUGE_THRESHOLDS,
+    EnvironmentalMutationSummary,
+    FloodStage,
+    USGSGaugeReading,
+    USGSGaugeThresholds,
+    WeatherAlertLevel,
+    WeatherConditions,
+    apply_environmental_hazards_to_graph,
+    build_usgs_water_query_url,
+    classify_wmo_weather_code,
+    create_flood_inundation_polygon,
+    create_weather_hazard_polygon,
+    parse_open_meteo_response,
+    parse_usgs_water_response,
+)
+
 __all__ = [
     "ClinicalCapability",
     "EmergencyPOIType",
@@ -77,5 +94,19 @@ __all__ = [
     "format_srtm_tile_name",
     "get_grade_speed_multiplier",
     "parse_srtm_tile_name",
+    "DEFAULT_GAUGE_THRESHOLDS",
+    "EnvironmentalMutationSummary",
+    "FloodStage",
+    "USGSGaugeReading",
+    "USGSGaugeThresholds",
+    "WeatherAlertLevel",
+    "WeatherConditions",
+    "apply_environmental_hazards_to_graph",
+    "build_usgs_water_query_url",
+    "classify_wmo_weather_code",
+    "create_flood_inundation_polygon",
+    "create_weather_hazard_polygon",
+    "parse_open_meteo_response",
+    "parse_usgs_water_response",
 ]
 

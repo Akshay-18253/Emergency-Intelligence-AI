@@ -292,6 +292,12 @@ Unstructured 911 / Emergency Input (Call, SMS, Speech-to-Text, CAD Alert)
   - **3D Slope & Incline Kinematics (`calculate_slope_metrics`):** Computes horizontal distance, vertical delta $\Delta h$, true 3D Euclidean traversal length ($d_{3d} = \sqrt{d^2 + \Delta h^2}$), pitch angle, and slope grade ($\frac{\Delta h}{d} \times 100\%$).
   - **Apparatus Powertrain Incline Physics (`get_grade_speed_multiplier`):** Implements vehicle-specific velocity degradation and maximum passable climb thresholds (14% max climb for aerial ladder trucks vs 26% for ambulances), with steep descent runaway braking constraints.
   - **Dynamic Incline Routing View (`ElevationGraphView`):** Dynamic graph view adjusting traversal costs by grade multipliers and pruning impassable edges, enabling $A^*$ to divert heavy apparatus through gentler valleys.
+- **Real-Time Hydrological & Meteorological Feeds (`hydrology.py`):**
+  - **USGS Water Services Telemetry (`build_usgs_water_query_url`, `parse_usgs_water_response`):** Standard-library JSON parser for instantaneous river telemetry (`00065` gage height in feet, `00060` discharge streamflow in cfs) across national river stations.
+  - **NWS River Flood Stage Classification (`USGSGaugeThresholds`, `FloodStage`):** Categorizes water levels into Action, Minor, Moderate, and Major stages with station-specific threshold tables.
+  - **Open-Meteo Severe Weather Ingestion (`parse_open_meteo_response`):** Maps WMO storm codes, high-speed wind gusts ($\ge 75\text{ km/h}$), and torrential rain ($\ge 25\text{ mm/hr}$) to formal emergency alert levels (`WeatherAlertLevel`).
+  - **Automated Dynamic Hazard Polygon Synthesis (`create_flood_inundation_polygon`, `create_weather_hazard_polygon`):** Generates 2D spherical buffer polygons around active flood gauges and storms, scaling radii from 250m to 1000m based on disaster severity.
+  - **Environmental Graph Mutation Manager (`apply_environmental_hazards_to_graph`):** Spatially intersects flood/weather zones with road segments and applies atomic edge closures or speed penalties via `DynamicGraphView`.
 
 ---
 
