@@ -80,6 +80,13 @@ from emergency_intelligence.external.visualizer import (
     tile_xy_to_lat_lon,
     tms_to_slippy_y,
 )
+from emergency_intelligence.external.benchmark import (
+    MetropolitanBenchmarkReport,
+    MetropolitanBenchmarkRunner,
+    MetropolitanDisasterScenario,
+    StrategyRoutingResult,
+    build_metropolitan_benchmark_district,
+)
 
 __all__ = [
     "ClinicalCapability",
@@ -140,6 +147,11 @@ __all__ = [
     "tile_bounding_box",
     "tile_xy_to_lat_lon",
     "tms_to_slippy_y",
+    "MetropolitanBenchmarkReport",
+    "MetropolitanBenchmarkRunner",
+    "MetropolitanDisasterScenario",
+    "StrategyRoutingResult",
+    "build_metropolitan_benchmark_district",
 ]
 
 

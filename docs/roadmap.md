@@ -5,7 +5,7 @@
 > fixed calendar dates. Progress is incremental and each phase
 > establishes the foundation for the next.
 >
-> **Current position: Phase 7 (Ready / In Progress) — External Data and Map Integration (Phase 6 Complete: 5/5 Milestones Verified).**
+> **Current position: Phase 7 Complete (5/5 Milestones Verified) — External Data and Map Integration. Phase 8 (Ready) — Prototype Application.**
 
 ---
 
@@ -158,7 +158,7 @@ improve evaluation quality.
 | **Milestone 7.2: Topographic Digital Elevation Models (DEM) & Slope Cost Weighting** | • Pure-Python NASA SRTM HGT binary parser & bilinear elevation interpolation<br>• Vertical elevation delta $\Delta h$ & slope grade modeling ($\text{grade} = \frac{\Delta h}{d} \times 100\%$)<br>• Apparatus-specific climb penalty functions (ladder truck speed degradation $\ge 8\%$, mountain grade prohibition $\ge 14\%$)<br>• Dynamic elevation-aware routing view (`ElevationGraphView`), test suite ([`tests/test_elevation.py`](../tests/test_elevation.py)), interactive demo ([`examples/elevation_routing_demo.py`](../examples/elevation_routing_demo.py)), and report ([`docs/milestone_7_2_report.md`](../docs/milestone_7_2_report.md)) | ✅ Complete |
 | **Milestone 7.3: Real-Time Hydrological & Environmental Hazard Feeds (USGS / Open-Meteo)** | • USGS river gauge water-level feed parser & flood stage thresholding (Action, Minor, Moderate, Major)<br>• Automated dynamic river catchment polygon buffer generation (`HazardPolygon`)<br>• Open-Meteo extreme weather alerts & dynamic road closures via `DynamicGraphView`<br>• Unit test suite ([`tests/test_hydrology_and_weather.py`](../tests/test_hydrology_and_weather.py)), interactive demo ([`examples/hydrology_hazard_demo.py`](../examples/hydrology_hazard_demo.py)), and verification report ([`docs/milestone_7_3_report.md`](../docs/milestone_7_3_report.md)) | ✅ Complete |
 | **Milestone 7.4: Slippy Map Tile Math & Zero-Dependency Interactive Leaflet Visualizer** | • Web Mercator slippy tile projection $(lat, lon) \leftrightarrow (x, y, z)$ tile arithmetic & bounding box calculator<br>• Standalone, single-file HTML/JS GIS interactive visualizer (`render_interactive_map_html`)<br>• Hospital/station markers with capability popups, hazard polygons, isochrones, and route playback scrubber<br>• Unit test suite ([`tests/test_visualizer.py`](../tests/test_visualizer.py)), interactive demo ([`examples/map_visualizer_demo.py`](../examples/map_visualizer_demo.py)), and verification report ([`docs/milestone_7_4_report.md`](../docs/milestone_7_4_report.md)) | ✅ Complete |
-| **Milestone 7.5: Metropolitan City Benchmark, End-to-End Integration Suite & Audit** | • City-scale metropolitan benchmark combining real OSM roads, facilities, SRTM elevation, and USGS flood telemetry<br>• Comprehensive verification report ([`docs/milestone_7_report.md`](../docs/milestone_7_report.md))<br>• Full CI pre-flight gate synchronization & repository-wide documentation audit | 🔄 In Progress |
+| **Milestone 7.5: Metropolitan City Benchmark, End-to-End Integration Suite & Audit** | • City-scale metropolitan benchmark combining real OSM roads, facilities, SRTM elevation, and USGS flood telemetry<br>• Comprehensive verification report ([`docs/milestone_7_report.md`](../docs/milestone_7_report.md))<br>• Full CI pre-flight gate synchronization & repository-wide documentation audit | ✅ Complete |
 
 Principles:
 - Open standards and open datasets only

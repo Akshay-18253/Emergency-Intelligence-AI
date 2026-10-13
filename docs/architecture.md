@@ -303,6 +303,11 @@ Unstructured 911 / Emergency Input (Call, SMS, Speech-to-Text, CAD Alert)
   - **Tile Bounding Boxes & Discovery (`tile_bounding_box`, `get_tiles_for_bounding_box`):** Resolves northwest/southeast coordinate envelopes and spatial multi-tile ranges covering arbitrary geographic extents.
   - **Cartographic Resolution & TMS Arithmetic (`resolution_meters_per_pixel`, `slippy_to_tms_y`):** Physical ground resolution in meters per pixel as a function of latitude and zoom, with OSGeo TMS flipped Y conversions.
   - **Interactive Leaflet HTML5 Dashboard (`render_interactive_map_html`, `save_interactive_map_html`):** Renders a responsive, standalone single-file GIS application featuring Dark Matter tile layers, custom clinical capability popups, flood stage badges, and an interactive route playback scrubber with telemetry HUD.
+- **Metropolitan City Benchmark & End-to-End Integration Suite (`benchmark.py`):**
+  - **City-Scale Evaluation Harness (`MetropolitanBenchmarkRunner`, `build_metropolitan_benchmark_district`):** Unifies real-world OSM road hierarchies, cross-river bridge topologies, Overpass emergency POIs, NASA SRTM 3D elevation profiles, and live USGS river gauges into a city-scale disaster evaluation scenario.
+  - **Comparative Multi-Strategy Engine:** Measures performance trade-offs across 4 distinct operational paradigms: Flat $A^*$ Baseline, Elevation-Aware 3D (powertrain climb degradation and slope gates), Dynamic Flood Inundation Detours, and Specialized Clinical Triage Transport.
+  - **Degradation & Search Telemetry:** Quantifies Detour Delay Factor ($DDF$), Elevation Delay Factor ($EDF$), search space pruning ratio ($\ge 70\%$), and sub-millisecond dispatch latencies.
+  - **Cryptographic Audit Fingerprint:** Computes a deterministic SHA-256 integrity hash over all quantitative benchmark metrics, ensuring immutable reproducibility.
 
 ---
 
