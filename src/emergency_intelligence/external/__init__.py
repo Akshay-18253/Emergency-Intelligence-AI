@@ -63,6 +63,23 @@ from emergency_intelligence.external.hydrology import (
     parse_open_meteo_response,
     parse_usgs_water_response,
 )
+from emergency_intelligence.external.visualizer import (
+    MapIsochroneOverlay,
+    MapRouteOverlay,
+    TileBoundingBox,
+    clamp_latitude,
+    format_tile_url,
+    get_tiles_for_bounding_box,
+    lat_lon_to_tile_xy,
+    normalize_longitude,
+    render_interactive_map_html,
+    resolution_meters_per_pixel,
+    save_interactive_map_html,
+    slippy_to_tms_y,
+    tile_bounding_box,
+    tile_xy_to_lat_lon,
+    tms_to_slippy_y,
+)
 
 __all__ = [
     "ClinicalCapability",
@@ -108,5 +125,21 @@ __all__ = [
     "create_weather_hazard_polygon",
     "parse_open_meteo_response",
     "parse_usgs_water_response",
+    "MapIsochroneOverlay",
+    "MapRouteOverlay",
+    "TileBoundingBox",
+    "clamp_latitude",
+    "format_tile_url",
+    "get_tiles_for_bounding_box",
+    "lat_lon_to_tile_xy",
+    "normalize_longitude",
+    "render_interactive_map_html",
+    "resolution_meters_per_pixel",
+    "save_interactive_map_html",
+    "slippy_to_tms_y",
+    "tile_bounding_box",
+    "tile_xy_to_lat_lon",
+    "tms_to_slippy_y",
 ]
+
 

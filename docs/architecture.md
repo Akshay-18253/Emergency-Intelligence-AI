@@ -298,6 +298,11 @@ Unstructured 911 / Emergency Input (Call, SMS, Speech-to-Text, CAD Alert)
   - **Open-Meteo Severe Weather Ingestion (`parse_open_meteo_response`):** Maps WMO storm codes, high-speed wind gusts ($\ge 75\text{ km/h}$), and torrential rain ($\ge 25\text{ mm/hr}$) to formal emergency alert levels (`WeatherAlertLevel`).
   - **Automated Dynamic Hazard Polygon Synthesis (`create_flood_inundation_polygon`, `create_weather_hazard_polygon`):** Generates 2D spherical buffer polygons around active flood gauges and storms, scaling radii from 250m to 1000m based on disaster severity.
   - **Environmental Graph Mutation Manager (`apply_environmental_hazards_to_graph`):** Spatially intersects flood/weather zones with road segments and applies atomic edge closures or speed penalties via `DynamicGraphView`.
+- **Slippy Map Tile Math & Zero-Dependency Leaflet Visualizer (`visualizer.py`):**
+  - **Web Mercator Slippy Projections (`lat_lon_to_tile_xy`, `tile_xy_to_lat_lon`):** Forward and inverse transforms with conformal latitude bounds clamping ($\pm 85.0511^\circ$) and periodic longitude normalization.
+  - **Tile Bounding Boxes & Discovery (`tile_bounding_box`, `get_tiles_for_bounding_box`):** Resolves northwest/southeast coordinate envelopes and spatial multi-tile ranges covering arbitrary geographic extents.
+  - **Cartographic Resolution & TMS Arithmetic (`resolution_meters_per_pixel`, `slippy_to_tms_y`):** Physical ground resolution in meters per pixel as a function of latitude and zoom, with OSGeo TMS flipped Y conversions.
+  - **Interactive Leaflet HTML5 Dashboard (`render_interactive_map_html`, `save_interactive_map_html`):** Renders a responsive, standalone single-file GIS application featuring Dark Matter tile layers, custom clinical capability popups, flood stage badges, and an interactive route playback scrubber with telemetry HUD.
 
 ---
 
