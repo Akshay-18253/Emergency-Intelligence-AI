@@ -1,8 +1,8 @@
 # Emergency Intelligence AI — System Architecture
 
-> **Status:** All core foundational architectural layers (Phases 1 through 6) are **fully implemented and verified**.
+> **Status:** Foundational architectural layers (Phases 1 through 6) and Phase 7 Milestone 7.1 are **fully implemented and verified**.
 > Core library has **zero external runtime dependencies** (100% Python standard library).
-> **523 unit tests passing with 95.82% statement and branch coverage across 39 modules.**
+> **550 unit tests passing with 95.82% statement and branch coverage across 41 modules.**
 
 ---
 
@@ -47,6 +47,15 @@ Unstructured 911 / Emergency Input (Call, SMS, Speech-to-Text, CAD Alert)
 │  └── In-Flight Vehicle Tracker & Sub-Millisecond Detour Replanning     │
 └──────────────────────────────┬─────────────────────────────────────────┘
                                │ Active Dynamic Graph & Edge Penalties
+                               ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│  LAYER 7: EXTERNAL DATA & GEOSPATIAL MAP INTEGRATION [PHASE 7]         │
+│  ├── Overpass QL Query Builder & Live OSM Emergency POI Extractor       │
+│  ├── Trauma Tiers 1-4, Burn, Pediatric, Cardiac, Bay Triage Extraction │
+│  ├── Multi-Criteria Spatial Index Snapping & POI Road Network Binding  │
+│  └── Dynamic Fleet Generation & Multi-Criteria Hospital Routing        │
+└──────────────────────────────┬─────────────────────────────────────────┘
+                               │ Enriched Clinical Road Graph & POIs
                                ▼
 ┌────────────────────────────────────────────────────────────────────────┐
 │  LAYER 2: GEOSPATIAL & ROAD NETWORK INGESTION                          │
@@ -259,6 +268,22 @@ Unstructured 911 / Emergency Input (Call, SMS, Speech-to-Text, CAD Alert)
   - **JSON Time-Series Telemetry:** Microsecond-precision event timeline and step-by-step vehicle kinematic trajectories.
   - **RFC 4180 Tabular CSV:** High-throughput metrics tables for statistical analysis.
   - **RFC 7946 Spatial GeoJSON:** Geographic LineString feature collections for visual GIS replay in QGIS, Kepler.gl, or Leaflet.
+
+---
+
+### Layer 7 — External Data & Geospatial Map Integration
+**Location:** [`src/emergency_intelligence/external/`](../src/emergency_intelligence/external/)
+
+- **Overpass POI Extraction (`overpass.py`):**
+  - **Declarative Overpass QL Query Builder (`build_emergency_poi_query`):** Generates structured queries supporting geographic bounding boxes `(south, west, north, east)` and named administrative boundary searches.
+  - **Granular Emergency POI Classification (`EmergencyPOIType`):** Catalogs hospitals, clinics, fire stations, ambulance stations, dispatch centers, police stations, helipads, and fire hydrants.
+  - **Clinical Capability Extraction (`ClinicalCapability`):** Extracts specialized attributes: trauma care tiers (Levels 1 through 4), burn treatment units, pediatric emergency departments, stroke centers, cardiac catheterization labs, helipads, apparatus bay capacities, and emergency phone numbers.
+  - **Offline-First HTTP Client (`fetch_or_load_overpass_pois`):** Implements deterministic file caching, fallback loading, and network error containment with timeout safeguards using Python's standard `urllib.request`.
+- **Clinical & Facility Road Network Binding (`binding.py`):**
+  - **Orthogonal Network Snapping (`bind_poi_to_network` / `bind_pois_to_network`):** Snaps off-road POI coordinates to the nearest traversable network node using `SpatialIndex` with customizable search radiuses.
+  - **Spatial Error Isolation (`SpatialBindingError`):** Prevents individual disconnected facilities from causing batch ingestion failures.
+  - **Automated Fleet Ingestion (`create_fleet_from_pois`):** Instantiates `FleetManager`, `EmergencyStation`, and apparatus rosters dynamically from real-world OSM fire and ambulance stations.
+  - **Specialized Clinical Transport Router (`find_nearest_clinical_facility`):** Multi-criteria $A^*$ hospital transport router resolving the closest receiving medical center satisfying required clinical specialties (e.g., burn unit, pediatric care, Level 1 trauma).
 
 ---
 

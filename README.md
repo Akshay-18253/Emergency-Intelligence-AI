@@ -1,11 +1,12 @@
 # Emergency Intelligence AI
 
-> **Phase 6 Status — Simulation & Quantitative Evaluation (Complete)**  
+> **Phase 7 Status — External Data & Map Integration (Milestone 7.1 Complete)**  
 > Deterministic emergency routing, real-world OpenStreetMap ingestion, 2D geometric disaster hazard zones,
 > non-destructive graph mutations, multi-source Voronoi fleet catchment, in-flight reactive rerouting,
 > OASIS CAP v1.2 alert feed ingestion, schema-constrained structured model adapter, statutory SOP policy engine,
-> tamper-evident audit verification, discrete-event simulation engine, continuous kinematics, and multi-format exporters.  
-> **523 unit tests passing with 95.82% code coverage across 39 modules.** Zero external runtime dependencies (100% Python standard library).
+> tamper-evident audit verification, discrete-event simulation engine, continuous kinematics, multi-format exporters,
+> and live OSM Overpass emergency POI ingestion with clinical capability network binding.  
+> **550 unit tests passing with 95.82% code coverage across 41 modules.** Zero external runtime dependencies (100% Python standard library).
 
 ---
 
@@ -92,6 +93,13 @@ Phase 6: Simulation, Benchmarking & Quantitative Evaluation
          └── Multi-Format Exporter (JSON Telemetry, RFC 4180 CSV, RFC 7946 GeoJSON)
                        │
                        ▼
+Phase 7: External Data & Geospatial Map Integration
+         ├── Live OSM Overpass QL Query Builder & Emergency POI Extractor
+         ├── Trauma Tiers 1-4, Burn, Pediatric, Cardiac, Bay Triage Extraction
+         ├── Orthogonal Spatial Index Snapping & POI Road Network Binding
+         └── Dynamic Fleet Generation & Multi-Criteria Hospital Routing
+                       │
+                       ▼
 Candidate Route & Telemetry (RFC 7946 GeoJSON Export)
 ```
 
@@ -108,14 +116,14 @@ This project is developed **brick by brick**.
 Priorities (in order):
 1. **Correctness & Zero Dependencies** — Core library relies 100% on the Python standard library. No external GIS, scientific, or LLM runtime packages required.
 2. **Deterministic Reproducibility** — Every algorithm has verified mathematical, geometric, and invariant test cases.
-3. **High Test Coverage** — Strict $\ge 90\%$ branch and statement coverage enforcement (currently **95.82%** across 523 tests).
+3. **High Test Coverage** — Strict $\ge 90\%$ branch and statement coverage enforcement (currently **95.82%** across 550 tests).
 4. **Sub-Millisecond Performance** — Critical path algorithms (detours, ray casting, heuristic lookups) run in microseconds.
 5. **Open Standards** — Full compatibility with OpenStreetMap, RFC 7946 GeoJSON, and OASIS CAP v1.2.
 6. **Fail-Safe Operation** — Topologically disconnected nodes, missing coordinates, and malformed inputs fail safe to staged turnout or clarification prompts.
 
 ---
 
-## Current Capabilities (Phases 1–6 Complete)
+## Current Capabilities (Phases 1–6 Complete, Phase 7 in Progress)
 
 | Capability | Module | Status |
 |---|---|:---:|
@@ -160,6 +168,11 @@ Priorities (in order):
 | Microsecond algorithmic profiler & $A^*$ pruning verification | [`evaluation/profiler.py`](src/emergency_intelligence/evaluation/profiler.py) | ✅ Implemented |
 | Comparative routing strategy benchmarks (Static, Polling, Reactive) | [`evaluation/benchmark.py`](src/emergency_intelligence/evaluation/benchmark.py) | ✅ Implemented |
 | Multi-format simulation data exporter (JSON, RFC 4180 CSV, GeoJSON) | [`evaluation/exporter.py`](src/emergency_intelligence/evaluation/exporter.py) | ✅ Implemented |
+| Live OpenStreetMap Overpass emergency POI extraction (`fetch_or_load_overpass_pois`) | [`external/overpass.py`](src/emergency_intelligence/external/overpass.py) | ✅ Implemented |
+| Clinical capability extraction (Trauma 1–4, Burn, Pediatric, Cardiac, Bays) | [`external/overpass.py`](src/emergency_intelligence/external/overpass.py) | ✅ Implemented |
+| Orthogonal POI network projection & spatial binding (`bind_poi_to_network`) | [`external/binding.py`](src/emergency_intelligence/external/binding.py) | ✅ Implemented |
+| Dynamic station fleet generation from OSM POIs (`create_fleet_from_pois`) | [`external/binding.py`](src/emergency_intelligence/external/binding.py) | ✅ Implemented |
+| Multi-criteria specialized clinical facility transport routing | [`external/binding.py`](src/emergency_intelligence/external/binding.py) | ✅ Implemented |
 | Automated pre-flight sanity checker & AST zero-dependency audit | [`scripts/check.py`](scripts/check.py) | ✅ Implemented |
 
 ---
@@ -211,13 +224,17 @@ emergency-intelligence-ai/
 │       │   ├── timeline.py                # SimulationClock, SimEvent, SimulationTimeline priority queue
 │       │   ├── engine.py                  # SimulationEngine, continuous vehicle motion & event hooks
 │       │   └── scenarios.py               # Reproducible multi-incident scenarios & contention models
-│       └── evaluation/                    # Phase 6: Quantitative Evaluation & Metrics
+│       ├── evaluation/                    # Phase 6: Quantitative Evaluation & Metrics
+│       │   ├── __init__.py
+│       │   ├── metrics.py                 # NFPA 1710 compliance, Path Stability Index (PSI), Detour Delay (DDF)
+│       │   ├── profiler.py                # Algorithmic latency & A* search space pruning profiler
+│       │   ├── benchmark.py               # Comparative routing harness (Static vs Polling vs Reactive)
+│       │   └── exporter.py                # JSON time-series telemetry, RFC 4180 CSV, RFC 7946 GeoJSON
+│       └── external/                      # Phase 7: External Data & Map Integration
 │           ├── __init__.py
-│           ├── metrics.py                 # NFPA 1710 compliance, Path Stability Index (PSI), Detour Delay (DDF)
-│           ├── profiler.py                # Algorithmic latency & A* search space pruning profiler
-│           ├── benchmark.py               # Comparative routing harness (Static vs Polling vs Reactive)
-│           └── exporter.py                # JSON time-series telemetry, RFC 4180 CSV, RFC 7946 GeoJSON
-├── tests/                                 # 523 test cases, >= 95% coverage
+│           ├── overpass.py                # Overpass QL query builder, POI parser & cached client
+│           └── binding.py                 # Spatial POI network binding, fleet creation & clinical routing
+├── tests/                                 # 550 test cases, >= 95% coverage
 │   ├── test_models.py
 │   ├── test_dijkstra.py
 │   ├── test_heuristics.py
@@ -241,8 +258,9 @@ emergency-intelligence-ai/
 │   ├── test_simulation_engine.py          # Phase 6 Milestone 6.1 tests
 │   ├── test_scenarios.py                  # Phase 6 Milestone 6.2 tests
 │   ├── test_evaluation.py                 # Phase 6 Milestone 6.3 tests
-│   └── test_benchmarks.py                 # Phase 6 Milestone 6.4 tests
-├── examples/                              # 20 runnable demonstration scripts
+│   ├── test_benchmarks.py                 # Phase 6 Milestone 6.4 tests
+│   └── test_overpass_poi.py               # Phase 7 Milestone 7.1 tests
+├── examples/                              # 21 runnable demonstration scripts
 │   ├── demo.py                            # 1. Dijkstra foundation demonstration
 │   ├── benchmark_demo.py                  # 2. A* vs Dijkstra comparative benchmark
 │   ├── osm_demo.py                        # 3. Real OpenStreetMap emergency routing
@@ -262,7 +280,8 @@ emergency-intelligence-ai/
 │   ├── multi_incident_scenarios_demo.py   # 17. Multi-incident resource contention & mutual aid
 │   ├── metrics_profiler_demo.py           # 18. NFPA 1710 compliance & search space pruning
 │   ├── comparative_benchmark_demo.py      # 19. Comparative routing benchmarks & multi-format export
-│   └── simulation_suite_demo.py           # 20. Master end-to-end simulation & evaluation suite
+│   ├── simulation_suite_demo.py           # 20. Master end-to-end simulation & evaluation suite
+│   └── overpass_poi_demo.py               # 21. Live OSM Overpass emergency POI & clinical routing
 ├── scripts/
 │   └── check.py                           # Pre-flight sanity checker & AST zero-dep audit
 ├── docs/
@@ -281,7 +300,8 @@ emergency-intelligence-ai/
 │   ├── milestone_6_2_report.md            # Phase 6 Milestone 6.2 verification report
 │   ├── milestone_6_3_report.md            # Phase 6 Milestone 6.3 verification report
 │   ├── milestone_6_4_report.md            # Phase 6 Milestone 6.4 verification report
-│   └── milestone_6_evaluation_report.md   # Phase 6 Milestone 6.5 empirical evaluation report
+│   ├── milestone_6_evaluation_report.md   # Phase 6 Milestone 6.5 empirical evaluation report
+│   └── milestone_7_1_report.md            # Phase 7 Milestone 7.1 verification report
 ├── CONTRIBUTING.md
 ├── pyproject.toml
 └── README.md
@@ -316,7 +336,7 @@ pip install pytest pytest-cov
 ## Verification & Testing
 
 ### 1. Automated Pre-Flight Sanity Checker
-We provide a unified verification script that enforces the Python version, performs an AST inspection across all 39 library modules to prove zero external runtime dependencies, runs the pytest suite with coverage enforcement, and executes all 20 demonstration scripts:
+We provide a unified verification script that enforces the Python version, performs an AST inspection across all 41 library modules to prove zero external runtime dependencies, runs the pytest suite with coverage enforcement, and executes all 21 demonstration scripts:
 
 ```bash
 python scripts/check.py
@@ -324,7 +344,7 @@ python scripts/check.py
 
 ### 2. Running Pytest Directly
 ```bash
-# Run all 523 unit tests
+# Run all 550 unit tests
 pytest -v
 
 # Run with statement and branch coverage enforcement (>= 90%)
@@ -335,7 +355,7 @@ pytest --cov=emergency_intelligence --cov-report=term-missing -v
 
 ## Interactive Demonstrations
 
-All 20 demonstration scripts can be executed independently from the terminal:
+All 21 demonstration scripts can be executed independently from the terminal:
 
 | # | Demo Script | Description |
 |---|---|---|
@@ -359,6 +379,7 @@ All 20 demonstration scripts can be executed independently from the terminal:
 | **18** | `python examples/metrics_profiler_demo.py` | NFPA 1710 response compliance, PSI/DDF degradation, & $A^*$ pruning profiler |
 | **19** | `python examples/comparative_benchmark_demo.py` | Comparative routing strategies (Static vs Polling vs Reactive) & multi-format export |
 | **20** | `python examples/simulation_suite_demo.py` | Master end-to-end interactive simulation demonstration uniting all 6 capabilities |
+| **21** | `python examples/overpass_poi_demo.py` | Live OSM Overpass emergency POI extraction, clinical capability binding, & specialized hospital routing |
 
 ---
 
@@ -372,7 +393,7 @@ All 20 demonstration scripts can be executed independently from the terminal:
 | **Phase 4** | Dynamic conditions & disaster events (Hazards, Mutations, Voronoi Catchment, In-Flight Detours, CAP) | ✅ **Complete** |
 | **Phase 5** | Emergency intelligence (AI natural language reasoning & dispatch orchestration layer) | ✅ **Complete** |
 | **Phase 6** | Simulation and quantitative evaluation harness | ✅ **Complete** |
-| **Phase 7** | External data and map integration | 🔄 **Next / In Progress** |
+| **Phase 7** | External data and map integration (Milestone 7.1 Complete) | 🔄 **In Progress** |
 | **Phase 8** | User-facing interactive prototype application | 🔜 Future |
 | **Phase 9** | GSoC 2027 proposal preparation | 🔜 Future |
 
