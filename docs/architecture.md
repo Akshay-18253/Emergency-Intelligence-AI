@@ -1,8 +1,8 @@
 # Emergency Intelligence AI — System Architecture
 
-> **Status:** Foundational architectural layers (Phases 1 through 6) and Phase 7 Milestone 7.1 are **fully implemented and verified**.
+> **Status:** Foundational architectural layers (Phases 1 through 6) and Phase 7 (Milestones 7.1 and 7.2) are **fully implemented and verified**.
 > Core library has **zero external runtime dependencies** (100% Python standard library).
-> **550 unit tests passing with 95.82% statement and branch coverage across 41 modules.**
+> **569 unit tests passing with 95.70% statement and branch coverage across 42 modules.**
 
 ---
 
@@ -53,7 +53,9 @@ Unstructured 911 / Emergency Input (Call, SMS, Speech-to-Text, CAD Alert)
 │  ├── Overpass QL Query Builder & Live OSM Emergency POI Extractor       │
 │  ├── Trauma Tiers 1-4, Burn, Pediatric, Cardiac, Bay Triage Extraction │
 │  ├── Multi-Criteria Spatial Index Snapping & POI Road Network Binding  │
-│  └── Dynamic Fleet Generation & Multi-Criteria Hospital Routing        │
+│  ├── Dynamic Fleet Generation & Multi-Criteria Hospital Routing        │
+│  ├── NASA SRTM Elevation Model & Sub-Grid Bilinear Interpolation       │
+│  └── Apparatus Incline Physics, Climb Limits & Elevation Graph Views   │
 └──────────────────────────────┬─────────────────────────────────────────┘
                                │ Enriched Clinical Road Graph & POIs
                                ▼
@@ -284,6 +286,12 @@ Unstructured 911 / Emergency Input (Call, SMS, Speech-to-Text, CAD Alert)
   - **Spatial Error Isolation (`SpatialBindingError`):** Prevents individual disconnected facilities from causing batch ingestion failures.
   - **Automated Fleet Ingestion (`create_fleet_from_pois`):** Instantiates `FleetManager`, `EmergencyStation`, and apparatus rosters dynamically from real-world OSM fire and ambulance stations.
   - **Specialized Clinical Transport Router (`find_nearest_clinical_facility`):** Multi-criteria $A^*$ hospital transport router resolving the closest receiving medical center satisfying required clinical specialties (e.g., burn unit, pediatric care, Level 1 trauma).
+- **Topographic Digital Elevation Models & Incline Routing (`elevation.py`):**
+  - **NASA SRTM HGT Binary Ingestion (`SRTMTile`):** Big-endian 16-bit signed integer (`>h`) binary parser supporting SRTM1 (3601x3601) and SRTM3 (1201x1201) with microsecond offset indexing.
+  - **Sub-Grid Bilinear Interpolation (`get_elevation`):** Continuous 4-point bilinear interpolation with automatic void-sample (`-32768`) detection, normalization, and terrestrial bounds clamping.
+  - **3D Slope & Incline Kinematics (`calculate_slope_metrics`):** Computes horizontal distance, vertical delta $\Delta h$, true 3D Euclidean traversal length ($d_{3d} = \sqrt{d^2 + \Delta h^2}$), pitch angle, and slope grade ($\frac{\Delta h}{d} \times 100\%$).
+  - **Apparatus Powertrain Incline Physics (`get_grade_speed_multiplier`):** Implements vehicle-specific velocity degradation and maximum passable climb thresholds (14% max climb for aerial ladder trucks vs 26% for ambulances), with steep descent runaway braking constraints.
+  - **Dynamic Incline Routing View (`ElevationGraphView`):** Dynamic graph view adjusting traversal costs by grade multipliers and pruning impassable edges, enabling $A^*$ to divert heavy apparatus through gentler valleys.
 
 ---
 

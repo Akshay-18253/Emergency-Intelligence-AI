@@ -30,6 +30,22 @@ from emergency_intelligence.external.binding import (
     find_nearest_clinical_facility,
     poi_to_emergency_station,
 )
+from emergency_intelligence.external.elevation import (
+    APPARATUS_GRADE_PROFILES,
+    ApparatusGradeLimits,
+    DEMResolution,
+    ElevationEnrichmentSummary,
+    ElevationGraphView,
+    ElevationProvider,
+    SlopeMetrics,
+    SRTMTile,
+    build_synthetic_dem_tile,
+    calculate_slope_metrics,
+    enrich_graph_with_elevation,
+    format_srtm_tile_name,
+    get_grade_speed_multiplier,
+    parse_srtm_tile_name,
+)
 
 __all__ = [
     "ClinicalCapability",
@@ -47,4 +63,19 @@ __all__ = [
     "create_fleet_from_pois",
     "find_nearest_clinical_facility",
     "poi_to_emergency_station",
+    "APPARATUS_GRADE_PROFILES",
+    "ApparatusGradeLimits",
+    "DEMResolution",
+    "ElevationEnrichmentSummary",
+    "ElevationGraphView",
+    "ElevationProvider",
+    "SlopeMetrics",
+    "SRTMTile",
+    "build_synthetic_dem_tile",
+    "calculate_slope_metrics",
+    "enrich_graph_with_elevation",
+    "format_srtm_tile_name",
+    "get_grade_speed_multiplier",
+    "parse_srtm_tile_name",
 ]
+
