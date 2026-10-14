@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Emergency Intelligence AI — Tactical Prototype Web Server & REST API Gateway">
+  <title>Emergency Intelligence AI — Operations Center Gateway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0e17;
+      --card-bg: rgba(17, 24, 39, 0.75);
+      --card-border: rgba(55, 65, 81, 0.5);
+      --primary-cyan: #06b6d4;
+      --primary-emerald: #10b981;
+      --primary-amber: #f59e0b;
+      --primary-crimson: #ef4444;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #111e38 0%, var(--bg-dark) 75%);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .title-group h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--primary-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-live {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--primary-emerald);
+      border-color: rgba(16, 185, 129, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .badge-live::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary-emerald);
+      box-shadow: 0 0 8px var(--primary-emerald);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(6, 182, 212, 0.4);
+    }
+
+    .stat-card {
+      padding: 1.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-main);
+      font-family: var(--font-mono);
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--primary-cyan);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    pre, code {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+
+    .log-box {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 1rem;
+      max-height: 220px;
+      overflow-y: auto;
+      color: #38bdf8;
+      font-size: 0.8rem;
+    }
+
+    button {
+      background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--primary-cyan);
+      color: var(--primary-cyan);
+    }
+
+    .action-bar {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 0.6rem;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+      margin-bottom: 0.8rem;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-cyan);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="title-group">
+        <h1>Emergency Intelligence AI <span class="badge">Phase 8 Prototype</span></h1>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
+          Zero-Dependency Embedded HTTP Server &amp; Event-Stream API Gateway
+        </p>
+      </div>
+      <div>
+        <span id="sse-status" class="badge badge-live">SSE Gateway Live</span>
+      </div>
+    </header>
+
+    <!-- Real-Time Metric Tiles -->
+    <div class="grid-4">
+      <div class="card stat-card">
+        <div class="stat-label">Road Network Nodes</div>
+        <div id="stat-nodes" class="stat-value">36</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-label">Network Edges</div>
+        <div id="stat-edges" class="stat-value">120</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-label">Emergency Facilities</div>
+        <div id="stat-facilities" class="stat-value">5</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-label">Active Fleet Units</div>
+        <div id="stat-fleet" class="stat-value">2</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- 911 Call Intake Tester -->
+      <div class="card">
+        <h2>911 Intake &amp; Policy Pipeline Tester</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+          Submits raw unstructured text through PII masking, AI interpretation, statutory policy enforcement, and SHA-256 audit hashing.
+        </p>
+        <label for="intake-text" style="font-size: 0.85rem; color: var(--text-muted);">Caller Emergency Report:</label>
+        <textarea id="intake-text" rows="3">55-year-old male experiencing sudden severe crushing chest pain and collapse at 4th and Pine.</textarea>
+        <div class="action-bar">
+          <button id="btn-submit-intake">Dispatch &amp; Enforce SOP</button>
+          <button id="btn-preset-cardiac" class="btn-outline">Cardiac Preset</button>
+          <button id="btn-preset-fire" class="btn-outline">Fire Preset</button>
+        </div>
+        <div style="margin-top: 1rem;">
+          <div class="stat-label">Pipeline Output &amp; Audit Digest:</div>
+          <pre id="intake-output" class="log-box">Ready for 911 intake...</pre>
+        </div>
+      </div>
+
+      <!-- Live REST Route Query -->
+      <div class="card">
+        <h2>Multi-Criteria Route Engine (A*)</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+          Executes informed heuristic search with 3D terrain incline kinematics and dynamic flood bypass.
+        </p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+          <div>
+            <label for="route-origin" style="font-size: 0.8rem; color: var(--text-muted);">Origin Node:</label>
+            <input type="text" id="route-origin" value="N_0_0">
+          </div>
+          <div>
+            <label for="route-dest" style="font-size: 0.8rem; color: var(--text-muted);">Destination Node:</label>
+            <input type="text" id="route-dest" value="N_3_5">
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+          <div>
+            <label for="route-apparatus" style="font-size: 0.8rem; color: var(--text-muted);">Apparatus Type:</label>
+            <select id="route-apparatus">
+              <option value="ladder_truck">Ladder Truck (Heavy)</option>
+              <option value="ambulance_als">ALS Ambulance (Fast)</option>
+              <option value="fire_engine">Fire Engine</option>
+            </select>
+          </div>
+          <div>
+            <label for="route-elev" style="font-size: 0.8rem; color: var(--text-muted);">Elevation Aware (3D):</label>
+            <select id="route-elev">
+              <option value="true">Enabled (SRTM Incline)</option>
+              <option value="false">Disabled (Flat Baseline)</option>
+            </select>
+          </div>
+        </div>
+        <div class="action-bar">
+          <button id="btn-calc-route">Compute Optimal Route</button>
+          <button id="btn-inject-flood" class="btn-outline">Simulate Flood Inundation</button>
+        </div>
+        <div style="margin-top: 1rem;">
+          <div class="stat-label">Route Telemetry:</div>
+          <pre id="route-output" class="log-box">Route calculation standby...</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Event Stream Feed -->
+    <div class="card">
+      <h2>Real-Time Server-Sent Events (SSE) Stream</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+        Zero-dependency HTTP event stream (<code>/api/simulation/stream</code>) broadcasting continuous telemetry, incident arrivals, and vehicle updates.
+      </p>
+      <pre id="sse-log" class="log-box" style="max-height: 160px;">Connecting to SSE stream...</pre>
+    </div>
+  </div>
+
+  <script>
+    // System Status Polling
+    async function loadHealth() {
+      try {
+        const res = await fetch('/api/health');
+        const json = await res.json();
+        if (json.success && json.data) {
+          document.getElementById('stat-nodes').textContent = json.data.graph_nodes;
+          document.getElementById('stat-edges').textContent = json.data.graph_edges;
+          document.getElementById('stat-facilities').textContent = json.data.emergency_facilities;
+          document.getElementById('stat-fleet').textContent = json.data.fleet_units;
+        }
+      } catch (err) {
+        console.error('Failed to load health status:', err);
+      }
+    }
+    loadHealth();
+
+    // SSE Event Stream Listener
+    function setupSSE() {
+      const logEl = document.getElementById('sse-log');
+      const statusEl = document.getElementById('sse-status');
+
+      try {
+        const evtSource = new EventSource('/api/simulation/stream');
+
+        evtSource.addEventListener('connected', (e) => {
+          logEl.textContent = `[SSE CONNECTED] ${e.data}\n` + logEl.textContent;
+          statusEl.textContent = 'SSE Gateway Live';
+        });
+
+        evtSource.addEventListener('incident_intake', (e) => {
+          logEl.textContent = `[911 ALERT] ${e.data}\n` + logEl.textContent;
+        });
+
+        evtSource.addEventListener('hazard_injected', (e) => {
+          logEl.textContent = `[HAZARD INJECTED] ${e.data}\n` + logEl.textContent;
+          loadHealth();
+        });
+
+        evtSource.onerror = () => {
+          statusEl.textContent = 'SSE Reconnecting...';
+        };
+      } catch (e) {
+        logEl.textContent = 'SSE streaming unavailable in browser: ' + e;
+      }
+    }
+    setupSSE();
+
+    // 911 Intake Dispatch
+    document.getElementById('btn-submit-intake').addEventListener('click', async () => {
+      const text = document.getElementById('intake-text').value;
+      const out = document.getElementById('intake-output');
+      out.textContent = 'Processing 5-stage dispatch pipeline...';
+
+      try {
+        const res = await fetch('/api/intake', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ raw_text: text })
+        });
+        const data = await res.json();
+        out.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        out.textContent = 'Error: ' + err.message;
+      }
+    });
+
+    document.getElementById('btn-preset-cardiac').addEventListener('click', () => {
+      document.getElementById('intake-text').value = '55-year-old male experiencing sudden severe crushing chest pain and collapse at 4th and Pine.';
+    });
+
+    document.getElementById('btn-preset-fire').addEventListener('click', () => {
+      document.getElementById('intake-text').value = 'Heavy black smoke and active flames visible on the 4th floor of a commercial apartment building on Pike Street.';
+    });
+
+    // Route Calculator
+    document.getElementById('btn-calc-route').addEventListener('click', async () => {
+      const origin = document.getElementById('route-origin').value;
+      const dest = document.getElementById('route-dest').value;
+      const apparatus = document.getElementById('route-apparatus').value;
+      const elev = document.getElementById('route-elev').value === 'true';
+      const out = document.getElementById('route-output');
+      out.textContent = 'Computing optimal route...';
+
+      try {
+        const res = await fetch('/api/route', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            origin: origin,
+            destination: dest,
+            apparatus_type: apparatus,
+            elevation_aware: elev
+          })
+        });
+        const data = await res.json();
+        out.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        out.textContent = 'Error: ' + err.message;
+      }
+    });
+
+    // Dynamic Hazard Injection
+    document.getElementById('btn-inject-flood').addEventListener('click', async () => {
+      const out = document.getElementById('route-output');
+      out.textContent = 'Injecting dynamic river flood hazard...';
+
+      try {
+        const res = await fetch('/api/hazards', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            hazard_type: 'river_flood',
+            speed_multiplier: 0.0,
+            polygon_coords: [
+              [-122.332, 47.600],
+              [-122.328, 47.600],
+              [-122.328, 47.610],
+              [-122.332, 47.610]
+            ]
+          })
+        });
+        const data = await res.json();
+        out.textContent = 'Hazard Injected! Bridges severed: ' + JSON.stringify(data, null, 2);
+        loadHealth();
+      } catch (err) {
+        out.textContent = 'Error: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>

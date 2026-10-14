@@ -5,9 +5,9 @@
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/LICENSE)
 [![Zero External Dependencies](https://img.shields.io/badge/Runtime%20Dependencies-0%20(Pure%20Stdlib)-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
-[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-612%20Passing-success.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/)
-[![Coverage](https://img.shields.io/badge/Coverage-96.09%25-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
-[![Runnable Demos](https://img.shields.io/badge/Interactive%20Demos-25%20Passing-blueviolet.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/)
+[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-628%20Passing-success.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/)
+[![Coverage](https://img.shields.io/badge/Coverage-93.95%25-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
+[![Runnable Demos](https://img.shields.io/badge/Interactive%20Demos-26%20Passing-blueviolet.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/)
 
 ---
 
@@ -50,10 +50,11 @@
   - [Milestone 7.3: Real-Time USGS River Hydrology & Open-Meteo Weather Hazards](#milestone-73-real-time-usgs-river-hydrology--open-meteo-weather-hazards)
   - [Milestone 7.4: Web Mercator Slippy Tile Math & Zero-Dependency Leaflet GIS Visualizer](#milestone-74-web-mercator-slippy-tile-math--zero-dependency-leaflet-gis-visualizer)
   - [Milestone 7.5: Metropolitan City Benchmark & End-to-End Integration Suite](#milestone-75-metropolitan-city-benchmark--end-to-end-integration-suite)
-- [10. Future Phases & Forward Roadmap](#10-future-phases--forward-roadmap)
-  - [Phase 8: Interactive Prototype Web Application](#phase-8-interactive-prototype-web-application)
+- [10. Phase 8 — Interactive Prototype Application](#10-phase-8--interactive-prototype-application)
+  - [Milestone 8.1: Zero-Dependency Embedded HTTP Server & REST / Event-Stream Gateway](#milestone-81-zero-dependency-embedded-http-server--rest--event-stream-gateway)
+- [11. Future Phases & Forward Roadmap](#11-future-phases--forward-roadmap)
   - [Phase 9: GSoC 2027 Proposal Preparation](#phase-9-gsoc-2027-proposal-preparation)
-- [11. Maintenance Guide for Milestone Updates](#11-maintenance-guide-for-milestone-updates)
+- [12. Maintenance Guide for Milestone Updates](#12-maintenance-guide-for-milestone-updates)
 
 ---
 
@@ -67,13 +68,13 @@ This document serves as the **master changelog and technical chronicle**. It rec
 
 | Telemetry Dimension | Verified Measurement | Gate Status |
 |---|---|:---:|
-| **Phases Completed** | **7 of 7 Core Engine Phases** | ✅ Complete |
-| **Milestones Verified** | **28 of 28 Technical Milestones** | ✅ Complete |
-| **Unit Test Suite** | **612 passed in 4.33 seconds** | ✅ 100% Pass |
-| **Branch & Statement Coverage** | **96.09% Repository-Wide** | ✅ Exceeds $\ge 90\%$ Gate |
+| **Phases Completed** | **7 Completed, Phase 8 In Progress (Milestone 8.1 Complete)** | 🚀 Active |
+| **Milestones Verified** | **29 of 32 Technical Milestones** | ✅ Complete |
+| **Unit Test Suite** | **628 passed in 5.53 seconds** | ✅ 100% Pass |
+| **Branch & Statement Coverage** | **93.95% Repository-Wide** | ✅ Exceeds $\ge 90\%$ Gate |
 | **External Runtime Dependencies** | **0 (Zero external dependencies; pure standard library)** | ✅ Strictly Audited |
-| **Interactive Demos** | **25 standalone runnable scripts (all passing in 11.2s)** | ✅ Verified |
-| **Core Source Modules** | **46 library modules across 8 architectural packages** | ✅ Modular |
+| **Interactive Demos** | **26 standalone runnable scripts (all passing in 13.75s)** | ✅ Verified |
+| **Core Source Modules** | **52 library modules across 9 architectural packages** | ✅ Modular |
 | **RFC & Open Standards** | **RFC 7946 (GeoJSON), RFC 4180 (CSV), OASIS CAP v1.2, EPSG:3857 (Web Mercator)** | ✅ Compliant |
 | **Statutory SOP Compliance** | **NFPA 1710 (4 min first-due / 8 min full alarm), NFPA 1221, AHA Dual-Response** | ✅ Enforced |
 
@@ -120,8 +121,12 @@ gantt
     M7.3 USGS & Open-Meteo Hazards   :done, p7_3, 2026-09-06, 2026-09-15
     M7.4 Leaflet Slippy GIS Maps     :done, p7_4, 2026-09-16, 2026-09-25
     M7.5 Metropolitan Benchmark      :done, p7_5, 2026-09-26, 2026-10-14
+    section Phase 8: Prototype Web App
+    M8.1 Embedded Server & REST/SSE  :done, p8_1, 2026-10-14, 2026-10-14
+    M8.2 Operations Dashboard & GIS  :active, p8_2, 2026-10-15, 2026-10-25
+    M8.3 Live Scenario Controller    :p8_3, 2026-10-26, 2026-11-05
+    M8.4 Verification & Packaging    :p8_4, 2026-11-06, 2026-11-15
     section Future Roadmap
-    Phase 8 Prototype Web App        :active, p8, 2026-10-15, 2026-11-30
     Phase 9 GSoC Proposal            :milestone, p9, 2026-12-01, 2026-12-01
 ```
 
@@ -136,6 +141,7 @@ gantt
 | **Phase 5** | M5.1 – M5.5 | AI domain contracts, Policy engine, NLP, Orchestrator, Audit | 103 | 439 | 96.31% | 3 | 15 |
 | **Phase 6** | M6.1 – M6.5 | Discrete-event clock, Scenarios, NFPA metrics, Exporters | 84 | 523 | 96.18% | 5 | 20 |
 | **Phase 7** | M7.1 – M7.5 | Overpass POI, SRTM DEM, USGS flood, Leaflet GIS, Benchmark | 89 | 612 | 96.09% | 5 | 25 |
+| **Phase 8** | M8.1 (In Progress) | Embedded ThreadingHTTPServer, REST gateway, SSE stream, UI | 16 | 628 | 93.95% | 1 | 26 |
 
 ---
 
@@ -870,17 +876,77 @@ Created the metropolitan-scale evaluation benchmark combining all project compon
 
 ---
 
-## 10. Future Phases & Forward Roadmap
+## 10. Phase 8 — Interactive Prototype Application
 
-### Phase 8: Interactive Prototype Web Application
-`Status: Ready to Commence 🚀`
+**Objective:** Build a zero-dependency, production-grade interactive emergency operations center web application that brings together all routing, simulation, AI triage orchestration, dynamic disaster hazards, and GIS telemetry into an intuitive browser console for municipal dispatchers and disaster response coordinators.
 
-- **Objective:** Construct an intuitive browser application that provides emergency dispatchers and operations teams with real-time scenario playback, tactical GIS maps, apparatus tracking, and natural-language call intake.
-- **Key Deliverables Planned:**
-  - Modern web application frontend utilizing responsive design and high-contrast dark mode for tactical operations centers.
-  - Lightweight Python backend server (using standard library `http.server` or minimal framework) streaming routing calculations and simulation state.
-  - Interactive scenario controller: Pause, play, scrub virtual time, and inject sudden bridge collapses or severe weather.
-  - Natural-language 911 intake terminal displaying model extraction, policy reconciliation, and dispatch decisions.
+---
+
+### Milestone 8.1: Zero-Dependency Embedded HTTP Server & REST / Event-Stream Gateway
+`Status: Complete ✅`
+
+#### Executive Summary & Technical Objectives
+- Engineered a lightweight, concurrent, multi-threaded embedded HTTP server and API gateway using Python's standard library (`http.server.ThreadingHTTPServer`, `threading`, `queue`, `json`, `urllib`).
+- Provides 100% pure standard library execution with **strictly 0 external runtime dependencies**.
+- Exposes full programmatic control over road network topology, facility inspection, multi-criteria A* routing with turn-by-turn guidance, 5-stage 911 natural language intake with statutory policy mandates, dynamic hazard polygon injection with topological edge severance, and real-time Server-Sent Events (SSE) telemetry streaming.
+- Implements directory traversal security guards protecting against escape attacks (`../`) and provides Single Page Application (SPA) client-side routing fallback.
+
+#### Deliverables & Architectural Components
+- [`app/schemas.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/schemas.py):
+  - Request body validators for route calculation, 911 intake narrative parsing, and dynamic hazard polygon geometry.
+  - Coordinate bounds verification (`-180 <= lon <= 180`, `-90 <= lat <= 90`).
+  - Standardized JSON envelope format: `{"success": true, "data": ..., "error": null, "timestamp": ...}`.
+- [`app/handlers.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/handlers.py):
+  - `EmergencyRequestHandler`: Subclass of `http.server.BaseHTTPRequestHandler` with non-blocking JSON response formatting and CORS header injection.
+  - Endpoints implemented:
+    - `GET /api/health`: System health telemetry, uptime, node/edge counts, and active hazards.
+    - `GET /api/network`: RFC 7946 GeoJSON FeatureCollection of all road links with severance status.
+    - `GET /api/facilities`: Structured catalog of bound hospitals, trauma levels, bays, and fire stations.
+    - `POST /api/route`: Multi-criteria emergency route computation (ALS, Engine, Ladder) with 3D elevation kinematics and turn instructions.
+    - `POST /api/intake`: 5-stage AI natural language interpretation, statutory policy mandate enforcement, and dual-response vehicle dispatch.
+    - `POST /api/hazards`: Dynamic polygon injection with topological edge severance and live SSE broadcast.
+    - `POST /api/hazards/reset`: Clear all dynamic mutations and restore baseline graph connectivity.
+    - `DELETE /api/hazards/{hazard_id}`: Clear specific hazard polygon.
+    - `GET /api/simulation/stream`: Server-Sent Events (SSE) connection with 5-second keep-alive ping frames.
+  - Static file server with strict directory traversal prevention and SPA fallback to `index.html`.
+- [`app/state.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/state.py):
+  - `AppState`: Thread-safe in-memory domain state container holding `Graph`, `DynamicGraphView`, `SpatialIndex`, `FleetManager`, `EmergencyIntelligenceOrchestrator`, and SSE subscriber queues.
+- [`app/server.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/server.py):
+  - `EmergencyAppServer`: Wrapper around `ThreadingHTTPServer` supporting foreground blocking or background daemon thread execution, with ephemeral port binding (`port=0`).
+- [`app/__init__.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/__init__.py), [`app/__main__.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/__main__.py):
+  - CLI entry point enabling execution via `python -m emergency_intelligence.app --host 127.0.0.1 --port 8080`.
+- [`app/static/index.html`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/index.html):
+  - Tactical dark-mode diagnostic landing page verifying operational health, road network stats, route calculation, 911 intake, and SSE connectivity.
+
+#### Mathematical & Algorithmic Formulations
+- **Ephemeral Port Allocation:**
+  $$\text{socket.bind}((\text{host}, 0)) \implies \text{port} = \text{httpd.server\_port} > 1024$$
+  Eliminates race conditions and port conflicts during automated parallel test suite execution.
+- **SSE Keep-Alive Heartbeat:**
+  $$T_{\text{ping}} = 5.0\text{ s}, \quad \text{frame} = \texttt{": ping\\n\\n"}$$
+- **Path Traversal Containment Invariant:**
+  $$\text{target\_path} = (\text{static\_root} / \text{req\_path}).\text{resolve}()$$
+  $$\text{assert } \text{target\_path.is\_relative\_to}(\text{static\_root.resolve}()) \implies \text{HTTP 403 Forbidden}$$
+
+#### Test Suite & Verification Metrics
+- Test file: [`tests/test_app_server.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_app_server.py)
+  - 16 test cases verifying ephemeral lifecycle, `/api/health`, `/api/network`, `/api/facilities`, baseline/elevation routing, 911 intake with dual-response mandate and SHA-256 audit digest, dynamic hazard injection/clearance/reset, SSE streaming with keep-alive, directory traversal rejection, and malformed payload validation.
+- Pre-flight pass: **628 unit tests passing in 5.53 seconds**, **93.95% branch coverage**, **26 demos passing in 13.75 seconds**.
+
+#### Interactive Demos & Reports
+- Demo script: [`examples/app_server_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/app_server_demo.py)
+  - Demonstrates full server lifecycle on ephemeral port, querying health, facilities, routing, 911 intake, hazard injection, and shutdown in ~1.5s.
+
+---
+
+## 11. Future Phases & Forward Roadmap
+
+### Phase 8 Forward Milestones: Interactive Prototype Web Application
+`Status: Milestone 8.1 Complete; Milestones 8.2–8.4 Planned 🚀`
+
+- **Milestone 8.2:** Tactical Operations Dashboard & Interactive GIS Map Canvas (Leaflet-based live vehicle and hazard rendering).
+- **Milestone 8.3:** Live Incident Intake Terminal, Audio/Narrative CAD Feeds & Timeline Playback Controller.
+- **Milestone 8.4:** End-to-End System Packaging, Dockerfile / Static Bundling & Operator Walkthrough Documentation.
 
 ### Phase 9: GSoC 2027 Proposal Preparation
 `Status: Planned 📋`
@@ -893,7 +959,7 @@ Created the metropolitan-scale evaluation benchmark combining all project compon
 
 ---
 
-## 11. Maintenance Guide for Milestone Updates
+## 12. Maintenance Guide for Milestone Updates
 
 To maintain documentation integrity as new features and phases are completed, follow this protocol when adding updates to `updates.md`:
 

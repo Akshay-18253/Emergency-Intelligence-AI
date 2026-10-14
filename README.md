@@ -1,14 +1,14 @@
 # Emergency Intelligence AI
 
-> **Phase 7 Status — External Data & Map Integration Complete (All Milestones 7.1–7.5 Complete)**  
+> **Phase 8 Status — Interactive Prototype Application Underway (Milestone 8.1 Complete)**  
 > Deterministic emergency routing, real-world OpenStreetMap ingestion, 2D geometric disaster hazard zones,
 > non-destructive graph mutations, multi-source Voronoi fleet catchment, in-flight reactive rerouting,
 > OASIS CAP v1.2 alert feed ingestion, schema-constrained structured model adapter, statutory SOP policy engine,
 > tamper-evident audit verification, discrete-event simulation engine, continuous kinematics, multi-format exporters,
-> live OSM Overpass POI ingestion, NASA SRTM topographic elevation models, USGS / Open-Meteo flood telemetry, Web Mercator Leaflet GIS visualizer, and metropolitan disaster benchmark.  
-> **612 unit tests passing with 96.09% code coverage across 46 modules.** Zero external runtime dependencies (100% Python standard library).
+> live OSM Overpass POI ingestion, NASA SRTM topographic elevation models, USGS / Open-Meteo flood telemetry, Web Mercator Leaflet GIS visualizer, metropolitan disaster benchmark, and zero-dependency embedded HTTP server / REST & SSE gateway.  
+> **628 unit tests passing with 93.95% code coverage across 52 modules.** Zero external runtime dependencies (100% Python standard library).
 >
-> 📖 **Master Engineering Chronicle:** See [`updates.md`](updates.md) for the exhaustive technical ledger of all completed milestones (1.1 through 7.5) with mathematical formulations, test suites, and interactive demo scripts.
+> 📖 **Master Engineering Chronicle:** See [`updates.md`](updates.md) for the exhaustive technical ledger of all completed milestones (1.1 through 8.1) with mathematical formulations, test suites, and interactive demo scripts.
 
 ---
 
@@ -414,6 +414,7 @@ All 25 demonstration scripts can be executed independently from the terminal:
 | **23** | `python examples/hydrology_hazard_demo.py` | Real-time USGS river gauge flood telemetry, Open-Meteo weather alerts, & flood bypass routing |
 | **24** | `python examples/map_visualizer_demo.py` | Web Mercator tile projection & zero-dependency Leaflet GIS tactical emergency map generation |
 | **25** | `python examples/metropolitan_benchmark_demo.py` | City-scale metropolitan disaster benchmark, multi-strategy routing evaluation & GIS export |
+| **26** | `python examples/app_server_demo.py` | Embedded multi-threaded HTTP server, REST routing gateway, & SSE live telemetry stream |
 
 ---
 
@@ -428,7 +429,7 @@ All 25 demonstration scripts can be executed independently from the terminal:
 | **Phase 5** | Emergency intelligence (AI natural language reasoning & dispatch orchestration layer) | ✅ **Complete** |
 | **Phase 6** | Simulation and quantitative evaluation harness | ✅ **Complete** |
 | **Phase 7** | External data and map integration (Milestones 7.1–7.5 Complete) | ✅ **Complete** |
-| **Phase 8** | User-facing interactive prototype application | 🔜 Future |
+| **Phase 8** | User-facing interactive prototype application (Milestone 8.1 Complete) | 🚀 **In Progress** |
 | **Phase 9** | GSoC 2027 proposal preparation | 🔜 Future |
 
 See [`docs/roadmap.md`](docs/roadmap.md) for the strategic phase development roadmap, and [`updates.md`](updates.md) for the exhaustive technical ledger of each and every milestone change.
