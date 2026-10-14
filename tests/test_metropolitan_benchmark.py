@@ -14,32 +14,26 @@ from __future__ import annotations
 
 import os
 import tempfile
+from typing import Optional
 import unittest
 
-from emergency_intelligence.allocation.models import UnitStatus
 from emergency_intelligence.events.incidents import ApparatusType
 from emergency_intelligence.external.benchmark import (
-    MetropolitanBenchmarkReport,
     MetropolitanBenchmarkRunner,
     MetropolitanDisasterScenario,
-    StrategyRoutingResult,
     build_metropolitan_benchmark_district,
 )
 from emergency_intelligence.external.elevation import (
-    DEMResolution,
     ElevationProvider,
-    build_synthetic_dem_tile,
 )
 from emergency_intelligence.external.hydrology import (
     FloodStage,
-    USGSGaugeReading,
     WeatherAlertLevel,
     WeatherConditions,
 )
 from emergency_intelligence.external.overpass import (
     ClinicalCapability,
     EmergencyPOIType,
-    ExtractedEmergencyPOI,
 )
 from emergency_intelligence.graph.models import Edge, Graph, Node
 
