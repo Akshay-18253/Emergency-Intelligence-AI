@@ -1,14 +1,14 @@
 # Emergency Intelligence AI
 
-> **Phase 8 Status — Interactive Prototype Application Underway (Milestone 8.1 Complete)**  
+> **Phase 8 Status — Interactive Prototype Application Underway (Milestones 8.1 & 8.2 Complete)**  
 > Deterministic emergency routing, real-world OpenStreetMap ingestion, 2D geometric disaster hazard zones,
 > non-destructive graph mutations, multi-source Voronoi fleet catchment, in-flight reactive rerouting,
 > OASIS CAP v1.2 alert feed ingestion, schema-constrained structured model adapter, statutory SOP policy engine,
 > tamper-evident audit verification, discrete-event simulation engine, continuous kinematics, multi-format exporters,
-> live OSM Overpass POI ingestion, NASA SRTM topographic elevation models, USGS / Open-Meteo flood telemetry, Web Mercator Leaflet GIS visualizer, metropolitan disaster benchmark, and zero-dependency embedded HTTP server / REST & SSE gateway.  
-> **628 unit tests passing with 93.95% code coverage across 52 modules.** Zero external runtime dependencies (100% Python standard library).
+> live OSM Overpass POI ingestion, NASA SRTM topographic elevation models, USGS / Open-Meteo flood telemetry, Web Mercator Leaflet GIS visualizer, metropolitan disaster benchmark, zero-dependency embedded HTTP server / REST & SSE gateway, and tactical operations dashboard with interactive GIS canvas.  
+> **640 unit tests passing with 94.13% code coverage across 52 modules.** Zero external runtime dependencies (100% Python standard library).
 >
-> 📖 **Master Engineering Chronicle:** See [`updates.md`](updates.md) for the exhaustive technical ledger of all completed milestones (1.1 through 8.1) with mathematical formulations, test suites, and interactive demo scripts.
+> 📖 **Master Engineering Chronicle:** See [`updates.md`](updates.md) for the exhaustive technical ledger of all completed milestones (1.1 through 8.2) with mathematical formulations, test suites, and interactive demo scripts.
 
 ---
 
@@ -385,7 +385,7 @@ pytest --cov=emergency_intelligence --cov-report=term-missing -v
 
 ## Interactive Demonstrations
 
-All 25 demonstration scripts can be executed independently from the terminal:
+All 27 demonstration scripts can be executed independently from the terminal:
 
 | # | Demo Script | Description |
 |---|---|---|
@@ -415,6 +415,7 @@ All 25 demonstration scripts can be executed independently from the terminal:
 | **24** | `python examples/map_visualizer_demo.py` | Web Mercator tile projection & zero-dependency Leaflet GIS tactical emergency map generation |
 | **25** | `python examples/metropolitan_benchmark_demo.py` | City-scale metropolitan disaster benchmark, multi-strategy routing evaluation & GIS export |
 | **26** | `python examples/app_server_demo.py` | Embedded multi-threaded HTTP server, REST routing gateway, & SSE live telemetry stream |
+| **27** | `python examples/dashboard_demo.py` | Tactical Operations Dashboard, Leaflet GIS canvas, 3D routing & dynamic hazard rerouting |
 
 ---
 
@@ -429,7 +430,7 @@ All 25 demonstration scripts can be executed independently from the terminal:
 | **Phase 5** | Emergency intelligence (AI natural language reasoning & dispatch orchestration layer) | ✅ **Complete** |
 | **Phase 6** | Simulation and quantitative evaluation harness | ✅ **Complete** |
 | **Phase 7** | External data and map integration (Milestones 7.1–7.5 Complete) | ✅ **Complete** |
-| **Phase 8** | User-facing interactive prototype application (Milestone 8.1 Complete) | 🚀 **In Progress** |
+| **Phase 8** | User-facing interactive prototype application (Milestones 8.1 & 8.2 Complete) | 🚀 **In Progress** |
 | **Phase 9** | GSoC 2027 proposal preparation | 🔜 Future |
 
 See [`docs/roadmap.md`](docs/roadmap.md) for the strategic phase development roadmap, and [`updates.md`](updates.md) for the exhaustive technical ledger of each and every milestone change.

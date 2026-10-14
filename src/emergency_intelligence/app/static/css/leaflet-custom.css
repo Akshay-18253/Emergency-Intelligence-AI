@@ -1,0 +1,224 @@
+/* Emergency Intelligence AI - Leaflet GIS Custom Dark Theme Overrides */
+
+.leaflet-container {
+  background-color: #090d16 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+/* Zoom and Navigation Controls */
+.leaflet-bar {
+  border: 1px solid rgba(55, 65, 81, 0.8) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 6px !important;
+  overflow: hidden;
+}
+
+.leaflet-bar a {
+  background-color: rgba(17, 24, 39, 0.9) !important;
+  color: #94a3b8 !important;
+  border-bottom: 1px solid rgba(55, 65, 81, 0.6) !important;
+  transition: all 0.2s ease !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: #1e293b !important;
+  color: #38bdf8 !important;
+}
+
+.leaflet-bar a:last-child {
+  border-bottom: none !important;
+}
+
+/* Attribution Control */
+.leaflet-control-attribution {
+  background: rgba(15, 23, 42, 0.75) !important;
+  color: #64748b !important;
+  font-size: 0.68rem !important;
+  padding: 2px 8px !important;
+  border-top-left-radius: 4px;
+}
+
+.leaflet-control-attribution a {
+  color: #94a3b8 !important;
+  text-decoration: none !important;
+}
+
+.leaflet-control-attribution a:hover {
+  color: #38bdf8 !important;
+  text-decoration: underline !important;
+}
+
+/* Tactical Popup Overrides */
+.leaflet-popup-content-wrapper {
+  background: rgba(17, 24, 39, 0.96) !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(56, 189, 248, 0.15) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(17, 24, 39, 0.96) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px !important;
+  line-height: 1.4 !important;
+}
+
+.popup-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.popup-subtitle {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.popup-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.popup-badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.popup-badge.hospital {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.popup-badge.fire {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.popup-badge.helipad {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.popup-action-btn {
+  margin-top: 8px;
+  width: 100%;
+  padding: 4px 8px;
+  background: #1e293b;
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.popup-action-btn:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+}
+
+/* Custom Tactical GIS Markers */
+.poi-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.75);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.poi-marker:hover {
+  transform: scale(1.25);
+  z-index: 1000 !important;
+}
+
+.poi-hospital {
+  background: #1e293b;
+  border: 2px solid #ef4444;
+  color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.poi-fire {
+  background: #1e293b;
+  border: 2px solid #f59e0b;
+  color: #f59e0b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+}
+
+.origin-marker {
+  background: #0284c7;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #38bdf8;
+  animation: pulse-ring 2s infinite;
+}
+
+.destination-marker {
+  background: #10b981;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #34d399;
+  animation: pulse-ring 2s infinite;
+}
+
+.turn-marker {
+  background: #0f172a;
+  border: 1.5px solid #38bdf8;
+  color: #38bdf8;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+}
+
+/* Pulsing Hazard Polygon SVG Filter Effect */
+.hazard-pulse-polygon {
+  animation: hazard-breathe 3s ease-in-out infinite alternate;
+}
+
+@keyframes hazard-breathe {
+  0% { stroke-opacity: 0.6; fill-opacity: 0.25; }
+  100% { stroke-opacity: 1; fill-opacity: 0.45; }
+}
+
+/* Animated Siren Dash Route Line */
+.animated-route-line {
+  stroke-dasharray: 8, 8;
+  animation: route-dash 20s linear infinite;
+}
+
+@keyframes route-dash {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}

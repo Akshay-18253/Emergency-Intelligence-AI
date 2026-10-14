@@ -52,12 +52,13 @@ class TestAppServer(unittest.TestCase):
                     data = {}
                 return resp.status, data, raw
         except urllib.error.HTTPError as exc:
-            raw = exc.read()
-            try:
-                data = json.loads(raw.decode("utf-8"))
-            except Exception:
-                data = {}
-            return exc.code, data, raw
+            with exc:
+                raw = exc.read()
+                try:
+                    data = json.loads(raw.decode("utf-8"))
+                except Exception:
+                    data = {}
+                return exc.code, data, raw
 
     def _http_post(self, path: str, payload: Dict[str, Any]) -> Tuple[int, Dict[str, Any], bytes]:
         """Helper to execute an HTTP POST request with JSON payload."""
@@ -70,12 +71,13 @@ class TestAppServer(unittest.TestCase):
                 data = json.loads(raw.decode("utf-8"))
                 return resp.status, data, raw
         except urllib.error.HTTPError as exc:
-            raw = exc.read()
-            try:
-                data = json.loads(raw.decode("utf-8"))
-            except Exception:
-                data = {}
-            return exc.code, data, raw
+            with exc:
+                raw = exc.read()
+                try:
+                    data = json.loads(raw.decode("utf-8"))
+                except Exception:
+                    data = {}
+                return exc.code, data, raw
 
     def _http_delete(self, path: str) -> Tuple[int, Dict[str, Any], bytes]:
         """Helper to execute an HTTP DELETE request."""
@@ -87,12 +89,13 @@ class TestAppServer(unittest.TestCase):
                 data = json.loads(raw.decode("utf-8"))
                 return resp.status, data, raw
         except urllib.error.HTTPError as exc:
-            raw = exc.read()
-            try:
-                data = json.loads(raw.decode("utf-8"))
-            except Exception:
-                data = {}
-            return exc.code, data, raw
+            with exc:
+                raw = exc.read()
+                try:
+                    data = json.loads(raw.decode("utf-8"))
+                except Exception:
+                    data = {}
+                return exc.code, data, raw
 
     # -------------------------------------------------------------------------
     # Server Lifecycle & Health
@@ -308,10 +311,11 @@ class TestAppServer(unittest.TestCase):
             urllib.request.urlopen(req, timeout=5.0)
             self.fail("Expected HTTPError 400")
         except urllib.error.HTTPError as exc:
-            self.assertEqual(exc.code, 400)
-            data = json.loads(exc.read().decode("utf-8"))
-            self.assertFalse(data.get("success"))
-            self.assertEqual(data["error"]["code"], "INVALID_PAYLOAD")
+            with exc:
+                self.assertEqual(exc.code, 400)
+                data = json.loads(exc.read().decode("utf-8"))
+                self.assertFalse(data.get("success"))
+                self.assertEqual(data["error"]["code"], "INVALID_PAYLOAD")
 
     def test_missing_route_fields(self) -> None:
         """Verify route request missing required destination returns 400."""

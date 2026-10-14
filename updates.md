@@ -5,9 +5,9 @@
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/LICENSE)
 [![Zero External Dependencies](https://img.shields.io/badge/Runtime%20Dependencies-0%20(Pure%20Stdlib)-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
-[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-628%20Passing-success.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/)
-[![Coverage](https://img.shields.io/badge/Coverage-93.95%25-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
-[![Runnable Demos](https://img.shields.io/badge/Interactive%20Demos-26%20Passing-blueviolet.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/)
+[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-640%20Passing-success.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/)
+[![Coverage](https://img.shields.io/badge/Coverage-94.13%25-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
+[![Runnable Demos](https://img.shields.io/badge/Interactive%20Demos-27%20Passing-blueviolet.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/)
 
 ---
 
@@ -52,6 +52,7 @@
   - [Milestone 7.5: Metropolitan City Benchmark & End-to-End Integration Suite](#milestone-75-metropolitan-city-benchmark--end-to-end-integration-suite)
 - [10. Phase 8 — Interactive Prototype Application](#10-phase-8--interactive-prototype-application)
   - [Milestone 8.1: Zero-Dependency Embedded HTTP Server & REST / Event-Stream Gateway](#milestone-81-zero-dependency-embedded-http-server--rest--event-stream-gateway)
+  - [Milestone 8.2: Tactical Operations Dashboard & Interactive GIS Map Canvas](#milestone-82-tactical-operations-dashboard--interactive-gis-map-canvas)
 - [11. Future Phases & Forward Roadmap](#11-future-phases--forward-roadmap)
   - [Phase 9: GSoC 2027 Proposal Preparation](#phase-9-gsoc-2027-proposal-preparation)
 - [12. Maintenance Guide for Milestone Updates](#12-maintenance-guide-for-milestone-updates)
@@ -68,12 +69,12 @@ This document serves as the **master changelog and technical chronicle**. It rec
 
 | Telemetry Dimension | Verified Measurement | Gate Status |
 |---|---|:---:|
-| **Phases Completed** | **7 Completed, Phase 8 In Progress (Milestone 8.1 Complete)** | 🚀 Active |
-| **Milestones Verified** | **29 of 32 Technical Milestones** | ✅ Complete |
-| **Unit Test Suite** | **628 passed in 5.53 seconds** | ✅ 100% Pass |
-| **Branch & Statement Coverage** | **93.95% Repository-Wide** | ✅ Exceeds $\ge 90\%$ Gate |
+| **Phases Completed** | **7 Completed, Phase 8 In Progress (Milestones 8.1 & 8.2 Complete)** | 🚀 Active |
+| **Milestones Verified** | **30 of 32 Technical Milestones** | ✅ Complete |
+| **Unit Test Suite** | **640 passed in 6.04 seconds** | ✅ 100% Pass |
+| **Branch & Statement Coverage** | **94.13% Repository-Wide** | ✅ Exceeds $\ge 90\%$ Gate |
 | **External Runtime Dependencies** | **0 (Zero external dependencies; pure standard library)** | ✅ Strictly Audited |
-| **Interactive Demos** | **26 standalone runnable scripts (all passing in 13.75s)** | ✅ Verified |
+| **Interactive Demos** | **27 standalone runnable scripts (all passing in 15.97s)** | ✅ Verified |
 | **Core Source Modules** | **52 library modules across 9 architectural packages** | ✅ Modular |
 | **RFC & Open Standards** | **RFC 7946 (GeoJSON), RFC 4180 (CSV), OASIS CAP v1.2, EPSG:3857 (Web Mercator)** | ✅ Compliant |
 | **Statutory SOP Compliance** | **NFPA 1710 (4 min first-due / 8 min full alarm), NFPA 1221, AHA Dual-Response** | ✅ Enforced |
@@ -123,8 +124,8 @@ gantt
     M7.5 Metropolitan Benchmark      :done, p7_5, 2026-09-26, 2026-10-14
     section Phase 8: Prototype Web App
     M8.1 Embedded Server & REST/SSE  :done, p8_1, 2026-10-14, 2026-10-14
-    M8.2 Operations Dashboard & GIS  :active, p8_2, 2026-10-15, 2026-10-25
-    M8.3 Live Scenario Controller    :p8_3, 2026-10-26, 2026-11-05
+    M8.2 Operations Dashboard & GIS  :done, p8_2, 2026-10-14, 2026-10-14
+    M8.3 Live Scenario Controller    :active, p8_3, 2026-10-15, 2026-10-25
     M8.4 Verification & Packaging    :p8_4, 2026-11-06, 2026-11-15
     section Future Roadmap
     Phase 9 GSoC Proposal            :milestone, p9, 2026-12-01, 2026-12-01
@@ -141,7 +142,7 @@ gantt
 | **Phase 5** | M5.1 – M5.5 | AI domain contracts, Policy engine, NLP, Orchestrator, Audit | 103 | 439 | 96.31% | 3 | 15 |
 | **Phase 6** | M6.1 – M6.5 | Discrete-event clock, Scenarios, NFPA metrics, Exporters | 84 | 523 | 96.18% | 5 | 20 |
 | **Phase 7** | M7.1 – M7.5 | Overpass POI, SRTM DEM, USGS flood, Leaflet GIS, Benchmark | 89 | 612 | 96.09% | 5 | 25 |
-| **Phase 8** | M8.1 (In Progress) | Embedded ThreadingHTTPServer, REST gateway, SSE stream, UI | 16 | 628 | 93.95% | 1 | 26 |
+| **Phase 8** | M8.1 – M8.2 (In Progress) | Embedded ThreadingHTTPServer, REST/SSE gateway, Tactical Operations Dashboard, Leaflet GIS Canvas | 28 | 640 | 94.13% | 2 | 27 |
 
 ---
 
@@ -939,12 +940,60 @@ Created the metropolitan-scale evaluation benchmark combining all project compon
 
 ---
 
+### Milestone 8.2: Tactical Operations Dashboard & Interactive GIS Map Canvas
+`Status: Complete ✅`
+
+#### Executive Summary & Technical Objectives
+- Engineered a high-fidelity, mission-critical **Tactical Emergency Operations Center (EOC) Dashboard** single-page application (SPA) with embedded Leaflet GIS map canvas.
+- 100% pure standard library Python backend with zero external runtime dependencies; frontend built with clean HTML5 semantic markup, modern CSS glassmorphism styling, and modular ES6+ JavaScript (`api.js`, `sse.js`, `map.js`, `app.js`).
+- Integrated CartoDB Dark Matter tile basemap with live road network topology layers, distinct bridge link styling, and real-time severed / blocked edge visualization (`is_severed`).
+- Interactive emergency POI layer rendering hospital markers with trauma level badges (Levels 1–4), burn/cardiac capabilities, apparatus bay counts, and helipad status.
+- Topographic 3D elevation-aware emergency route planner featuring apparatus profile selection (`AMBULANCE_ALS`, `AMBULANCE_BLS`, `FIRE_ENGINE`, `LADDER_TRUCK`), climb penalty toggles, vertical gain meters, max slope grade percent, and step-by-step turn maneuver direction badges.
+- Dynamic disaster hazard injection controller supporting one-click triggers (USGS Major River Flood, Central Avenue Structural Collapse, Wildfire Buffer) with automatic in-flight reactive rerouting across active emergency trajectories.
+- Live Server-Sent Events (SSE) telemetry terminal feed streaming real-time dispatch, hazard mutations, and connection heartbeats with automated exponential backoff reconnect logic.
+
+#### Deliverables & Architectural Components
+- [`app/static/index.html`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/index.html):
+  - Semantic SPA layout containing top telemetry HUD bar (nodes, edges, hazards, severed links, uptime, SSE pulse dot), dual-panel responsive viewport (`sidebar-panel` and `map-canvas-container`), route planning card, kinematics telemetry card, hazard controller card, live SSE terminal, and map legend overlay.
+- [`app/static/css/dashboard.css`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/css/dashboard.css):
+  - Tactical dark-mode design system tokens (`--bg-deep: #090d16`, `--bg-surface`, `--accent-cyan`, `--accent-sky`, `--accent-emerald`, `--accent-rose`, `--accent-amber`).
+  - Glassmorphism panels with `backdrop-filter: blur(16px)`, radio button grid for apparatus selection, custom toggle switches, metric telemetry boxes, turn maneuver badge list, and live terminal styling.
+- [`app/static/css/leaflet-custom.css`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/css/leaflet-custom.css):
+  - Leaflet dark-theme overrides for container, zoom controls, attribution, and popup cards.
+  - Custom SVG tactical markers for hospitals, fire stations, origin pulse rings, destination pins, turn markers, and pulsing SVG hazard polygon filters (`hazard-pulse-polygon`, `animated-route-line`).
+- [`app/static/js/api.js`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/js/api.js):
+  - Zero-dependency Promise-based REST client with automated JSON data envelope unpacking for `getHealth()`, `getNetwork()`, `getFacilities()`, `calculateRoute()`, `injectHazard()`, and `resetHazards()`.
+- [`app/static/js/sse.js`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/js/sse.js):
+  - Resilient `SSEClient` managing `/api/simulation/stream` connection, event-driven pub/sub dispatch (`incident_intake`, `hazard_injected`, `hazard_cleared`, `hazards_reset`), and exponential backoff reconnection.
+- [`app/static/js/map.js`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/js/map.js):
+  - `TacticalMap` orchestrating Leaflet GIS layers: road topology with severed edge styles, interactive POIs with click-to-route action buttons, pulsing hazard polygons, and dual-layer glowing cyan emergency vehicle trajectories with turn pins.
+- [`app/static/js/app.js`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/js/app.js):
+  - Main application coordinator wiring DOM UI controls, Leaflet canvas, REST API, and SSE telemetry feeds. Implements automatic reactive rerouting when hazard mutations are broadcast while a route is active.
+
+#### Mathematical & Algorithmic Formulations
+- **Topographic Slope Grade Formulation:**
+  $$\text{grade} = \left(\frac{h_2 - h_1}{d_{2D}}\right) \times 100\%, \quad d_{3D} = \sqrt{d_{2D}^2 + (h_2 - h_1)^2}$$
+- **Reactive Rerouting Invariant:**
+  $$\forall e \in \text{Route}(u, v) : \quad e \cap \text{HazardPolygon} \neq \emptyset \implies \text{Trigger } A^*(u, v \mid G \setminus E_{\text{severed}})$$
+- **Exponential Backoff Reconnect:**
+  $$T_{\text{reconnect}} = \min\left(1000 \times 1.5^{\text{attempts}}, 10000\right)\text{ ms}$$
+
+#### Test Suite & Verification Metrics
+- Test file: [`tests/test_app_dashboard.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_app_dashboard.py)
+  - 12 comprehensive unit and integration tests verifying HTTP 200 delivery of `index.html`, `dashboard.css`, `leaflet-custom.css`, `api.js`, `sse.js`, `map.js`, `app.js` with exact MIME types, SPA client-side deep link routing fallback, directory traversal rejection (`/../../pyproject.toml`), DOM element ID and landmark integrity, GeoJSON FeatureCollection edge schema, POI clinical capability attributes, 3D elevation kinematics routing contract, and hazard injection/reset workflow.
+- Pre-flight pass: **640 unit tests passing in 6.04 seconds**, **94.13% branch coverage**, **27 demos passing in 15.97 seconds**.
+
+#### Interactive Demos & Reports
+- Demo script: [`examples/dashboard_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/dashboard_demo.py)
+  - Runs in ~1.1s, bootstrapping the server on an ephemeral port, verifying asset delivery, performing topology handshake, executing 3D elevation routing, injecting dynamic river flood hazards, and performing graceful shutdown.
+
+---
+
 ## 11. Future Phases & Forward Roadmap
 
 ### Phase 8 Forward Milestones: Interactive Prototype Web Application
-`Status: Milestone 8.1 Complete; Milestones 8.2–8.4 Planned 🚀`
+`Status: Milestones 8.1 & 8.2 Complete; Milestones 8.3 & 8.4 Planned 🚀`
 
-- **Milestone 8.2:** Tactical Operations Dashboard & Interactive GIS Map Canvas (Leaflet-based live vehicle and hazard rendering).
 - **Milestone 8.3:** Live Incident Intake Terminal, Audio/Narrative CAD Feeds & Timeline Playback Controller.
 - **Milestone 8.4:** End-to-End System Packaging, Dockerfile / Static Bundling & Operator Walkthrough Documentation.
 

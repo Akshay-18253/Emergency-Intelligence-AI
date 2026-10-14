@@ -6,7 +6,7 @@ Runs a fast, comprehensive quality check prior to git commits and pull requests:
   2. Static AST dependency audit: strictly verifies ZERO external runtime imports
      in core library code (standard library only).
   3. Executes the full test suite with coverage enforcement (>= 90%).
-  4. Executes all 25 demonstration scripts to verify zero crashes.
+  4. Executes all 27 demonstration scripts to verify zero crashes.
 
 Usage:
     python scripts/check.py
@@ -131,6 +131,7 @@ def step_run_demos(root_dir: Path) -> bool:
         "examples/map_visualizer_demo.py",
         "examples/metropolitan_benchmark_demo.py",
         "examples/app_server_demo.py",
+        "examples/dashboard_demo.py",
     ]
 
     for demo in demos:
