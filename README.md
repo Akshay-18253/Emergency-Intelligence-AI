@@ -7,6 +7,8 @@
 > tamper-evident audit verification, discrete-event simulation engine, continuous kinematics, multi-format exporters,
 > live OSM Overpass POI ingestion, NASA SRTM topographic elevation models, USGS / Open-Meteo flood telemetry, Web Mercator Leaflet GIS visualizer, and metropolitan disaster benchmark.  
 > **612 unit tests passing with 96.09% code coverage across 46 modules.** Zero external runtime dependencies (100% Python standard library).
+>
+> 📖 **Master Engineering Chronicle:** See [`updates.md`](updates.md) for the exhaustive technical ledger of all completed milestones (1.1 through 7.5) with mathematical formulations, test suites, and interactive demo scripts.
 
 ---
 
@@ -118,14 +120,14 @@ This project is developed **brick by brick**.
 Priorities (in order):
 1. **Correctness & Zero Dependencies** — Core library relies 100% on the Python standard library. No external GIS, scientific, or LLM runtime packages required.
 2. **Deterministic Reproducibility** — Every algorithm has verified mathematical, geometric, and invariant test cases.
-3. **High Test Coverage** — Strict $\ge 90\%$ branch and statement coverage enforcement (currently **95.70%** across 569 tests).
+3. **High Test Coverage** — Strict $\ge 90\%$ branch and statement coverage enforcement (currently **96.09%** across 612 tests).
 4. **Sub-Millisecond Performance** — Critical path algorithms (detours, ray casting, heuristic lookups) run in microseconds.
 5. **Open Standards** — Full compatibility with OpenStreetMap, RFC 7946 GeoJSON, and OASIS CAP v1.2.
 6. **Fail-Safe Operation** — Topologically disconnected nodes, missing coordinates, and malformed inputs fail safe to staged turnout or clarification prompts.
 
 ---
 
-## Current Capabilities (Phases 1–6 Complete, Phase 7 in Progress)
+## Current Capabilities (Phases 1–7 Complete)
 
 | Capability | Module | Status |
 |---|---|:---:|
@@ -429,7 +431,7 @@ All 25 demonstration scripts can be executed independently from the terminal:
 | **Phase 8** | User-facing interactive prototype application | 🔜 Future |
 | **Phase 9** | GSoC 2027 proposal preparation | 🔜 Future |
 
-See [`docs/roadmap.md`](docs/roadmap.md) for detailed milestone breakdowns.
+See [`docs/roadmap.md`](docs/roadmap.md) for the strategic phase development roadmap, and [`updates.md`](updates.md) for the exhaustive technical ledger of each and every milestone change.
 
 ---
 

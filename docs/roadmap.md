@@ -6,6 +6,8 @@
 > establishes the foundation for the next.
 >
 > **Current position: Phase 7 Complete (5/5 Milestones Verified) — External Data and Map Integration. Phase 8 (Ready) — Prototype Application.**
+>
+> 📖 **Engineering Chronicle:** For an exhaustive, milestone-by-milestone technical ledger of code changes, mathematical formulations, test suites, and interactive demos across all phases, see [`updates.md`](../updates.md).
 
 ---
 

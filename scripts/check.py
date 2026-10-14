@@ -6,7 +6,7 @@ Runs a fast, comprehensive quality check prior to git commits and pull requests:
   2. Static AST dependency audit: strictly verifies ZERO external runtime imports
      in core library code (standard library only).
   3. Executes the full test suite with coverage enforcement (>= 90%).
-  4. Executes all 21 demonstration scripts to verify zero crashes.
+  4. Executes all 25 demonstration scripts to verify zero crashes.
 
 Usage:
     python scripts/check.py
