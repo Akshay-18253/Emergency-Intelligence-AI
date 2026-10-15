@@ -142,7 +142,7 @@ body {
 .main-viewport {
   flex: 1;
   display: flex;
-  height: calc(100vh - var(--header-height));
+  min-height: 0;
   position: relative;
   overflow: hidden;
 }

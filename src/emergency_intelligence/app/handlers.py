@@ -25,6 +25,8 @@ from emergency_intelligence.app.schemas import (
     validate_hazard_request,
     validate_intake_request,
     validate_route_request,
+    validate_simulation_start_request,
+    validate_simulation_step_request,
 )
 from emergency_intelligence.app.state import AppState
 
@@ -108,6 +110,8 @@ class EmergencyRequestHandler(BaseHTTPRequestHandler):
             self._handle_get_network()
         elif path == "/api/facilities":
             self._handle_get_facilities()
+        elif path == "/api/simulation/status":
+            self._handle_get_simulation_status()
         elif path == "/api/simulation/stream":
             self._handle_sse_stream()
         elif path.startswith("/api/"):
@@ -136,6 +140,12 @@ class EmergencyRequestHandler(BaseHTTPRequestHandler):
                 self._handle_post_hazards(body_json)
             elif path == "/api/hazards/reset":
                 self._handle_post_hazards_reset()
+            elif path == "/api/simulation/start":
+                self._handle_post_simulation_start(body_json)
+            elif path == "/api/simulation/step":
+                self._handle_post_simulation_step(body_json)
+            elif path == "/api/simulation/reset":
+                self._handle_post_simulation_reset()
             else:
                 self.reply_json(404, success=False, error=f"Endpoint POST '{path}' not found.", error_code="NOT_FOUND")
         except ValidationError as exc:
@@ -147,6 +157,11 @@ class EmergencyRequestHandler(BaseHTTPRequestHandler):
         """Dispatch HTTP DELETE requests."""
         parsed_url = urllib.parse.urlparse(self.path)
         path = parsed_url.path
+
+        if path == "/api/hazards":
+            cleared = self.app_state.reset_all_hazards()
+            self.reply_json(200, success=True, data={"cleared_count": cleared, "status": "all_cleared"})
+            return
 
         match = re.match(r"^/api/hazards/([^/]+)$", path)
         if match:
@@ -218,6 +233,38 @@ class EmergencyRequestHandler(BaseHTTPRequestHandler):
         """POST /api/hazards/reset -> Clear all active dynamic mutations."""
         cleared_count = self.app_state.reset_all_hazards()
         self.reply_json(200, data={"cleared_count": cleared_count, "status": "reset_successful"})
+
+    # -------------------------------------------------------------------------
+    # Simulation Playback & Scenario Controllers
+    # -------------------------------------------------------------------------
+
+    def _handle_get_simulation_status(self) -> None:
+        """GET /api/simulation/status -> Return simulation clock and vehicle states."""
+        status = self.app_state.get_simulation_status()
+        self.reply_json(200, data=status)
+
+    def _handle_post_simulation_start(self, body: Dict[str, Any]) -> None:
+        """POST /api/simulation/start -> Initialize and start simulation scenario."""
+        validated = validate_simulation_start_request(body)
+        status = self.app_state.init_simulation(
+            scenario_id=validated["scenario_id"],
+            max_duration_seconds=validated["max_duration_seconds"],
+        )
+        self.reply_json(200, data=status)
+
+    def _handle_post_simulation_step(self, body: Dict[str, Any]) -> None:
+        """POST /api/simulation/step -> Advance simulation clock and vehicle kinematics."""
+        validated = validate_simulation_step_request(body)
+        status = self.app_state.step_simulation(
+            step_seconds=validated["step_seconds"],
+            target_time=validated["target_time"],
+        )
+        self.reply_json(200, data=status)
+
+    def _handle_post_simulation_reset(self) -> None:
+        """POST /api/simulation/reset -> Reset simulation clock and vehicle states."""
+        status = self.app_state.reset_simulation()
+        self.reply_json(200, data=status)
 
     # -------------------------------------------------------------------------
     # Server-Sent Events (SSE) Stream

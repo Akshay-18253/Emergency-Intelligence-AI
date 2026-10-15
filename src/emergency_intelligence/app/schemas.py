@@ -313,3 +313,71 @@ def validate_hazard_request(data: Dict[str, Any]) -> Dict[str, Any]:
         "hazard_type": hazard_type,
         "severity": severity_str,
     }
+
+
+SUPPORTED_SCENARIOS = {"metropolitan_disaster", "seattle_earthquake", "waterfront_flood"}
+
+
+def validate_simulation_start_request(data: Dict[str, Any]) -> Dict[str, Any]:
+    """Validate parameters for POST /api/simulation/start.
+
+    Expected keys:
+      - scenario_id: optional str (default 'metropolitan_disaster')
+      - max_duration_seconds: optional positive float (default 3600.0)
+    """
+    scenario_id = str(data.get("scenario_id", "metropolitan_disaster")).strip() or "metropolitan_disaster"
+    if scenario_id not in SUPPORTED_SCENARIOS:
+        raise ValidationError(
+            f"Scenario '{scenario_id}' is not supported. Supported scenarios: {sorted(SUPPORTED_SCENARIOS)}.",
+            field="scenario_id",
+        )
+
+    max_duration = data.get("max_duration_seconds", 3600.0)
+    try:
+        max_duration = float(max_duration)
+    except (ValueError, TypeError) as exc:
+        raise ValidationError("'max_duration_seconds' must be a numeric value.", field="max_duration_seconds") from exc
+
+    if max_duration <= 0.0:
+        raise ValidationError("'max_duration_seconds' must be greater than 0.", field="max_duration_seconds")
+
+    return {
+        "scenario_id": scenario_id,
+        "max_duration_seconds": max_duration,
+    }
+
+
+def validate_simulation_step_request(data: Dict[str, Any]) -> Dict[str, Any]:
+    """Validate parameters for POST /api/simulation/step.
+
+    Expected keys:
+      - step_seconds: optional positive float (default 5.0, max 300.0)
+      - target_time: optional non-negative float
+    """
+    step_seconds = data.get("step_seconds", 5.0)
+    try:
+        step_seconds = float(step_seconds)
+    except (ValueError, TypeError) as exc:
+        raise ValidationError("'step_seconds' must be a numeric value.", field="step_seconds") from exc
+
+    if step_seconds <= 0.0 or step_seconds > 300.0:
+        raise ValidationError(
+            f"'step_seconds' ({step_seconds}) must be between 0.1 and 300.0 seconds.",
+            field="step_seconds",
+        )
+
+    target_time = data.get("target_time")
+    validated_target: Optional[float] = None
+    if target_time is not None:
+        try:
+            validated_target = float(target_time)
+        except (ValueError, TypeError) as exc:
+            raise ValidationError("'target_time' must be a numeric value.", field="target_time") from exc
+        if validated_target < 0.0:
+            raise ValidationError("'target_time' must be non-negative.", field="target_time")
+
+    return {
+        "step_seconds": step_seconds,
+        "target_time": validated_target,
+    }
+

@@ -1,0 +1,340 @@
+/* Emergency Intelligence AI - CAD Terminal & Simulation Timeline Styles */
+
+/* --------------------------------------------------------------------------
+ * 911 CAD Call Intake Panel
+ * -------------------------------------------------------------------------- */
+.cad-preset-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.cad-preset-btn {
+  background: #1e293b;
+  color: var(--accent-sky);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cad-preset-btn:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: var(--accent-sky);
+}
+
+.cad-narrative-input {
+  width: 100%;
+  height: 64px;
+  background: #0f172a;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-family: var(--font-sans);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.cad-narrative-input:focus {
+  border-color: var(--border-focus);
+}
+
+/* Audio Alert Controls in Header */
+.audio-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.audio-toggle-btn:hover {
+  color: var(--accent-sky);
+  border-color: var(--accent-sky);
+}
+
+.audio-toggle-btn.muted {
+  color: var(--text-dim);
+  border-color: var(--border-color);
+}
+
+/* --------------------------------------------------------------------------
+ * 5-Stage Statutory AI Policy Report Card
+ * -------------------------------------------------------------------------- */
+.policy-report-card {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+}
+
+.policy-stage-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.policy-stage-row:last-child {
+  border-bottom: none;
+}
+
+.policy-stage-title {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.policy-badge {
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+.policy-badge.echo {
+  background: rgba(239, 68, 68, 0.25);
+  color: #f87171;
+  border: 1px solid #ef4444;
+}
+
+.policy-badge.delta {
+  background: rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+  border: 1px solid #f59e0b;
+}
+
+.policy-badge.charlie {
+  background: rgba(16, 185, 129, 0.25);
+  color: #34d399;
+  border: 1px solid #10b981;
+}
+
+.policy-badge.pass {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+.audit-hash-code {
+  font-family: var(--font-mono);
+  color: #38bdf8;
+  font-size: 0.65rem;
+}
+
+/* --------------------------------------------------------------------------
+ * Bottom Simulation Timeline & Transport Bar
+ * -------------------------------------------------------------------------- */
+.bottom-timeline-bar {
+  height: 52px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-color);
+  backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  z-index: 1000;
+  flex-shrink: 0;
+}
+
+.transport-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.transport-btn {
+  background: #1e293b;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.15s ease;
+}
+
+.transport-btn:hover {
+  background: #334155;
+  border-color: var(--accent-sky);
+  color: var(--accent-sky);
+}
+
+.transport-btn.btn-play {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #fff;
+  border: none;
+}
+
+.transport-btn.btn-play:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+}
+
+.timeline-scrubber-group {
+  flex: 1;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 1.5rem;
+}
+
+.timeline-scrubber {
+  flex: 1;
+  height: 6px;
+  -webkit-appearance: none;
+  background: #334155;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+
+.timeline-scrubber::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent-sky);
+  box-shadow: 0 0 6px var(--accent-sky);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.timeline-scrubber::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+}
+
+.sim-clock-display {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-sky);
+  white-space: nowrap;
+}
+
+.speed-selector-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.speed-chip {
+  padding: 0.2rem 0.45rem;
+  background: #1e293b;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.speed-chip.active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: var(--accent-sky);
+  color: var(--accent-sky);
+}
+
+/* --------------------------------------------------------------------------
+ * Map Incident Beacons & Moving Vehicle Pins
+ * -------------------------------------------------------------------------- */
+.incident-beacon-marker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.incident-beacon-ring {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  position: absolute;
+  animation: incident-beacon-pulse 1.8s infinite;
+}
+
+.incident-beacon-ring.critical {
+  border: 2px solid #ef4444;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.8);
+}
+
+.incident-beacon-ring.urgent {
+  border: 2px solid #f59e0b;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.8);
+}
+
+.incident-beacon-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  z-index: 2;
+  border: 1.5px solid #fff;
+}
+
+.incident-beacon-dot.critical { background: #ef4444; }
+.incident-beacon-dot.urgent { background: #f59e0b; }
+
+@keyframes incident-beacon-pulse {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Moving Apparatus Vehicle Marker */
+.vehicle-marker-pin {
+  background: #0f172a;
+  border: 2px solid var(--accent-sky);
+  color: #fff;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 8px rgba(56, 189, 248, 0.4);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.3s ease;
+}
+
+.vehicle-marker-pin.on-scene {
+  border-color: var(--accent-emerald);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+/* Vector Dispatch Dash Line */
+.dispatch-vector-line {
+  stroke-dasharray: 4, 4;
+  animation: dispatch-vector-crawl 10s linear infinite;
+}
+
+@keyframes dispatch-vector-crawl {
+  to {
+    stroke-dashoffset: -500;
+  }
+}

@@ -122,14 +122,90 @@ export class ApiClient {
   }
 
   /**
-   * Reset all active hazards
-   * POST /api/hazards/reset
+   * Clear a specific hazard by ID
+   * DELETE /api/hazards/:id
+   */
+  async clearHazard(hazardId) {
+    return this._request(`/api/hazards/${encodeURIComponent(hazardId)}`, {
+      method: 'DELETE',
+    });
+  }
+
+  /**
+   * Clear and reset all active hazards
+   * DELETE /api/hazards
    */
   async resetHazards() {
-    return this._request('/api/hazards/reset', {
+    return this._request('/api/hazards', {
+      method: 'DELETE',
+    });
+  }
+
+  /**
+   * Process 911 narrative intake and statutory policy dispatch
+   * POST /api/intake
+   * @param {Object} params
+   * @param {string} params.raw_text - Unstructured 911 caller report
+   * @param {string} [params.caller_phone] - Optional caller phone
+   * @param {Array<number>} [params.location_hint] - Optional [lat, lon] or string
+   */
+  async processIntake({ raw_text, caller_phone = null, location_hint = null }) {
+    return this._request('/api/intake', {
+      method: 'POST',
+      body: {
+        raw_text,
+        caller_phone,
+        location_hint,
+      },
+    });
+  }
+
+  /**
+   * Start or initialize simulation scenario
+   * POST /api/simulation/start
+   */
+  async startSimulation({ scenario_id = 'metropolitan_disaster', max_duration_seconds = 3600.0 } = {}) {
+    return this._request('/api/simulation/start', {
+      method: 'POST',
+      body: {
+        scenario_id,
+        max_duration_seconds,
+      },
+    });
+  }
+
+  /**
+   * Step simulation clock and advance vehicle kinematics
+   * POST /api/simulation/step
+   */
+  async stepSimulation({ step_seconds = 5.0, target_time = null } = {}) {
+    const body = { step_seconds };
+    if (target_time !== null) {
+      body.target_time = target_time;
+    }
+    return this._request('/api/simulation/step', {
+      method: 'POST',
+      body,
+    });
+  }
+
+  /**
+   * Reset simulation clock and vehicle states
+   * POST /api/simulation/reset
+   */
+  async resetSimulation() {
+    return this._request('/api/simulation/reset', {
       method: 'POST',
       body: {},
     });
+  }
+
+  /**
+   * Retrieve current simulation status and vehicle states
+   * GET /api/simulation/status
+   */
+  async getSimulationStatus() {
+    return this._request('/api/simulation/status');
   }
 }
 

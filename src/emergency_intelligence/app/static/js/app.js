@@ -6,8 +6,12 @@
 import { api } from './api.js';
 import { sse } from './sse.js';
 import { TacticalMap } from './map.js';
+import { CadTerminal } from './cad.js';
+import { TimelineController } from './timeline.js';
 
 let tacticalMap = null;
+let cadTerminal = null;
+let timelineController = null;
 let currentNetwork = null;
 let currentRouteData = null;
 let activeHazardsList = [];
@@ -305,9 +309,38 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   sse.on('incident_intake', (data) => {
     appendLog(
-      `INCIDENT INTAKE: ${data.incident_id || 'INC'} (${data.call_type || 'EMERGENCY'}, Severity ${data.severity || 1.0})`,
+      `INCIDENT INTAKE: ${data.intake_id || 'INC'} (${data.urgency || data.call_type || 'EMERGENCY'})`,
       'event-intake'
     );
+  });
+
+  sse.on('cad_dispatch', (data) => {
+    appendLog(
+      `CAD DISPATCH BROADCAST: ${data.intake_id || data.incident_id || 'INC'} (${data.urgency || 'DISPATCHED'})`,
+      'event-intake'
+    );
+    if (tacticalMap) {
+      tacticalMap.addIncidentBeacon(data);
+    }
+    if (cadTerminal) {
+      cadTerminal.renderPolicyReport(data);
+    }
+    if (timelineController) {
+      timelineController.syncStatus();
+    }
+  });
+
+  sse.on('simulation_step', (data) => {
+    if (timelineController) {
+      timelineController.updateStateFromData(data);
+    }
+  });
+
+  sse.on('simulation_reset', (data) => {
+    appendLog(`SIMULATION RESET: Clock reset to T+00:00:00`, 'event-clear');
+    if (timelineController) {
+      timelineController.updateStateFromData(data);
+    }
   });
 
   sse.on('hazard_injected', async (data) => {
@@ -343,12 +376,37 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   sse.connect();
 
-  // 3. Load Base District Topology & Facilities
+  // 3. Initialize CAD Terminal & Timeline Controller
+  cadTerminal = new CadTerminal({
+    onIncidentDispatched: (data) => {
+      tacticalMap.addIncidentBeacon(data);
+      appendLog(
+        `CAD DISPATCH: ${data.intake_id} (${data.urgency || data.triage?.clinical_priority}) - Apparatus Assigned`,
+        'event-intake'
+      );
+      if (timelineController) {
+        timelineController.syncStatus();
+      }
+    },
+  });
+
+  timelineController = new TimelineController({
+    onSimulationUpdate: (data) => {
+      if (data.vehicles && tacticalMap) {
+        tacticalMap.renderVehicles(data.vehicles);
+      }
+      if (data.active_incidents && tacticalMap) {
+        tacticalMap.renderIncidents(data.active_incidents);
+      }
+    },
+  });
+
+  // 4. Load Base District Topology & Facilities
   await refreshTelemetry();
   await loadNetwork();
   await loadFacilities();
 
-  // 4. Attach UI Event Listeners
+  // 5. Attach UI Event Listeners
   const calculateBtn = document.getElementById('btn-calculate-route');
   if (calculateBtn) {
     calculateBtn.addEventListener('click', handleCalculateRoute);

@@ -5,9 +5,9 @@
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/LICENSE)
 [![Zero External Dependencies](https://img.shields.io/badge/Runtime%20Dependencies-0%20(Pure%20Stdlib)-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
-[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-640%20Passing-success.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/)
-[![Coverage](https://img.shields.io/badge/Coverage-94.13%25-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
-[![Runnable Demos](https://img.shields.io/badge/Interactive%20Demos-27%20Passing-blueviolet.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/)
+[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-657%20Passing-success.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/)
+[![Coverage](https://img.shields.io/badge/Coverage-94.21%25-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
+[![Runnable Demos](https://img.shields.io/badge/Interactive%20Demos-28%20Passing-blueviolet.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/)
 
 ---
 
@@ -53,6 +53,7 @@
 - [10. Phase 8 — Interactive Prototype Application](#10-phase-8--interactive-prototype-application)
   - [Milestone 8.1: Zero-Dependency Embedded HTTP Server & REST / Event-Stream Gateway](#milestone-81-zero-dependency-embedded-http-server--rest--event-stream-gateway)
   - [Milestone 8.2: Tactical Operations Dashboard & Interactive GIS Map Canvas](#milestone-82-tactical-operations-dashboard--interactive-gis-map-canvas)
+  - [Milestone 8.3: Live Incident Intake Terminal, Audio/Narrative CAD Feeds & Timeline Playback Controller](#milestone-83-live-incident-intake-terminal-audionarrative-cad-feeds--timeline-playback-controller)
 - [11. Future Phases & Forward Roadmap](#11-future-phases--forward-roadmap)
   - [Phase 9: GSoC 2027 Proposal Preparation](#phase-9-gsoc-2027-proposal-preparation)
 - [12. Maintenance Guide for Milestone Updates](#12-maintenance-guide-for-milestone-updates)
@@ -69,12 +70,12 @@ This document serves as the **master changelog and technical chronicle**. It rec
 
 | Telemetry Dimension | Verified Measurement | Gate Status |
 |---|---|:---:|
-| **Phases Completed** | **7 Completed, Phase 8 In Progress (Milestones 8.1 & 8.2 Complete)** | 🚀 Active |
-| **Milestones Verified** | **30 of 32 Technical Milestones** | ✅ Complete |
-| **Unit Test Suite** | **640 passed in 6.04 seconds** | ✅ 100% Pass |
-| **Branch & Statement Coverage** | **94.13% Repository-Wide** | ✅ Exceeds $\ge 90\%$ Gate |
+| **Phases Completed** | **7 Completed, Phase 8 In Progress (Milestones 8.1, 8.2 & 8.3 Complete)** | 🚀 Active |
+| **Milestones Verified** | **31 of 32 Technical Milestones** | ✅ Complete |
+| **Unit Test Suite** | **657 passed in 6.84 seconds** | ✅ 100% Pass |
+| **Branch & Statement Coverage** | **94.21% Repository-Wide** | ✅ Exceeds $\ge 90\%$ Gate |
 | **External Runtime Dependencies** | **0 (Zero external dependencies; pure standard library)** | ✅ Strictly Audited |
-| **Interactive Demos** | **27 standalone runnable scripts (all passing in 15.97s)** | ✅ Verified |
+| **Interactive Demos** | **28 standalone runnable scripts (all passing in 17.46s)** | ✅ Verified |
 | **Core Source Modules** | **52 library modules across 9 architectural packages** | ✅ Modular |
 | **RFC & Open Standards** | **RFC 7946 (GeoJSON), RFC 4180 (CSV), OASIS CAP v1.2, EPSG:3857 (Web Mercator)** | ✅ Compliant |
 | **Statutory SOP Compliance** | **NFPA 1710 (4 min first-due / 8 min full alarm), NFPA 1221, AHA Dual-Response** | ✅ Enforced |
@@ -125,8 +126,8 @@ gantt
     section Phase 8: Prototype Web App
     M8.1 Embedded Server & REST/SSE  :done, p8_1, 2026-10-14, 2026-10-14
     M8.2 Operations Dashboard & GIS  :done, p8_2, 2026-10-14, 2026-10-14
-    M8.3 Live Scenario Controller    :active, p8_3, 2026-10-15, 2026-10-25
-    M8.4 Verification & Packaging    :p8_4, 2026-11-06, 2026-11-15
+    M8.3 CAD Terminal & Timeline     :done, p8_3, 2026-10-14, 2026-10-15
+    M8.4 Verification & Packaging    :p8_4, 2026-10-25, 2026-11-05
     section Future Roadmap
     Phase 9 GSoC Proposal            :milestone, p9, 2026-12-01, 2026-12-01
 ```
@@ -142,7 +143,7 @@ gantt
 | **Phase 5** | M5.1 – M5.5 | AI domain contracts, Policy engine, NLP, Orchestrator, Audit | 103 | 439 | 96.31% | 3 | 15 |
 | **Phase 6** | M6.1 – M6.5 | Discrete-event clock, Scenarios, NFPA metrics, Exporters | 84 | 523 | 96.18% | 5 | 20 |
 | **Phase 7** | M7.1 – M7.5 | Overpass POI, SRTM DEM, USGS flood, Leaflet GIS, Benchmark | 89 | 612 | 96.09% | 5 | 25 |
-| **Phase 8** | M8.1 – M8.2 (In Progress) | Embedded ThreadingHTTPServer, REST/SSE gateway, Tactical Operations Dashboard, Leaflet GIS Canvas | 28 | 640 | 94.13% | 2 | 27 |
+| **Phase 8** | M8.1 – M8.3 (In Progress) | Embedded Server, REST/SSE Gateway, Operations Dashboard, CAD Terminal, Web Audio Alerts, Timeline Controller | 45 | 657 | 94.21% | 3 | 28 |
 
 ---
 
@@ -989,12 +990,90 @@ Created the metropolitan-scale evaluation benchmark combining all project compon
 
 ---
 
+### Milestone 8.3: Live Incident Intake Terminal, Audio/Narrative CAD Feeds & Timeline Playback Controller
+`Status: Complete ✅`
+
+#### Executive Summary
+Designed, implemented, and verified the complete Computer-Aided Dispatch (CAD) console, procedural Web Audio API alerting synthesizer, discrete-event simulation timeline controller, and animated Leaflet GIS incident beacons and kinematic vehicle markers. The dispatch terminal accepts free-form unstructured 911 caller narratives, sanitizes Protected Health Information (HIPAA PII masking), executes statutory clinical policy evaluation (AHA dual-response and NFPA 1710/1221 mandates), allocates municipal emergency apparatus, and calculates SHA-256 tamper-evident cryptographic audit hashes. In parallel, a pure browser-native Web Audio synthesizer generates station alert chimes ($880\text{ Hz} \to 660\text{ Hz}$) and emergency siren sweeps without external audio files. A full discrete-event simulation transport bar empowers dispatchers to play, pause, step ($+5\text{ s}$), seek ($0\text{ s} - 3600\text{ s}$), and scale execution speeds ($1\times, 2\times, 5\times, 10\times$), streaming apparatus kinematic updates along their routes to all active clients via Server-Sent Events.
+
+#### Key Architectural Deliverables
+1. **Request Schemas & Validation Extensions:**
+   - [`src/emergency_intelligence/app/schemas.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/schemas.py): Added `validate_simulation_start_request` with scenario allowlisting and positive duration validation, and `validate_simulation_step_request` with step size bounds ($0.1\text{ s} \le \Delta t \le 300.0\text{ s}$) and non-negative target seek verification.
+2. **Discrete-Event Simulation & Kinematics State:**
+   - [`src/emergency_intelligence/app/state.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/state.py): Integrated `DispatchedVehicleTracker` and scenario simulation engine in `AppState`. Implemented `init_simulation()`, `step_simulation()`, `reset_simulation()`, and `get_simulation_status()`. Evaluates scheduled scenario incidents, assigns apparatus, interpolates vehicle positions along graph edges, and broadcasts `cad_dispatch`, `simulation_step`, and `simulation_reset` events. Added `reset_all_hazards()` supporting `DELETE /api/hazards`.
+3. **REST API Gateway Handlers:**
+   - [`src/emergency_intelligence/app/handlers.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/handlers.py): Exposed `GET /api/simulation/status`, `POST /api/simulation/start`, `POST /api/simulation/step`, `POST /api/simulation/reset`, and `DELETE /api/hazards` with full JSON error envelope compliance.
+4. **Zero-Dependency Web Audio API Synthesizer:**
+   - [`src/emergency_intelligence/app/static/js/audio.js`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/js/audio.js): Created `AudioAlertSynthesizer` with lazy `AudioContext` resumption adhering to browser autoplay policies. Synthesizes NFPA two-tone station alert chimes ($880\text{ Hz} \to 659.25\text{ Hz}$ sine waves with exponential decay) and critical wailing sirens ($750\text{ Hz} \leftrightarrow 1100\text{ Hz}$ triangle wave sweeps) with mute/unmute toggle.
+5. **CAD Intake & 5-Stage Policy HUD Controller:**
+   - [`src/emergency_intelligence/app/static/js/cad.js`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/js/cad.js): Created `CadTerminal` with quick preset buttons (*Cardiac Collapse*, *Highway Pileup*, *Warehouse Fire*, *Pediatric Trauma*), real-time intake submission via `api.processIntake`, audio triggering, and rendering of the 5-Stage AI Policy Report Card (PII Masking, Clinical Triage, Statutory Mandates, Apparatus Assigned, SHA-256 Audit Ledger).
+6. **Timeline Transport Controller:**
+   - [`src/emergency_intelligence/app/static/js/timeline.js`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/js/timeline.js): Created `TimelineController` managing discrete-event playback loops (`setInterval` invoking `api.stepSimulation`), manual $+5\text{ s}$ stepping, direct scrubber timestamp seeking ($T+\text{HH:MM:SS}$ formatting), speed multiplier chips ($1\times, 2\times, 5\times, 10\times$), and clock synchronization.
+7. **Interactive GIS Canvas Beacons & Vehicle Pins:**
+   - [`src/emergency_intelligence/app/static/js/map.js`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/js/map.js): Added `incidentLayer` and `vehicleLayer` to `TacticalMap`. Implemented `renderIncidents()`, `addIncidentBeacon()`, and `renderVehicles()`. Incident markers render pulsing CSS radar rings (crimson for Echo/Delta, amber for Charlie) and dashed dispatch vector crawl lines. Vehicle markers display animated apparatus pins with status indicators (`EN_ROUTE`, `ON_SCENE`).
+8. **Responsive Dashboard UI Layout & Coordinator:**
+   - [`src/emergency_intelligence/app/static/index.html`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/index.html): Integrated CAD intake panel, 5-stage policy report card, header audio toggle button, map legend indicators, and full-width bottom timeline transport bar.
+   - [`src/emergency_intelligence/app/static/css/cad.css`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/css/cad.css): Tactical glassmorphic styles for CAD presets, report card badges, timeline scrubber, beacon pulse animations, and moving vehicle pins.
+   - [`src/emergency_intelligence/app/static/js/app.js`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/static/js/app.js): Coordinated CAD terminal, timeline transport controller, Leaflet map canvas, and SSE real-time event subscriptions (`cad_dispatch`, `simulation_step`, `simulation_reset`).
+
+#### Mathematical Formulations
+
+##### 1. Web Audio Procedural Chime & Siren Synthesis
+The NFPA station alerting chime is synthesized as two sequential damped sinusoidal oscillators:
+$$s_1(t) = A_1 \cdot e^{-t / \tau_1} \cdot \sin(2\pi f_1 t), \quad 0 \le t < t_{\text{tone1}}, \quad f_1 = 880\text{ Hz} \text{ (A5)}$$
+$$s_2(t) = A_2 \cdot e^{-(t - t_{\text{tone1}}) / \tau_2} \cdot \sin(2\pi f_2 (t - t_{\text{tone1}})), \quad t_{\text{tone1}} \le t < t_{\text{total}}, \quad f_2 = 659.25\text{ Hz} \text{ (E5)}$$
+Where $A_1 = 0.15$, $A_2 = 0.18$, $\tau_1 \approx 0.08\text{ s}$, and $\tau_2 \approx 0.12\text{ s}$.
+
+Emergency wailing sirens apply linear frequency ramps over a triangular modulation period $T_{\text{sweep}}$:
+$$f(t) = \begin{cases} f_{\min} + 2 (f_{\max} - f_{\min}) \cdot \frac{t}{T_{\text{sweep}}} & 0 \le t < \frac{T_{\text{sweep}}}{2} \\ f_{\max} - 2 (f_{\max} - f_{\min}) \cdot \left(\frac{t - T_{\text{sweep}}/2}{T_{\text{sweep}}}\right) & \frac{T_{\text{sweep}}}{2} \le t \le T_{\text{sweep}} \end{cases}$$
+With $f_{\min} = 750\text{ Hz}$, $f_{\max} = 1100\text{ Hz}$, and $T_{\text{sweep}} = 1.5\text{ s}$.
+
+##### 2. Vehicle Kinematic Position Interpolation
+When an apparatus $v$ traverses an active route edge $e = (u, w)$ with tail coordinate $\vec{p}_u = (\text{lon}_u, \text{lat}_u)$ and head coordinate $\vec{p}_w = (\text{lon}_w, \text{lat}_w)$, its instantaneous geographic coordinate $\vec{p}_v(t)$ at progress ratio $r \in [0.0, 1.0]$ is computed as:
+$$\vec{p}_v(t) = (1 - r) \cdot \vec{p}_u + r \cdot \vec{p}_w$$
+Where $r = \frac{d_v(t) - d_u}{L_{uw}}$, with $L_{uw}$ the segment length in meters and $d_v(t)$ the total distance traveled by the vehicle.
+
+##### 3. Discrete-Event Timeline Step Transition
+Advancing the simulation clock from $t$ to $t + \Delta t$ executes an atomic state transition:
+$$S_{t + \Delta t} = \delta(S_t, \Delta t, \mathcal{E}_{[t, t + \Delta t]})$$
+Where $\mathcal{E}_{[t, t + \Delta t]}$ is the ordered sequence of incidents and state mutations falling within the interval:
+1. For every un-dispatched incident $i \in \mathcal{I}$ where $t_{\text{report}}(i) \le t + \Delta t$:
+   $$\text{Assign } v^* = \arg\min_{v \in \mathcal{V}_{\text{available}}} \text{cost}_{A^*}(\text{node}(v), \text{node}(i))$$
+2. For every in-transit vehicle $v \in \mathcal{V}_{\text{en\_route}}$:
+   $$r_v(t + \Delta t) = \min\left(1.0, r_v(t) + \frac{\Delta t \cdot v_{\text{speed}}}{L_{\text{edge}}}\right)$$
+   If $r_v = 1.0$, the vehicle transitions to either the next edge or status `ON_SCENE`.
+
+#### Test Suite & Verification Metrics
+- Test file: [`tests/test_app_cad_timeline.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_app_cad_timeline.py)
+  - 17 unit and integration tests verifying:
+    1. Static asset delivery and MIME types for `cad.css`, `audio.js`, `cad.js`, and `timeline.js`.
+    2. Complete HTML semantic structure and DOM IDs for CAD presets, narrative input, 5-stage policy card, and bottom timeline bar.
+    3. CAD 911 narrative intake with HIPAA PII sanitization, AHA dual-response statutory mandate, apparatus assignment, and SHA-256 audit hash.
+    4. Validation error handling for empty narratives and missing request payloads (HTTP 400 with `VALIDATION_ERROR`).
+    5. Discrete-event simulation REST endpoints: `GET /api/simulation/status`, `POST /api/simulation/start`, `POST /api/simulation/step`, `POST /api/simulation/reset`.
+    6. Stepping clock forward by $+15\text{ s}$ and verifying kinematic vehicle progress and coordinate updates.
+    7. Direct seeking to target timestamp ($T+60\text{ s}$) and verifying apparatus arrival on scene.
+    8. Dynamic disaster hazard reset via `DELETE /api/hazards`.
+- Pre-flight pass: **657 unit tests passing in 6.84 seconds**, **94.21% branch coverage**, **28 demos passing in 17.46 seconds**.
+
+#### Interactive Demos & Reports
+- Demo script: [`examples/cad_timeline_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/cad_timeline_demo.py) (Demo #28)
+  - Runs in ~1.0s on an ephemeral port:
+    - Step 1: Bootstraps embedded HTTP server.
+    - Step 2: Validates delivery of `cad.css`, `audio.js`, `cad.js`, `timeline.js`.
+    - Step 3: Evaluates 911 intake for waterfront cardiac arrest, verifying AHA dual-response mandate and SHA-256 audit hash.
+    - Step 4: Initializes metropolitan disaster simulation scenario with 11 preloaded apparatus and 3 queued incidents.
+    - Step 5: Advances simulation clock by $+15\text{ s}$, asserting apparatus en-route movement.
+    - Step 6: Seeks to $T+60\text{ s}$, demonstrating apparatus on-scene arrival and secondary incident dispatch.
+    - Step 7: Resets simulation clock and shuts down server cleanly.
+
+---
+
 ## 11. Future Phases & Forward Roadmap
 
 ### Phase 8 Forward Milestones: Interactive Prototype Web Application
-`Status: Milestones 8.1 & 8.2 Complete; Milestones 8.3 & 8.4 Planned 🚀`
+`Status: Milestones 8.1, 8.2 & 8.3 Complete; Milestone 8.4 Planned 🚀`
 
-- **Milestone 8.3:** Live Incident Intake Terminal, Audio/Narrative CAD Feeds & Timeline Playback Controller.
 - **Milestone 8.4:** End-to-End System Packaging, Dockerfile / Static Bundling & Operator Walkthrough Documentation.
 
 ### Phase 9: GSoC 2027 Proposal Preparation

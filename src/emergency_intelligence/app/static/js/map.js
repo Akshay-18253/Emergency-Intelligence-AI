@@ -43,6 +43,8 @@ export class TacticalMap {
     this.hazardLayer = L.featureGroup().addTo(this.map);
     this.routeLayer = L.featureGroup().addTo(this.map);
     this.facilityLayer = L.featureGroup().addTo(this.map);
+    this.incidentLayer = L.featureGroup().addTo(this.map);
+    this.vehicleLayer = L.featureGroup().addTo(this.map);
 
     return this;
   }
@@ -332,5 +334,145 @@ export class TacticalMap {
    */
   clearRoute() {
     this.routeLayer.clearLayers();
+  }
+
+  /**
+   * Render active incidents as pulsing tactical beacons
+   * @param {Array<Object>|Object} incidents - Incidents list or map
+   */
+  renderIncidents(incidents) {
+    this.incidentLayer.clearLayers();
+    if (!incidents) return;
+
+    const list = Array.isArray(incidents) ? incidents : Object.values(incidents);
+    list.forEach((inc) => this._renderSingleIncident(inc));
+  }
+
+  /**
+   * Add or focus a single incident beacon
+   * @param {Object} incident
+   */
+  addIncidentBeacon(incident) {
+    const marker = this._renderSingleIncident(incident);
+    const coords = incident.incident_coords || incident.coordinates;
+    if (coords && coords.length === 2 && this.map) {
+      this.map.panTo([coords[1], coords[0]]);
+    }
+    return marker;
+  }
+
+  _renderSingleIncident(inc) {
+    const coords = inc.incident_coords || inc.coordinates;
+    if (!coords || coords.length !== 2) return null;
+
+    // Coords are [lon, lat] -> Leaflet requires [lat, lon]
+    const latLng = [coords[1], coords[0]];
+    const priority = (inc.triage?.clinical_priority || inc.priority || 'ECHO').toUpperCase();
+    const isCritical = priority === 'ECHO' || priority === 'DELTA';
+    const ringClass = isCritical ? 'critical' : 'urgent';
+
+    const iconHtml = `
+      <div class="incident-beacon-marker">
+        <div class="incident-beacon-ring ${ringClass}"></div>
+        <div class="incident-beacon-dot ${ringClass}"></div>
+      </div>
+    `;
+
+    const beaconIcon = L.divIcon({
+      className: 'custom-incident-beacon-wrapper',
+      html: iconHtml,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14],
+      popupAnchor: [0, -14],
+    });
+
+    const marker = L.marker(latLng, { icon: beaconIcon });
+
+    const apparatusList = (inc.assigned_apparatus || []).map((a) => a.callsign || a.apparatus_type || a).join(', ') || 'Dispatched Units';
+    const narrative = inc.sanitization?.sanitized_text || inc.raw_text || 'Active 911 Call';
+
+    const popupHtml = `
+      <div style="min-width: 220px; font-family: -apple-system, sans-serif;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <strong style="color: #f87171;">INCIDENT ${inc.incident_id ? inc.incident_id.substring(0, 8) : '911'}</strong>
+          <span class="policy-badge ${priority.toLowerCase()}">${priority}</span>
+        </div>
+        <div style="font-size:0.75rem; color:#cbd5e1; margin-bottom:6px; line-height:1.3;">"${narrative}"</div>
+        <div style="font-size:0.7rem; color:#94a3b8;">
+          <div><strong>Node:</strong> <code>${inc.incident_node || 'GRID-N1'}</code></div>
+          <div><strong>Apparatus:</strong> ${apparatusList}</div>
+        </div>
+      </div>
+    `;
+
+    marker.bindPopup(popupHtml);
+    this.incidentLayer.addLayer(marker);
+
+    // If incident contains route vector coordinates, draw dashed dispatch vector
+    if (inc.route_geojson && inc.route_geojson.coordinates) {
+      const vectorLine = L.polyline(
+        inc.route_geojson.coordinates.map(([lon, lat]) => [lat, lon]),
+        {
+          color: isCritical ? '#ef4444' : '#f59e0b',
+          weight: 2.5,
+          opacity: 0.8,
+          className: 'dispatch-vector-line',
+        }
+      );
+      this.incidentLayer.addLayer(vectorLine);
+    }
+
+    return marker;
+  }
+
+  /**
+   * Render moving vehicle apparatus markers across road network
+   * @param {Array<Object>} vehicles - Array of vehicle telemetry trackers
+   */
+  renderVehicles(vehicles) {
+    this.vehicleLayer.clearLayers();
+    if (!Array.isArray(vehicles)) return;
+
+    vehicles.forEach((veh) => {
+      const coords = veh.current_coords;
+      if (!coords || coords.length !== 2) return;
+
+      const latLng = [coords[1], coords[0]];
+      const isOnScene = veh.status === 'ON_SCENE';
+      const iconEmoji = (veh.apparatus_type || '').includes('ENGINE') || (veh.callsign || '').includes('ENG')
+        ? '🚒'
+        : '🚑';
+
+      const iconHtml = `
+        <div class="vehicle-marker-pin ${isOnScene ? 'on-scene' : ''}">
+          <span>${iconEmoji}</span>
+          <span>${veh.callsign || veh.vehicle_id}</span>
+          <span style="font-size:0.6rem; opacity:0.8;">[${veh.status}]</span>
+        </div>
+      `;
+
+      const vehicleIcon = L.divIcon({
+        className: 'custom-vehicle-pin-wrapper',
+        html: iconHtml,
+        iconSize: [80, 24],
+        iconAnchor: [40, 12],
+        popupAnchor: [0, -12],
+      });
+
+      const marker = L.marker(latLng, { icon: vehicleIcon });
+      const speedKmh = Math.round((veh.current_speed_mps || 15) * 3.6);
+      const distTraveled = Math.round(veh.distance_traveled_m || 0);
+
+      const tooltipContent = `
+        <div style="font-size:0.75rem; font-family:-apple-system, sans-serif;">
+          <strong>${veh.callsign || veh.vehicle_id}</strong> (${veh.apparatus_type})<br/>
+          Status: <strong>${veh.status}</strong><br/>
+          Speed: ${speedKmh} km/h | Traveled: ${distTraveled} m
+        </div>
+      `;
+
+      marker.bindTooltip(tooltipContent, { sticky: true });
+      this.vehicleLayer.addLayer(marker);
+    });
   }
 }

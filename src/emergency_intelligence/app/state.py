@@ -34,6 +34,7 @@ from emergency_intelligence.events.hazards import (
     find_edges_intersecting_hazard,
 )
 from emergency_intelligence.events.incidents import ApparatusType, UrgencyLevel
+from emergency_intelligence.events.inflight import DispatchedVehicleTracker
 from emergency_intelligence.events.mutations import DynamicGraphView
 from emergency_intelligence.external.benchmark import build_metropolitan_benchmark_district
 from emergency_intelligence.external.binding import (
@@ -126,6 +127,15 @@ class AppState:
 
         # Server-Sent Events subscriber queues
         self._sse_subscribers: Set[queue.Queue[str]] = set()
+
+        # Simulation playback and scenario state
+        self.simulation_time = 0.0
+        self.simulation_active = False
+        self.simulation_scenario_name = "metropolitan_disaster"
+        self.simulated_incidents: List[Dict[str, Any]] = []
+        self.simulated_vehicles: Dict[str, Dict[str, Any]] = {}
+        self.active_cad_incidents: Dict[str, Dict[str, Any]] = {}
+        self._init_simulation_state()
 
     # -------------------------------------------------------------------------
     # Server-Sent Events (SSE) Pub/Sub
@@ -502,7 +512,7 @@ class AppState:
 
             candidate_nodes = list(result.dispatched_routes[0].route_path) if result.dispatched_routes else []
 
-            return {
+            intake_res = {
                 "intake_id": result.request_id,
                 "sanitized_text": result.raw_report,
                 "urgency": urgency_str,
@@ -512,7 +522,11 @@ class AppState:
                 "candidate_route_found": len(dispatched) > 0,
                 "candidate_route_nodes": candidate_nodes,
                 "audit_checksum": result.audit_checksum,
+                "incident_node": incident_node,
+                "incident_coords": [staged_lon, staged_lat],
             }
+            self.active_cad_incidents[result.request_id] = intake_res
+            return intake_res
 
     # -------------------------------------------------------------------------
     # Dynamic Hazards & Bridge Severance
@@ -620,3 +634,241 @@ class AppState:
             self.dynamic_graph.clear_mutations()
             self.broadcast_sse("hazards_reset", {"cleared_count": count})
             return count
+
+    # -------------------------------------------------------------------------
+    # Discrete-Event Simulation & Playback Controller
+    # -------------------------------------------------------------------------
+
+    def _get_node_coords(self, node_id: str) -> List[float]:
+        """Return [lon, lat] for a given graph node ID."""
+        node = self.base_graph.get_node(node_id)
+        if node and node.coordinates:
+            return [float(node.coordinates[0]), float(node.coordinates[1])]
+        return [-122.3300, 47.6050]
+
+    def _init_simulation_state(self) -> None:
+        """Initialize scenario incidents and fleet vehicle trackers."""
+        self.simulation_time = 0.0
+        self.simulation_active = False
+        self.simulation_duration = getattr(self, "simulation_duration", 3600.0)
+        self.simulation_scenario_name = getattr(self, "simulation_scenario_name", "metropolitan_disaster")
+
+        self.simulated_incidents = [
+            {
+                "incident_id": "INC-101",
+                "report_time": 10.0,
+                "node_id": "N_0_1",
+                "coords": self._get_node_coords("N_0_1"),
+                "urgency": "PRIORITY_1_ECHO",
+                "emergency_type": "CARDIAC_ARREST",
+                "narrative": "Waterfront pedestrian collapsed, unresponsive, bystander CPR underway.",
+                "required_apparatus": ["AMBULANCE_ALS", "FIRE_ENGINE"],
+                "dispatched": False,
+                "dispatched_units": [],
+                "service_duration": 180.0,
+                "status": "REPORTED",
+            },
+            {
+                "incident_id": "INC-102",
+                "report_time": 45.0,
+                "node_id": "N_4_4",
+                "coords": self._get_node_coords("N_4_4"),
+                "urgency": "PRIORITY_1_DELTA",
+                "emergency_type": "STRUCTURE_FIRE",
+                "narrative": "Commercial 2-alarm warehouse fire on 4th Ave, heavy smoke visible.",
+                "required_apparatus": ["FIRE_ENGINE", "LADDER_TRUCK"],
+                "dispatched": False,
+                "dispatched_units": [],
+                "service_duration": 240.0,
+                "status": "REPORTED",
+            },
+            {
+                "incident_id": "INC-103",
+                "report_time": 120.0,
+                "node_id": "N_2_2",
+                "coords": self._get_node_coords("N_2_2"),
+                "urgency": "PRIORITY_1_ECHO",
+                "emergency_type": "TRAFFIC_COLLISION",
+                "narrative": "Multi-vehicle pileup near bridge approach with entrapment.",
+                "required_apparatus": ["AMBULANCE_ALS", "FIRE_ENGINE"],
+                "dispatched": False,
+                "dispatched_units": [],
+                "service_duration": 200.0,
+                "status": "REPORTED",
+            },
+        ]
+
+        self.simulated_vehicles = {}
+        for unit in self.fleet_manager.list_units():
+            unit_id = unit.unit_id
+            home_node = unit.current_node_id or "N_0_0"
+            coords = self._get_node_coords(home_node)
+            self.simulated_vehicles[unit_id] = {
+                "unit_id": unit_id,
+                "apparatus_type": unit.apparatus_type.value,
+                "station_id": unit.station_id,
+                "home_node_id": home_node,
+                "current_node_id": home_node,
+                "current_coords": coords,
+                "status": "AVAILABLE",
+                "tracker": None,
+                "assigned_incident_id": None,
+                "arrived_time": None,
+                "progress_ratio": 0.0,
+                "distance_traveled_m": 0.0,
+                "current_speed_mps": 15.0,
+            }
+
+    def _dispatch_simulated_incident(self, inc: Dict[str, Any]) -> None:
+        """Find closest apparatus, plan paths, and assign trackers for a simulated incident."""
+        target_node = inc["node_id"]
+        for req_type in inc["required_apparatus"]:
+            best_veh = None
+            best_route = None
+            best_cost = math.inf
+
+            for veh in self.simulated_vehicles.values():
+                if veh["status"] == "AVAILABLE" and veh["apparatus_type"].upper() == req_type.upper():
+                    res = astar(self.dynamic_graph, source=veh["current_node_id"], destination=target_node)
+                    if res.reachable and res.path and res.total_cost < best_cost:
+                        best_cost = res.total_cost
+                        best_route = res
+                        best_veh = veh
+
+            if best_veh and best_route and best_route.path:
+                best_veh["status"] = "EN_ROUTE"
+                best_veh["assigned_incident_id"] = inc["incident_id"]
+                best_veh["tracker"] = DispatchedVehicleTracker(
+                    unit_id=best_veh["unit_id"],
+                    incident_id=inc["incident_id"],
+                    destination_node_id=target_node,
+                    path=list(best_route.path),
+                )
+                inc["dispatched_units"].append(best_veh["unit_id"])
+
+        inc["dispatched"] = True
+        inc["status"] = "DISPATCHED" if inc["dispatched_units"] else "QUEUED"
+
+        self.broadcast_sse("cad_dispatch", {
+            "incident_id": inc["incident_id"],
+            "urgency": inc["urgency"],
+            "narrative": inc["narrative"],
+            "coords": inc["coords"],
+            "node_id": inc["node_id"],
+            "dispatched_units": inc["dispatched_units"],
+        })
+
+    def init_simulation(self, scenario_id: str = "metropolitan_disaster", max_duration_seconds: float = 3600.0) -> Dict[str, Any]:
+        """Start or re-initialize a simulation scenario."""
+        with self._lock:
+            self.simulation_scenario_name = scenario_id
+            self.simulation_duration = max_duration_seconds
+            self._init_simulation_state()
+            self.simulation_active = True
+            return self.get_simulation_status()
+
+    def step_simulation(self, step_seconds: float = 5.0, target_time: Optional[float] = None) -> Dict[str, Any]:
+        """Advance simulation clock, kinematics, and active dispatches."""
+        with self._lock:
+            if target_time is not None:
+                delta = max(0.0, target_time - self.simulation_time)
+                self.simulation_time = target_time
+            else:
+                delta = step_seconds
+                self.simulation_time += delta
+
+            # 1. Dispatch any due incidents
+            for inc in self.simulated_incidents:
+                if inc["report_time"] <= self.simulation_time and not inc["dispatched"]:
+                    self._dispatch_simulated_incident(inc)
+
+            # 2. Advance vehicle trackers
+            for veh in self.simulated_vehicles.values():
+                tracker: Optional[DispatchedVehicleTracker] = veh.get("tracker")
+                if tracker and not tracker.is_arrived:
+                    # Realistic fraction advancement based on response travel time
+                    fraction = min(1.0, max(0.05, delta / 60.0))
+                    tracker.advance(fraction)
+
+                    tail = self._get_node_coords(tracker.current_tail_node)
+                    head = self._get_node_coords(tracker.current_head_node)
+                    ratio = tracker.progress_ratio
+                    lon = tail[0] + ratio * (head[0] - tail[0])
+                    lat = tail[1] + ratio * (head[1] - tail[1])
+                    veh["current_coords"] = [round(lon, 6), round(lat, 6)]
+                    veh["progress_ratio"] = round(ratio, 3)
+                    veh["distance_traveled_m"] = round(veh.get("distance_traveled_m", 0.0) + delta * 15.0, 1)
+
+                    if tracker.is_arrived:
+                        veh["status"] = "ON_SCENE"
+                        veh["arrived_time"] = self.simulation_time
+                        veh["current_node_id"] = tracker.destination_node_id
+                        veh["current_coords"] = self._get_node_coords(tracker.destination_node_id)
+
+                elif veh["status"] == "ON_SCENE":
+                    arrived = veh.get("arrived_time", self.simulation_time)
+                    if self.simulation_time - arrived >= 120.0:  # cleared scene
+                        veh["status"] = "AVAILABLE"
+                        veh["tracker"] = None
+                        veh["assigned_incident_id"] = None
+
+            status = self.get_simulation_status()
+            self.broadcast_sse("simulation_step", status)
+            return status
+
+    def reset_simulation(self) -> Dict[str, Any]:
+        """Reset simulation clock and return all units to station readiness."""
+        with self._lock:
+            self._init_simulation_state()
+            self.simulation_active = False
+            self.simulation_time = 0.0
+            self.broadcast_sse("simulation_reset", {"status": "reset_successful", "simulation_time": 0.0, "current_sim_time": 0.0})
+            return self.get_simulation_status()
+
+    def get_simulation_status(self) -> Dict[str, Any]:
+        """Compile complete current simulation and active CAD status."""
+        with self._lock:
+            vehs = []
+            for v in self.simulated_vehicles.values():
+                vehs.append({
+                    "unit_id": v["unit_id"],
+                    "vehicle_id": v["unit_id"],
+                    "callsign": v["unit_id"],
+                    "apparatus_type": v["apparatus_type"],
+                    "station_id": v["station_id"],
+                    "status": v["status"],
+                    "current_node_id": v["current_node_id"],
+                    "current_coords": v["current_coords"],
+                    "progress_ratio": v.get("progress_ratio", 0.0),
+                    "distance_traveled_m": v.get("distance_traveled_m", 0.0),
+                    "assigned_incident_id": v["assigned_incident_id"],
+                })
+
+            incs = []
+            for inc in self.simulated_incidents:
+                incs.append({
+                    "incident_id": inc["incident_id"],
+                    "report_time": inc["report_time"],
+                    "emergency_type": inc["emergency_type"],
+                    "urgency": inc["urgency"],
+                    "coords": inc["coords"],
+                    "node_id": inc["node_id"],
+                    "narrative": inc["narrative"],
+                    "status": inc["status"],
+                    "dispatched_units": inc["dispatched_units"],
+                })
+
+            return {
+                "initialized": True,
+                "is_running": self.simulation_active,
+                "is_active": self.simulation_active,
+                "current_sim_time": round(self.simulation_time, 1),
+                "simulation_time": round(self.simulation_time, 1),
+                "max_duration_seconds": getattr(self, "simulation_duration", 3600.0),
+                "scenario_id": self.simulation_scenario_name,
+                "vehicles": vehs,
+                "incidents": incs,
+                "active_incidents": incs,
+                "active_cad_incidents_count": len(self.active_cad_incidents),
+            }
+

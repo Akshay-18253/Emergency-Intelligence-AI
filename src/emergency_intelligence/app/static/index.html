@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Emergency Intelligence AI — Tactical Operations Center Dashboard & Interactive GIS Map Canvas">
+  <meta name="description" content="Emergency Intelligence AI — Tactical Operations Center Dashboard, CAD Terminal & Timeline Playback Controller">
   <title>Emergency Intelligence AI — Tactical Operations Center</title>
 
   <!-- Typography: Inter & JetBrains Mono -->
@@ -17,6 +17,7 @@
   <!-- Tactical Design System Tokens & Leaflet Dark Overrides -->
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/leaflet-custom.css">
+  <link rel="stylesheet" href="/css/cad.css">
 </head>
 <body>
   <!-- Top Operational Telemetry Bar -->
@@ -24,10 +25,15 @@
     <div class="brand-section">
       <span class="brand-badge">EOC CONSOLE</span>
       <h1 class="brand-title">Emergency Intelligence AI</h1>
-      <span class="brand-subtitle">Tactical Operations Center & GIS Gateway</span>
+      <span class="brand-subtitle">Tactical Operations Center & CAD Gateway</span>
     </div>
 
     <div class="telemetry-bar">
+      <div class="telemetry-item">
+        <button id="audioToggleBtn" class="audio-toggle-btn" type="button" title="Toggle CAD Audio Alerting">
+          <span>🔔</span> Audio Alert
+        </button>
+      </div>
       <div class="telemetry-item">
         <span id="sse-status-dot" class="pulse-dot"></span>
         <span id="sse-status-text">CONNECTING</span>
@@ -59,10 +65,39 @@
   <main class="main-viewport">
     <!-- Left Sidebar: Controls, Kinematics, Hazards, Live Feed -->
     <aside class="sidebar-panel">
-      <!-- Panel 1: Route Planning Controls -->
+
+      <!-- Panel 1: 911 CAD Terminal & 5-Stage Policy Dispatch -->
+      <section class="card" aria-labelledby="cad-terminal-heading" id="cadTerminalPanel">
+        <div class="card-title" id="cad-terminal-heading">
+          <span>1. 911 CAD Intake & Policy</span>
+          <span style="font-size: 0.7rem; color: var(--accent-rose);">5-STAGE ENGINE</span>
+        </div>
+
+        <div class="cad-preset-bar" id="cadPresetBar">
+          <!-- Populated by cad.js -->
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cadNarrativeInput">
+            <span>Caller Narrative / Incident Report</span>
+            <span class="form-label-hint">Ctrl+Enter to dispatch</span>
+          </label>
+          <textarea id="cadNarrativeInput" class="cad-narrative-input" placeholder="Type or click a preset emergency call above..."></textarea>
+        </div>
+
+        <button id="cadSubmitBtn" class="btn btn-primary" style="width: 100%; margin-bottom: 0.5rem;" type="button">
+          Dispatch 911 Incident &raquo;
+        </button>
+
+        <div id="policyReportCard" class="policy-report-card" style="display: none;">
+          <!-- Populated by cad.js on response -->
+        </div>
+      </section>
+
+      <!-- Panel 2: Route Planning Controls -->
       <section class="card" aria-labelledby="route-planner-heading">
         <div class="card-title" id="route-planner-heading">
-          <span>1. Emergency Route Planner</span>
+          <span>2. Emergency Route Planner</span>
           <span style="font-size: 0.7rem; color: var(--accent-cyan);">A* HEURISTIC</span>
         </div>
 
@@ -133,10 +168,10 @@
         </button>
       </section>
 
-      <!-- Panel 2: Kinematic & Profile Telemetry -->
+      <!-- Panel 3: Kinematic & Profile Telemetry -->
       <section class="card" aria-labelledby="kinematics-heading">
         <div class="card-title" id="kinematics-heading">
-          <span>2. Kinematics & Topography</span>
+          <span>3. Kinematics & Topography</span>
         </div>
 
         <div class="metric-grid">
@@ -168,10 +203,10 @@
         </div>
       </section>
 
-      <!-- Panel 3: Dynamic Disaster Hazard Controller -->
+      <!-- Panel 4: Dynamic Disaster Hazard Controller -->
       <section class="card" aria-labelledby="disaster-heading">
         <div class="card-title" id="disaster-heading">
-          <span>3. Disaster Hazard Injection</span>
+          <span>4. Disaster Hazard Injection</span>
         </div>
 
         <div class="hazard-actions">
@@ -190,10 +225,10 @@
         </div>
       </section>
 
-      <!-- Panel 4: Real-Time SSE Telemetry Log -->
+      <!-- Panel 5: Real-Time SSE Telemetry Log -->
       <section class="card" aria-labelledby="terminal-heading">
         <div class="card-title" id="terminal-heading">
-          <span>4. Live SSE Telemetry Terminal</span>
+          <span>5. Live SSE Telemetry Terminal</span>
           <span style="font-size: 0.68rem; color: var(--accent-emerald);">STREAM ACTIVE</span>
         </div>
         <div id="terminal-feed" class="terminal-feed" role="log" aria-live="polite">
@@ -226,11 +261,46 @@
         </div>
         <div class="legend-item">
           <span class="legend-swatch hazard"></span>
-          <span>Active Disaster Hazard Zone</span>
+          <span>Disaster Hazard Zone</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background:#ef4444; border-radius:50%; box-shadow:0 0 6px #ef4444;"></span>
+          <span>Incident Scene (Pulsing Beacon)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background:#0f172a; border:2px solid #38bdf8; border-radius:3px;"></span>
+          <span>Dispatched Apparatus (Moving Pin)</span>
         </div>
       </div>
     </div>
   </main>
+
+  <!-- Discrete-Event Simulation Timeline & Transport Bar -->
+  <footer class="bottom-timeline-bar" aria-label="Simulation Timeline Transport Bar">
+    <div class="transport-controls">
+      <button id="btnSimPlay" class="transport-btn btn-play" type="button" title="Play / Pause Simulation">
+        <span>▶</span> Play
+      </button>
+      <button id="btnSimStep" class="transport-btn" type="button" title="Step Clock Forward (+5s)">
+        <span>⏩</span> +5s
+      </button>
+      <button id="btnSimReset" class="transport-btn" type="button" title="Reset Simulation Clock">
+        <span>🔄</span> Reset
+      </button>
+    </div>
+
+    <div class="timeline-scrubber-group">
+      <span id="simClockDisplay" class="sim-clock-display">T+00:00:00</span>
+      <input type="range" id="timelineScrubber" class="timeline-scrubber" min="0" max="3600" value="0" step="5" aria-label="Timeline Scrubber">
+    </div>
+
+    <div class="speed-selector-group" aria-label="Playback Speed">
+      <button class="speed-chip active" data-speed="1" type="button">1x</button>
+      <button class="speed-chip" data-speed="2" type="button">2x</button>
+      <button class="speed-chip" data-speed="5" type="button">5x</button>
+      <button class="speed-chip" data-speed="10" type="button">10x</button>
+    </div>
+  </footer>
 
   <!-- Leaflet GIS Engine Script -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
