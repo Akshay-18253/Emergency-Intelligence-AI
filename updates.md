@@ -5,9 +5,9 @@
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/LICENSE)
 [![Zero External Dependencies](https://img.shields.io/badge/Runtime%20Dependencies-0%20(Pure%20Stdlib)-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
-[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-657%20Passing-success.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/)
-[![Coverage](https://img.shields.io/badge/Coverage-94.21%25-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
-[![Runnable Demos](https://img.shields.io/badge/Interactive%20Demos-28%20Passing-blueviolet.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/)
+[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-664%20Passing-success.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/)
+[![Coverage](https://img.shields.io/badge/Coverage-94.32%25-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
+[![Interactive Demos](https://img.shields.io/badge/Interactive%20Demos-29%20Passing-blueviolet.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/)
 
 ---
 
@@ -54,6 +54,7 @@
   - [Milestone 8.1: Zero-Dependency Embedded HTTP Server & REST / Event-Stream Gateway](#milestone-81-zero-dependency-embedded-http-server--rest--event-stream-gateway)
   - [Milestone 8.2: Tactical Operations Dashboard & Interactive GIS Map Canvas](#milestone-82-tactical-operations-dashboard--interactive-gis-map-canvas)
   - [Milestone 8.3: Live Incident Intake Terminal, Audio/Narrative CAD Feeds & Timeline Playback Controller](#milestone-83-live-incident-intake-terminal-audionarrative-cad-feeds--timeline-playback-controller)
+  - [Milestone 8.4: End-to-End System Packaging, Dockerfile / Static Bundling & Operator Walkthrough Documentation](#milestone-84-end-to-end-system-packaging-dockerfile--static-bundling--operator-walkthrough-documentation)
 - [11. Future Phases & Forward Roadmap](#11-future-phases--forward-roadmap)
   - [Phase 9: GSoC 2027 Proposal Preparation](#phase-9-gsoc-2027-proposal-preparation)
 - [12. Maintenance Guide for Milestone Updates](#12-maintenance-guide-for-milestone-updates)
@@ -70,12 +71,12 @@ This document serves as the **master changelog and technical chronicle**. It rec
 
 | Telemetry Dimension | Verified Measurement | Gate Status |
 |---|---|:---:|
-| **Phases Completed** | **7 Completed, Phase 8 In Progress (Milestones 8.1, 8.2 & 8.3 Complete)** | 🚀 Active |
-| **Milestones Verified** | **31 of 32 Technical Milestones** | ✅ Complete |
-| **Unit Test Suite** | **657 passed in 6.84 seconds** | ✅ 100% Pass |
-| **Branch & Statement Coverage** | **94.21% Repository-Wide** | ✅ Exceeds $\ge 90\%$ Gate |
+| **Phases Completed** | **All 8 Phases Complete (Phase 1 through Phase 8)** | ✅ 100% Complete |
+| **Milestones Verified** | **32 of 32 Technical Milestones** | ✅ Complete |
+| **Unit Test Suite** | **664 passed in 8.59 seconds** | ✅ 100% Pass |
+| **Branch & Statement Coverage** | **94.32% Repository-Wide** | ✅ Exceeds $\ge 90\%$ Gate |
 | **External Runtime Dependencies** | **0 (Zero external dependencies; pure standard library)** | ✅ Strictly Audited |
-| **Interactive Demos** | **28 standalone runnable scripts (all passing in 17.46s)** | ✅ Verified |
+| **Interactive Demos** | **29 standalone runnable scripts (all passing in 21.38s)** | ✅ Verified |
 | **Core Source Modules** | **52 library modules across 9 architectural packages** | ✅ Modular |
 | **RFC & Open Standards** | **RFC 7946 (GeoJSON), RFC 4180 (CSV), OASIS CAP v1.2, EPSG:3857 (Web Mercator)** | ✅ Compliant |
 | **Statutory SOP Compliance** | **NFPA 1710 (4 min first-due / 8 min full alarm), NFPA 1221, AHA Dual-Response** | ✅ Enforced |
@@ -127,7 +128,7 @@ gantt
     M8.1 Embedded Server & REST/SSE  :done, p8_1, 2026-10-14, 2026-10-14
     M8.2 Operations Dashboard & GIS  :done, p8_2, 2026-10-14, 2026-10-14
     M8.3 CAD Terminal & Timeline     :done, p8_3, 2026-10-14, 2026-10-15
-    M8.4 Verification & Packaging    :p8_4, 2026-10-25, 2026-11-05
+    M8.4 Verification & Packaging    :done, p8_4, 2026-10-15, 2026-10-15
     section Future Roadmap
     Phase 9 GSoC Proposal            :milestone, p9, 2026-12-01, 2026-12-01
 ```
@@ -143,7 +144,7 @@ gantt
 | **Phase 5** | M5.1 – M5.5 | AI domain contracts, Policy engine, NLP, Orchestrator, Audit | 103 | 439 | 96.31% | 3 | 15 |
 | **Phase 6** | M6.1 – M6.5 | Discrete-event clock, Scenarios, NFPA metrics, Exporters | 84 | 523 | 96.18% | 5 | 20 |
 | **Phase 7** | M7.1 – M7.5 | Overpass POI, SRTM DEM, USGS flood, Leaflet GIS, Benchmark | 89 | 612 | 96.09% | 5 | 25 |
-| **Phase 8** | M8.1 – M8.3 (In Progress) | Embedded Server, REST/SSE Gateway, Operations Dashboard, CAD Terminal, Web Audio Alerts, Timeline Controller | 45 | 657 | 94.21% | 3 | 28 |
+| **Phase 8** | M8.1 – M8.4 | Embedded Server, REST/SSE Gateway, Operations Dashboard, CAD Terminal, Web Audio Alerts, Timeline Controller, Dockerfile & Packaging | 52 | 664 | 94.32% | 4 | 29 |
 
 ---
 
@@ -1069,11 +1070,81 @@ Where $\mathcal{E}_{[t, t + \Delta t]}$ is the ordered sequence of incidents and
 
 ---
 
+### Milestone 8.4: End-to-End System Packaging, Dockerfile / Static Bundling & Operator Walkthrough Documentation
+`Status: Complete ✅`
+
+#### Executive Summary
+The culmination of Phase 8 delivers standard library packaging, containerization, and operator documentation for the entire Emergency Intelligence AI system. Milestone 8.4 establishes a PEP 621 / PEP 517 CLI entrypoint (`emergency-intelligence-server`), an ultra-lightweight zero-external-dependency production `Dockerfile` based on `python:3.12-slim` requiring strictly 0 `pip install` commands, a hermetic `.dockerignore`, and an authoritative, step-by-step EOC Operator Walkthrough Guide (`docs/operator_manual.md`). With this milestone, all 4 milestones of Phase 8 are complete, bringing the entire repository to 32 completed milestones across 8 phases.
+
+#### Deliverables & Architectural Components
+1. **Standard CLI Entrypoint (`emergency-intelligence-server`):**
+   - Source: [`src/emergency_intelligence/app/server.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/src/emergency_intelligence/app/server.py)
+   - Configuration: [`pyproject.toml`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/pyproject.toml)
+   - Configured `[project.scripts]` mapping `emergency-intelligence-server = "emergency_intelligence.app.server:main"`.
+   - Enhanced `main(argv=None)` supporting `--host`, `--port`, `--log`, and `--dry-run` with graceful `KeyboardInterrupt` shutdown and exit code handling.
+2. **Zero-Dependency Production Containerization:**
+   - Source: [`Dockerfile`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/Dockerfile)
+   - Minimal base image `python:3.12-slim` (~150MB).
+   - Architectural invariant: strict **zero pip install** steps. Operates 100% on Python Standard Library.
+   - Configures non-root unprivileged security user `eocuser` (UID 10001).
+   - Built-in `HEALTHCHECK` using Python standard library `urllib.request` probing `http://127.0.0.1:8080/api/health`.
+   - Exposes standard port `8080`.
+3. **Hermetic Docker Build Context Filter:**
+   - Source: [`.dockerignore`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/.dockerignore)
+   - Filters `.git`, virtual environments (`.venv`), byte-code caches (`__pycache__`), test caches (`.pytest_cache`), and coverage reports.
+4. **Authoritative EOC Operator Walkthrough Guide:**
+   - Source: [`docs/operator_manual.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/operator_manual.md)
+   - Comprehensive 10-section operational manual covering:
+     1. Executive Overview & System Purpose.
+     2. Zero-Dependency Architectural Design & Topology.
+     3. Deployment & Server Launch (CLI, module, Docker).
+     4. Tactical Operations Dashboard Navigation (Carto dark tiles, SVG markers, routes).
+     5. Live CAD 911 Narrative Intake & 5-Stage Policy Engine (AHA dual-response, NFPA 1710 full alarms, SHA-256 hash).
+     6. Web Audio Warning System (880 Hz / 660 Hz synthesized chimes & mute controls).
+     7. Discrete-Event Timeline Playback Controller (stepping, seeking, continuous kinematics).
+     8. Dynamic Disaster Hazard Injection & Detour Rerouting.
+     9. Complete REST & SSE API Reference Table.
+     10. Statutory SOP Compliance & Non-Certification Notice.
+
+#### Mathematical Formulations & Container Health Check Invariants
+1. **Container Liveness Condition:**
+   $$\text{HealthStatus}(t) = \begin{cases} \text{HEALTHY} & \text{if } \text{HTTP\_GET}(/api/health) = 200 \land \text{payload.status} = \text{"healthy"} \\ \text{UNHEALTHY} & \text{otherwise} \end{cases}$$
+2. **Non-Destructive Graph Invariance Under Containerization:**
+   $$V(G_{\text{container}}) = V(G_{\text{native}}) = 36, \quad E(G_{\text{container}}) = E(G_{\text{native}}) = 120$$
+
+#### Test Suite & Verification Metrics
+- Test file: [`tests/test_app_packaging.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_app_packaging.py)
+  - 7 unit and integration tests verifying:
+    1. `pyproject.toml` `[project.scripts]` entrypoint specification.
+    2. CLI default `--dry-run` argument parsing.
+    3. Custom host, port, and logging flag parsing.
+    4. `Dockerfile` zero-dependency invariants (no executable `pip install`, non-root user, port 8080, native urllib healthcheck).
+    5. `.dockerignore` essential ignore patterns.
+    6. `docs/operator_manual.md` structural completeness across all 10 operational sections.
+    7. Embedded server runtime health probe responding HTTP 200 with JSON payload.
+- Pre-flight pass: **664 unit tests passing in 8.59 seconds**, **94.32% branch coverage**, **29 demos passing in 21.38 seconds**.
+
+#### Interactive Demos & Reports
+- Demo script: [`examples/app_packaging_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/app_packaging_demo.py) (Demo #29)
+  - Runs in ~1.5s:
+    - Step 1: Validates `pyproject.toml` metadata and CLI script command mapping.
+    - Step 2: Audits Dockerfile container configuration and zero-dependency compliance.
+    - Step 3: Inspects `.dockerignore` build isolation rules.
+    - Step 4: Verifies all 10 sections of `docs/operator_manual.md`.
+    - Step 5: Executes CLI dry-run and launches ephemeral server, validating `/api/health` probe.
+    - Step 6: Confirms package and container readiness.
+
+---
+
 ## 11. Future Phases & Forward Roadmap
 
-### Phase 8 Forward Milestones: Interactive Prototype Web Application
-`Status: Milestones 8.1, 8.2 & 8.3 Complete; Milestone 8.4 Planned 🚀`
+### Phase 8: Interactive Prototype Web Application
+`Status: 100% Complete (Milestones 8.1, 8.2, 8.3 & 8.4 Finished) ✅`
 
+All Phase 8 deliverables have been implemented, verified, tested, and containerized:
+- **Milestone 8.1:** Zero-Dependency Embedded HTTP Server & REST / Event-Stream Gateway.
+- **Milestone 8.2:** Tactical Operations Dashboard & Interactive GIS Map Canvas.
+- **Milestone 8.3:** Live Incident Intake Terminal, Audio/Narrative CAD Feeds & Timeline Playback Controller.
 - **Milestone 8.4:** End-to-End System Packaging, Dockerfile / Static Bundling & Operator Walkthrough Documentation.
 
 ### Phase 9: GSoC 2027 Proposal Preparation

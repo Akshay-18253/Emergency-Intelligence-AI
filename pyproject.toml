@@ -33,6 +33,9 @@ dev = [
     "pytest-cov>=4.0",
 ]
 
+[project.scripts]
+emergency-intelligence-server = "emergency_intelligence.app.server:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 

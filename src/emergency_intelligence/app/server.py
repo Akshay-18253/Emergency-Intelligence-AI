@@ -102,7 +102,7 @@ def create_app(
     return EmergencyAppServer(host=host, port=port, state=state)
 
 
-def main() -> None:
+def main(argv: Optional[list[str]] = None) -> int:
     """Command-line entry point for running the web application."""
     parser = argparse.ArgumentParser(
         description="Emergency Intelligence AI — Tactical Prototype Web Server"
@@ -110,8 +110,9 @@ def main() -> None:
     parser.add_argument("--host", default="127.0.0.1", help="Binding host interface (default: 127.0.0.1)")
     parser.add_argument("--port", type=int, default=8080, help="Binding TCP port (default: 8080)")
     parser.add_argument("--log", action="store_true", help="Enable verbose HTTP access logging")
+    parser.add_argument("--dry-run", action="store_true", help="Validate configuration and bind socket briefly without blocking")
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     server = EmergencyAppServer(host=args.host, port=args.port, enable_logging=args.log)
     print("=" * 72)
@@ -119,10 +120,27 @@ def main() -> None:
     print("=" * 72)
     print(f"  Target URL: {server.get_url()}")
     print("  Zero Runtime Dependencies: 100% Python Standard Library")
+
+    if args.dry_run:
+        print("  Dry-run flag detected: testing server binding...")
+        server.start(blocking=False)
+        time.sleep(0.05)
+        server.stop()
+        print("  Server successfully bound and stopped.")
+        print("=" * 72 + "\n")
+        return 0
+
     print("  Press Ctrl+C to terminate.")
     print("=" * 72 + "\n")
-    server.start(blocking=True)
+    try:
+        server.start(blocking=True)
+    except KeyboardInterrupt:
+        print("\nTermination signal received. Shutting down...")
+        server.stop()
+        print("Server shutdown cleanly.")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
+

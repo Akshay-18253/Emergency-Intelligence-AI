@@ -1,0 +1,29 @@
+# Version control
+.git/
+.gitignore
+
+# Virtual environments & build artifacts
+.venv/
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Testing & code coverage caches
+.pytest_cache/
+.coverage
+htmlcov/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE configurations
+.vscode/
+.idea/
+.agents/
+
+# Documentation & scratch directories
+docs/
+artifacts/
+scratch/
