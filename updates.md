@@ -5,9 +5,9 @@
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/LICENSE)
 [![Zero External Dependencies](https://img.shields.io/badge/Runtime%20Dependencies-0%20(Pure%20Stdlib)-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
-[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-664%20Passing-success.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/)
-[![Coverage](https://img.shields.io/badge/Coverage-94.32%25-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
-[![Interactive Demos](https://img.shields.io/badge/Interactive%20Demos-29%20Passing-blueviolet.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/)
+[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-670%20Passing-success.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/)
+[![Coverage](https://img.shields.io/badge/Coverage-94.37%25-brightgreen.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
+[![Interactive Demos](https://img.shields.io/badge/Interactive%20Demos-30%20Passing-blueviolet.svg)](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/)
 
 ---
 
@@ -55,6 +55,7 @@
   - [Milestone 8.2: Tactical Operations Dashboard & Interactive GIS Map Canvas](#milestone-82-tactical-operations-dashboard--interactive-gis-map-canvas)
   - [Milestone 8.3: Live Incident Intake Terminal, Audio/Narrative CAD Feeds & Timeline Playback Controller](#milestone-83-live-incident-intake-terminal-audionarrative-cad-feeds--timeline-playback-controller)
   - [Milestone 8.4: End-to-End System Packaging, Dockerfile / Static Bundling & Operator Walkthrough Documentation](#milestone-84-end-to-end-system-packaging-dockerfile--static-bundling--operator-walkthrough-documentation)
+  - [Milestone 8.5: End-to-End Prototype Validation Suite, Comprehensive Phase 8 Evaluation Report & Interactive Master Demo #30](#milestone-85-end-to-end-prototype-validation-suite-comprehensive-phase-8-evaluation-report--interactive-master-demo-30)
 - [11. Future Phases & Forward Roadmap](#11-future-phases--forward-roadmap)
   - [Phase 9: GSoC 2027 Proposal Preparation](#phase-9-gsoc-2027-proposal-preparation)
 - [12. Maintenance Guide for Milestone Updates](#12-maintenance-guide-for-milestone-updates)
@@ -72,11 +73,11 @@ This document serves as the **master changelog and technical chronicle**. It rec
 | Telemetry Dimension | Verified Measurement | Gate Status |
 |---|---|:---:|
 | **Phases Completed** | **All 8 Phases Complete (Phase 1 through Phase 8)** | ✅ 100% Complete |
-| **Milestones Verified** | **32 of 32 Technical Milestones** | ✅ Complete |
-| **Unit Test Suite** | **664 passed in 8.59 seconds** | ✅ 100% Pass |
-| **Branch & Statement Coverage** | **94.32% Repository-Wide** | ✅ Exceeds $\ge 90\%$ Gate |
+| **Milestones Verified** | **33 of 33 Technical Milestones** | ✅ Complete |
+| **Unit Test Suite** | **670 passed in 9.50 seconds** | ✅ 100% Pass |
+| **Branch & Statement Coverage** | **94.37% Repository-Wide** | ✅ Exceeds $\ge 90\%$ Gate |
 | **External Runtime Dependencies** | **0 (Zero external dependencies; pure standard library)** | ✅ Strictly Audited |
-| **Interactive Demos** | **29 standalone runnable scripts (all passing in 21.38s)** | ✅ Verified |
+| **Interactive Demos** | **30 standalone runnable scripts (all passing in 23.65s)** | ✅ Verified |
 | **Core Source Modules** | **52 library modules across 9 architectural packages** | ✅ Modular |
 | **RFC & Open Standards** | **RFC 7946 (GeoJSON), RFC 4180 (CSV), OASIS CAP v1.2, EPSG:3857 (Web Mercator)** | ✅ Compliant |
 | **Statutory SOP Compliance** | **NFPA 1710 (4 min first-due / 8 min full alarm), NFPA 1221, AHA Dual-Response** | ✅ Enforced |
@@ -129,6 +130,7 @@ gantt
     M8.2 Operations Dashboard & GIS  :done, p8_2, 2026-10-14, 2026-10-14
     M8.3 CAD Terminal & Timeline     :done, p8_3, 2026-10-14, 2026-10-15
     M8.4 Verification & Packaging    :done, p8_4, 2026-10-15, 2026-10-15
+    M8.5 Master Evaluation Suite     :done, p8_5, 2026-10-15, 2026-10-15
     section Future Roadmap
     Phase 9 GSoC Proposal            :milestone, p9, 2026-12-01, 2026-12-01
 ```
@@ -144,7 +146,7 @@ gantt
 | **Phase 5** | M5.1 – M5.5 | AI domain contracts, Policy engine, NLP, Orchestrator, Audit | 103 | 439 | 96.31% | 3 | 15 |
 | **Phase 6** | M6.1 – M6.5 | Discrete-event clock, Scenarios, NFPA metrics, Exporters | 84 | 523 | 96.18% | 5 | 20 |
 | **Phase 7** | M7.1 – M7.5 | Overpass POI, SRTM DEM, USGS flood, Leaflet GIS, Benchmark | 89 | 612 | 96.09% | 5 | 25 |
-| **Phase 8** | M8.1 – M8.4 | Embedded Server, REST/SSE Gateway, Operations Dashboard, CAD Terminal, Web Audio Alerts, Timeline Controller, Dockerfile & Packaging | 52 | 664 | 94.32% | 4 | 29 |
+| **Phase 8** | M8.1 – M8.5 | Embedded Server, REST/SSE Gateway, Operations Dashboard, CAD Terminal, Web Audio Alerts, Timeline Controller, Dockerfile, E2E Suite & Eval | 58 | 670 | 94.37% | 5 | 30 |
 
 ---
 
@@ -1136,16 +1138,73 @@ The culmination of Phase 8 delivers standard library packaging, containerization
 
 ---
 
+### Milestone 8.5: End-to-End Prototype Validation Suite, Comprehensive Phase 8 Evaluation Report & Interactive Master Demo #30
+`Status: Complete ✅`
+
+#### Executive Summary
+The grand capstone milestone of Phase 8 delivers comprehensive end-to-end integration testing, an empirical publication-grade evaluation report, and Master Interactive Demonstration #30. Milestone 8.5 ties together all 8 project phases into an authoritative, validated operational system. It introduces an automated integration suite (`tests/test_app_e2e_suite.py`) asserting full lifecycle operations from static bundling to CAD narrative ingestion, AHA dual-response statutory dispatch, dynamic hazard avoidance, Server-Sent Events (SSE) broadcasting, and discrete-event kinematic playback. It synthesizes all findings into a formal report (`docs/milestone_8_evaluation_report.md`) establishing that standard-library embedded emergency systems outperform heavy asynchronous web frameworks in resource footprint, boot latency, and air-gapped security.
+
+#### Deliverables & Architectural Components
+1. **Empirical Phase 8 Evaluation Report:**
+   - Source: [`docs/milestone_8_evaluation_report.md`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/docs/milestone_8_evaluation_report.md)
+   - Publication-grade 9-section report analyzing:
+     1. Abstract & Research Objectives for Tactical EOC prototype.
+     2. Architectural Benchmark: `ThreadingHTTPServer` vs FastAPI/Express (0 external packages, 152MB vs 280MB+ container, <120ms boot, <42MB RSS).
+     3. Real-Time Telemetry & SSE Stream Profile (sub-0.15ms broadcast fan-out).
+     4. 5-Stage AI Dispatch Orchestration Latency Profile (1.16ms total turnaround).
+     5. Continuous Kinematic Timeline Transport Evaluation ($r_v(t + \Delta t)$ interpolation).
+     6. Dynamic Hazard Avoidance & Reroute Verification (65 $\mu$s in-flight replanning).
+     7. Containerization & Production Packaging.
+     8. Cumulative Health Ledger across Phases 1 through 8.
+     9. GSoC 2027 Alignment & Civic Impact.
+2. **End-to-End Prototype Validation Suite:**
+   - Source: [`tests/test_app_e2e_suite.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_app_e2e_suite.py)
+   - 6 comprehensive integration tests asserting:
+     1. Static asset delivery with valid MIME types for all 11 CSS, JS, and HTML bundles.
+     2. CAD 911 narrative evaluation, AHA cardiac dual-response enforcement, and SHA-256 audit digest generation.
+     3. Discrete-event simulation scenario initialization, $+15\text{ s}$ stepping, direct seeking, and reset.
+     4. Dynamic 2D hazard polygon injection, road edge severance, and hazard deletion.
+     5. Server-Sent Events (SSE) telemetry connection handshakes on `/api/simulation/stream` and `/api/telemetry/events`.
+     6. Clinical facility amenities and cryptographic CAD audit trail retrieval via `GET /api/cad/audit-log`.
+     7. Phase 8 Evaluation Report structural completeness.
+3. **Master Interactive Demonstration #30:**
+   - Source: [`examples/prototype_suite_demo.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/examples/prototype_suite_demo.py)
+   - Standalone executable uniting all 8 phases:
+     - Step 1: Launches server on ephemeral port with 0 runtime dependencies.
+     - Step 2: Queries road graph topology, hospital facilities, and baseline 3D A* route.
+     - Step 3: Evaluates 911 caller narrative through 5-stage policy engine.
+     - Step 4: Advances discrete-event timeline and tracks continuous vehicle kinematics.
+     - Step 5: Injects dynamic flood hazard, closes road edges, and verifies detour bypass.
+     - Step 6: Verifies cryptographic SHA-256 audit log and shuts down cleanly.
+4. **Pre-Flight Checker Expansion:**
+   - Source: [`scripts/check.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/scripts/check.py)
+   - Updated to audit all 30 demonstration scripts.
+
+#### Mathematical Formulations & Latency Bounds
+1. **Total CAD Dispatch Latency Bound:**
+   $$\tau_{\text{dispatch}} = \tau_{\text{PII}} + \tau_{\text{intent}} + \tau_{\text{policy}} + \tau_{\text{route}} + \tau_{\text{audit}} \le 2.0\text{ ms}$$
+2. **Fractional Kinematic Progress Invariant:**
+   $$r_v(t + \Delta t) = \min\left(1.0, r_v(t) + \frac{\Delta t \cdot v_{\text{speed}}}{L_{\text{edge}}}\right)$$
+
+#### Test Suite & Verification Metrics
+- Test file: [`tests/test_app_e2e_suite.py`](file:///d:/Personal/GSoC%20Project/Emergency%20Intelligence%20AI/tests/test_app_e2e_suite.py) (6 integration tests).
+- Cumulative tests: **670 unit and integration tests passing in 9.50 seconds**.
+- Repository code coverage: **94.37% branch and statement coverage**.
+- Pre-flight pass: **All 30 demonstration scripts passing in 23.65 seconds**.
+
+---
+
 ## 11. Future Phases & Forward Roadmap
 
 ### Phase 8: Interactive Prototype Web Application
-`Status: 100% Complete (Milestones 8.1, 8.2, 8.3 & 8.4 Finished) ✅`
+`Status: 100% Complete (Milestones 8.1, 8.2, 8.3, 8.4 & 8.5 Finished) ✅`
 
-All Phase 8 deliverables have been implemented, verified, tested, and containerized:
+All Phase 8 deliverables have been implemented, verified, tested, benchmarked, and containerized:
 - **Milestone 8.1:** Zero-Dependency Embedded HTTP Server & REST / Event-Stream Gateway.
 - **Milestone 8.2:** Tactical Operations Dashboard & Interactive GIS Map Canvas.
 - **Milestone 8.3:** Live Incident Intake Terminal, Audio/Narrative CAD Feeds & Timeline Playback Controller.
 - **Milestone 8.4:** End-to-End System Packaging, Dockerfile / Static Bundling & Operator Walkthrough Documentation.
+- **Milestone 8.5:** End-to-End Prototype Validation Suite, Comprehensive Phase 8 Evaluation Report & Interactive Master Demo #30.
 
 ### Phase 9: GSoC 2027 Proposal Preparation
 `Status: Planned 📋`

@@ -110,9 +110,11 @@ class EmergencyRequestHandler(BaseHTTPRequestHandler):
             self._handle_get_network()
         elif path == "/api/facilities":
             self._handle_get_facilities()
+        elif path in ("/api/cad/audit-log", "/api/audit"):
+            self._handle_get_audit_log()
         elif path == "/api/simulation/status":
             self._handle_get_simulation_status()
-        elif path == "/api/simulation/stream":
+        elif path in ("/api/simulation/stream", "/api/telemetry/events"):
             self._handle_sse_stream()
         elif path.startswith("/api/"):
             self.reply_json(404, success=False, error=f"Endpoint GET '{path}' not found.", error_code="NOT_FOUND")
@@ -192,6 +194,20 @@ class EmergencyRequestHandler(BaseHTTPRequestHandler):
         """GET /api/facilities -> Return hospital and station amenities."""
         facilities = self.app_state.get_facilities_data()
         self.reply_json(200, data=facilities)
+
+    def _handle_get_audit_log(self) -> None:
+        """GET /api/cad/audit-log -> Return cryptographic audit log."""
+        entries = [
+            {
+                "intake_id": inc_id,
+                "audit_checksum": inc_data.get("audit_checksum"),
+                "urgency": inc_data.get("urgency"),
+                "policy_directives": inc_data.get("policy_directives"),
+                "incident_coords": inc_data.get("incident_coords"),
+            }
+            for inc_id, inc_data in self.app_state.active_cad_incidents.items()
+        ]
+        self.reply_json(200, data={"entries": entries, "count": len(entries)})
 
     def _handle_post_route(self, body: Dict[str, Any]) -> None:
         """POST /api/route -> Compute multi-criteria emergency route."""
