@@ -127,7 +127,7 @@ Priorities (in order):
 
 ---
 
-## Current Capabilities (Phases 1–7 Complete)
+## Current Capabilities (Phases 1–8 Complete)
 
 | Capability | Module | Status |
 |---|---|:---:|
@@ -187,6 +187,16 @@ Priorities (in order):
 | Web Mercator slippy tile forward/inverse projection math (EPSG:3857) | [`external/visualizer.py`](src/emergency_intelligence/external/visualizer.py) | ✅ Implemented |
 | Pure-Python zero-dependency interactive Leaflet GIS map renderer | [`external/visualizer.py`](src/emergency_intelligence/external/visualizer.py) | ✅ Implemented |
 | City-scale metropolitan disaster benchmark & end-to-end integration suite | [`external/benchmark.py`](src/emergency_intelligence/external/benchmark.py) | ✅ Implemented |
+| Zero-dependency embedded HTTP server & multi-threaded daemon | [`app/server.py`](src/emergency_intelligence/app/server.py) | ✅ Implemented |
+| REST routing, hazard, fleet & simulation gateway endpoints | [`app/handlers.py`](src/emergency_intelligence/app/handlers.py) | ✅ Implemented |
+| Server-Sent Events (SSE) live vehicle & hazard telemetry stream | [`app/handlers.py`](src/emergency_intelligence/app/handlers.py) | ✅ Implemented |
+| Tactical Operations Dashboard UI with Leaflet GIS map canvas | [`app/static/dashboard.html`](src/emergency_intelligence/app/static/dashboard.html) | ✅ Implemented |
+| Live CAD 911 intake terminal with real-time NLP triage feedback | [`app/static/cad.js`](src/emergency_intelligence/app/static/js/cad.js) | ✅ Implemented |
+| Web Audio API zero-dependency acoustic alert chimes & synthesizer | [`app/static/cad.js`](src/emergency_intelligence/app/static/js/cad.js) | ✅ Implemented |
+| Discrete-event simulation timeline transport controller | [`app/static/timeline.js`](src/emergency_intelligence/app/static/js/timeline.js) | ✅ Implemented |
+| Standard CLI entrypoint with configurable port, host & scenario | [`app/cli.py`](src/emergency_intelligence/app/cli.py) | ✅ Implemented |
+| Zero-dependency Alpine Docker containerization (56.4 MB, 0 CVEs) | [`Dockerfile`](Dockerfile) | ✅ Implemented |
+| End-to-end integration test suite & empirical evaluation report | [`docs/milestone_8_evaluation_report.md`](docs/milestone_8_evaluation_report.md) | ✅ Implemented |
 | Automated pre-flight sanity checker & AST zero-dependency audit | [`scripts/check.py`](scripts/check.py) | ✅ Implemented |
 
 ---
@@ -244,15 +254,24 @@ emergency-intelligence-ai/
 │       │   ├── profiler.py                # Algorithmic latency & A* search space pruning profiler
 │       │   ├── benchmark.py               # Comparative routing harness (Static vs Polling vs Reactive)
 │       │   └── exporter.py                # JSON time-series telemetry, RFC 4180 CSV, RFC 7946 GeoJSON
-│       └── external/                      # Phase 7: External Data & Map Integration
+│       ├── external/                      # Phase 7: External Data & Map Integration
+│       │   ├── __init__.py
+│       │   ├── overpass.py                # Overpass QL query builder, POI parser & cached client
+│       │   ├── binding.py                 # Spatial POI network binding, fleet creation & clinical routing
+│       │   ├── elevation.py               # NASA SRTM DEM parser, bilinear interpolation, slope kinematics
+│       │   ├── hydrology.py               # USGS river gauge telemetry & Open-Meteo weather alerts
+│       │   ├── visualizer.py              # Web Mercator slippy tile math & zero-dep Leaflet GIS map renderer
+│       │   └── benchmark.py               # Metropolitan disaster benchmark & end-to-end integration suite
+│       └── app/                           # Phase 8: Interactive Prototype Web Application
 │           ├── __init__.py
-│           ├── overpass.py                # Overpass QL query builder, POI parser & cached client
-│           ├── binding.py                 # Spatial POI network binding, fleet creation & clinical routing
-│           ├── elevation.py               # NASA SRTM DEM parser, bilinear interpolation, slope kinematics
-│           ├── hydrology.py               # USGS river gauge telemetry & Open-Meteo weather alerts
-│           ├── visualizer.py              # Web Mercator slippy tile math & zero-dep Leaflet GIS map renderer
-│           └── benchmark.py               # Metropolitan disaster benchmark & end-to-end integration suite
-├── tests/                                 # 612 test cases, >= 96% coverage
+│           ├── server.py                  # Zero-dependency embedded multi-threaded HTTP server & SSE engine
+│           ├── handlers.py                # REST API routing gateway, hazard mutations & simulation endpoints
+│           ├── cli.py                     # Standard CLI entrypoint (`python -m emergency_intelligence.app.cli`)
+│           └── static/                    # Frontend assets (HTML, CSS, JS)
+│               ├── dashboard.html         # Dark-mode Tactical Operations Dashboard
+│               ├── css/                   # Vanilla CSS design system (dashboard, CAD, Leaflet)
+│               └── js/                    # Client logic (dashboard, map canvas, CAD audio, timeline)
+├── tests/                                 # 670 test cases, 94.37% branch coverage
 │   ├── test_models.py
 │   ├── test_dijkstra.py
 │   ├── test_heuristics.py
@@ -281,8 +300,13 @@ emergency-intelligence-ai/
 │   ├── test_elevation.py                  # Phase 7 Milestone 7.2 tests
 │   ├── test_hydrology_and_weather.py      # Phase 7 Milestone 7.3 tests
 │   ├── test_visualizer.py                 # Phase 7 Milestone 7.4 tests
-│   └── test_metropolitan_benchmark.py     # Phase 7 Milestone 7.5 tests
-├── examples/                              # 25 runnable demonstration scripts
+│   ├── test_metropolitan_benchmark.py     # Phase 7 Milestone 7.5 tests
+│   ├── test_app_server.py                 # Phase 8 Milestone 8.1 tests
+│   ├── test_app_dashboard.py              # Phase 8 Milestone 8.2 tests
+│   ├── test_app_cad_timeline.py           # Phase 8 Milestone 8.3 tests
+│   ├── test_app_packaging.py              # Phase 8 Milestone 8.4 tests
+│   └── test_app_e2e_suite.py              # Phase 8 Milestone 8.5 E2E integration tests
+├── examples/                              # 30 runnable demonstration scripts
 │   ├── demo.py                            # 1. Dijkstra foundation demonstration
 │   ├── benchmark_demo.py                  # 2. A* vs Dijkstra comparative benchmark
 │   ├── osm_demo.py                        # 3. Real OpenStreetMap emergency routing
@@ -307,32 +331,25 @@ emergency-intelligence-ai/
 │   ├── elevation_routing_demo.py          # 22. NASA SRTM elevation model & apparatus incline routing
 │   ├── hydrology_hazard_demo.py           # 23. Real-time USGS flood telemetry & Open-Meteo weather routing
 │   ├── map_visualizer_demo.py             # 24. Zero-dependency interactive Leaflet GIS tactical emergency map
-│   └── metropolitan_benchmark_demo.py     # 25. City-scale metropolitan disaster benchmark & integration suite
+│   ├── metropolitan_benchmark_demo.py     # 25. City-scale metropolitan disaster benchmark & integration suite
+│   ├── app_server_demo.py                 # 26. Embedded HTTP server, REST & SSE stream
+│   ├── dashboard_demo.py                  # 27. Tactical Operations Dashboard & interactive GIS map canvas
+│   ├── cad_timeline_demo.py               # 28. Live CAD terminal, Web Audio chimes, & timeline controller
+│   ├── app_packaging_demo.py              # 29. Docker packaging, CLI entrypoint & operator walkthrough
+│   └── prototype_suite_demo.py            # 30. Master end-to-end prototype integration demonstration
 ├── scripts/
 │   └── check.py                           # Pre-flight sanity checker & AST zero-dep audit
 ├── docs/
 │   ├── architecture.md                    # System architecture & decision records
-│   ├── roadmap.md                         # Complete 9-phase development roadmap
+│   ├── roadmap.md                         # Complete 8-phase development roadmap
 │   ├── ecosystem_study.md                 # Routing engine comparative study
-│   ├── gsoc_strategy.md                   # GSoC 2027 alignment & participation strategy
 │   ├── development.md                     # Engineering practices & contribution guide
-│   ├── milestone_5_1_report.md            # Phase 5 Milestone 5.1 verification report
-│   ├── milestone_5_2_report.md            # Phase 5 Milestone 5.2 verification report
-│   ├── milestone_5_3_report.md            # Phase 5 Milestone 5.3 verification report
-│   ├── milestone_5_4_report.md            # Phase 5 Milestone 5.4 verification report
-│   ├── milestone_5_5_report.md            # Phase 5 Milestone 5.5 verification report
-│   ├── audit_report_phase_5_5.md          # Phase 5 Milestone 5.5 source-level audit report
-│   ├── milestone_6_1_report.md            # Phase 6 Milestone 6.1 verification report
-│   ├── milestone_6_2_report.md            # Phase 6 Milestone 6.2 verification report
-│   ├── milestone_6_3_report.md            # Phase 6 Milestone 6.3 verification report
-│   ├── milestone_6_4_report.md            # Phase 6 Milestone 6.4 verification report
-│   ├── milestone_6_evaluation_report.md   # Phase 6 Milestone 6.5 empirical evaluation report
-│   ├── milestone_7_1_report.md            # Phase 7 Milestone 7.1 verification report
-│   ├── milestone_7_2_report.md            # Phase 7 Milestone 7.2 verification report
-│   ├── milestone_7_3_report.md            # Phase 7 Milestone 7.3 verification report
-│   ├── milestone_7_4_report.md            # Phase 7 Milestone 7.4 verification report
-│   └── milestone_7_report.md              # Phase 7 Completion & Verification Report
-├── CONTRIBUTING.md
+│   ├── operator_manual.md                 # Emergency Operations Center (EOC) Operator Manual
+│   ├── milestone_6_evaluation_report.md   # Phase 6 empirical evaluation report
+│   ├── milestone_7_report.md              # Phase 7 completion & verification report
+│   └── milestone_8_evaluation_report.md   # Phase 8 empirical evaluation report
+├── Dockerfile                             # Zero-dependency Alpine 3.20 containerization
+├── CONTRIBUTING.md                        # Open-source contributor guidelines & workflow
 ├── pyproject.toml
 └── README.md
 ```
@@ -366,7 +383,7 @@ pip install pytest pytest-cov
 ## Verification & Testing
 
 ### 1. Automated Pre-Flight Sanity Checker
-We provide a unified verification script that enforces the Python version, performs an AST inspection across all 46 library modules to prove zero external runtime dependencies, runs the pytest suite with coverage enforcement, and executes all 25 demonstration scripts:
+We provide a unified verification script that enforces the Python version, performs an AST inspection across all 52 library modules to prove zero external runtime dependencies, runs the pytest suite with coverage enforcement, and executes all 30 demonstration scripts:
 
 ```bash
 python scripts/check.py
@@ -374,7 +391,7 @@ python scripts/check.py
 
 ### 2. Running Pytest Directly
 ```bash
-# Run all 612 unit tests
+# Run all 670 unit and integration tests
 pytest -v
 
 # Run with statement and branch coverage enforcement (>= 90%)
@@ -422,6 +439,27 @@ All 30 demonstration scripts can be executed independently from the terminal:
 
 ---
 
+## Open Source Contributing & Community
+
+We warmly welcome community contributions from open-source developers, GIS practitioners, OpenStreetMap mappers, and municipal emergency planners!
+
+### How to Contribute
+
+1. **Review Contributing Guidelines:** Read [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/development.md`](docs/development.md) for code style, branch conventions, and commit standards.
+2. **Strict Zero Runtime Dependencies:** The core routing and intelligence engine must maintain **zero external runtime dependencies** (pure standard Python library). Testing libraries (`pytest`, `pytest-cov`) are restricted strictly to test workflows.
+3. **High Test Coverage Enforcement:** All contributions must introduce comprehensive unit tests maintaining $\ge 90\%$ branch and statement coverage.
+4. **Pre-Flight Sanity Verification:** Prior to opening a pull request, run the pre-flight check script to ensure all tests, coverage bounds, and all 30 demonstrations pass:
+   ```bash
+   python scripts/check.py
+   ```
+5. **Key Contribution Areas:**
+   - Regional OpenStreetMap tagging parsers and municipal emergency access tags (`src/emergency_intelligence/data/osm.py`).
+   - Apparatus powertrain physics and elevation grade limits (`src/emergency_intelligence/external/elevation.py`).
+   - Environmental telemetry adapters and USGS gauge feeds (`src/emergency_intelligence/external/hydrology.py`).
+   - QGIS provider plugins and Leaflet visualization extensions (`src/emergency_intelligence/external/visualizer.py`).
+
+---
+
 ## Roadmap Summary
 
 | Phase | Description | Status |
@@ -434,7 +472,6 @@ All 30 demonstration scripts can be executed independently from the terminal:
 | **Phase 6** | Simulation and quantitative evaluation harness | ✅ **Complete** |
 | **Phase 7** | External data and map integration (Milestones 7.1–7.5 Complete) | ✅ **Complete** |
 | **Phase 8** | User-facing interactive prototype application (Milestones 8.1–8.5 Complete) | ✅ **Complete** |
-| **Phase 9** | GSoC 2027 proposal preparation | 🔜 Future |
 
 See [`docs/roadmap.md`](docs/roadmap.md) for the strategic phase development roadmap, and [`updates.md`](updates.md) for the exhaustive technical ledger of each and every milestone change.
 
@@ -442,7 +479,7 @@ See [`docs/roadmap.md`](docs/roadmap.md) for the strategic phase development roa
 
 ## Disclaimer & Safety Boundary
 
-This is an independent open-source research and engineering project. It is **not** officially affiliated with Google, Google Summer of Code, or any municipal dispatch authority.
+Emergency Intelligence AI is an open-source civic research and engineering project designed for municipal emergency intelligence and humanitarian routing communities.
 
 **CRITICAL SAFETY NOTICE:** Passing automated software unit tests does not establish certification under statutory emergency response codes (NFPA, ISO, or municipal dispatch standards). All emergency apparatus turnouts, siren privileges, travel times, and vehicle tracking described herein are simulated in-memory algorithmic computations and are decoupled from physical sirens, radio transmitters, or real-world emergency dispatch consoles.
 

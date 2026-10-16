@@ -183,4 +183,4 @@ With the completion of Milestone 8.5, all 33 milestones across all 8 phases of E
 
 Phase 8 successfully bridges the algorithmic foundation of Emergency Intelligence AI with a high-fidelity, operator-grade tactical interface. The prototype demonstrates that high-performance, auditable, and resilient emergency dispatch decision-support tools can be built without relying on complex, external runtime ecosystems.
 
-This milestone concludes Phase 8 and establishes the empirical foundation for **Phase 9: GSoC 2027 Proposal Preparation & Upstream Open-Source Participation**.
+This milestone concludes Phase 8 and establishes the empirical foundation for **Upstream Open-Source Community Participation & Humanitarian Operations Deployment**.

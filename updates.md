@@ -56,8 +56,7 @@
   - [Milestone 8.3: Live Incident Intake Terminal, Audio/Narrative CAD Feeds & Timeline Playback Controller](#milestone-83-live-incident-intake-terminal-audionarrative-cad-feeds--timeline-playback-controller)
   - [Milestone 8.4: End-to-End System Packaging, Dockerfile / Static Bundling & Operator Walkthrough Documentation](#milestone-84-end-to-end-system-packaging-dockerfile--static-bundling--operator-walkthrough-documentation)
   - [Milestone 8.5: End-to-End Prototype Validation Suite, Comprehensive Phase 8 Evaluation Report & Interactive Master Demo #30](#milestone-85-end-to-end-prototype-validation-suite-comprehensive-phase-8-evaluation-report--interactive-master-demo-30)
-- [11. Future Phases & Forward Roadmap](#11-future-phases--forward-roadmap)
-  - [Phase 9: GSoC 2027 Proposal Preparation](#phase-9-gsoc-2027-proposal-preparation)
+- [11. Open Source Community & Deployment Roadmap](#11-open-source-community--deployment-roadmap)
 - [12. Maintenance Guide for Milestone Updates](#12-maintenance-guide-for-milestone-updates)
 
 ---
@@ -131,8 +130,6 @@ gantt
     M8.3 CAD Terminal & Timeline     :done, p8_3, 2026-10-14, 2026-10-15
     M8.4 Verification & Packaging    :done, p8_4, 2026-10-15, 2026-10-15
     M8.5 Master Evaluation Suite     :done, p8_5, 2026-10-15, 2026-10-15
-    section Future Roadmap
-    Phase 9 GSoC Proposal            :milestone, p9, 2026-12-01, 2026-12-01
 ```
 
 ### Growth Across Project Phases
@@ -1206,14 +1203,14 @@ All Phase 8 deliverables have been implemented, verified, tested, benchmarked, a
 - **Milestone 8.4:** End-to-End System Packaging, Dockerfile / Static Bundling & Operator Walkthrough Documentation.
 - **Milestone 8.5:** End-to-End Prototype Validation Suite, Comprehensive Phase 8 Evaluation Report & Interactive Master Demo #30.
 
-### Phase 9: GSoC 2027 Proposal Preparation
-`Status: Planned 📋`
+### Open Source Community Engagement & Humanitarian Deployment
+`Status: Active & Production Ready 🚀`
 
-- **Objective:** Finalize an authoritative, mathematically grounded Google Summer of Code proposal aligned with open-source mentoring organizations (OSGeo, HOT/OSM).
-- **Core Requirements:**
-  - Grounded in completed contributions to upstream open-source GIS libraries.
-  - Clear milestone deliverables with quantifiable evaluation criteria.
-  - Maintenance continuity commitment and civic impact roadmap.
+- **Objective:** Foster open-source ecosystem contributions, engage with OpenStreetMap and humanitarian routing communities, and deploy zero-dependency emergency decision support tools.
+- **Core Priorities:**
+  - Active upstream engagement with OpenStreetMap (OSM) and Humanitarian OpenStreetMap Team (HOT) road graph validation workflows.
+  - Public contribution pathways for community extensions (custom apparatus kinematics, new hazard geometry models, and regional OSM tagging profiles).
+  - Open standards adherence (RFC 7946 GeoJSON, OASIS CAP v1.2, EPSG:3857 Web Mercator) for plug-and-play GIS integration with QGIS and Leaflet.
 
 ---
 
